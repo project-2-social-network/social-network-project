@@ -1,0 +1,78 @@
+<div class="row justify-content-center mt-4">
+  <div class="col col-sm-8 col-md-6 col-lg-4">
+    <form action="/register" method="post" enctype='multipart/form-data'>
+      <div class="input-group mb-2">
+        <input
+          type="text"
+          name="username"
+          class="custom-form-control form-control py-2 ps-4 {{#if errorUsername}}is-invalid{{/if}}"
+          placeholder="Username"
+          aria-label="User username"
+          value="{{ user.username }}"
+        >
+      {{#if errorUsername}}<div class="invalid-feedback">{{ errorUsername }}</div>{{/if}}
+      </div>
+
+      <div class="input-group mb-2">
+        <input
+          type="text"
+          name="name"
+          class="custom-form-control form-control py-2 ps-4 {{#if errors.name}}is-invalid{{/if}}"
+          placeholder="Name"
+          aria-label="User name"
+          value="{{ user.name }}"
+        >
+        {{#if errors.name}}<div class="invalid-feedback">{{ errors.name }}</div>{{/if}}
+      </div>
+
+      <div class="input-group mb-2">
+        <input
+          type="text"
+          name="email"
+          class="custom-form-control form-control py-2 ps-4 {{#if errorEmail}}is-invalid{{/if}}"
+          placeholder="Email: user@example.org"
+          aria-label="User email"
+          value="{{ user.email }}"
+        >
+        {{#if errorEmail}}<div class="invalid-feedback">{{ errorEmail }}</div>{{/if}}
+      </div>
+
+      <div class="input-group mb-2">
+        <input
+          type="file"
+          name="image"
+          class="custom-form-control form-control py-2 ps-4 {{#if errors.image}}is-invalid{{/if}}"
+          placeholder="Upload Image"
+          aria-label="User name"
+          value="{{ user.image }}"
+        >
+        {{#if errors.image}}<div class="invalid-feedback">{{ errors.image }}</div>{{/if}}
+      </div>
+
+      <div class="input-group mb-3">
+        <input
+          id="password-input"
+          type="password"
+          name="password"
+          class="custom-form-control form-control py-2 ps-4 {{#if errors.password}}is-invalid{{/if}}"
+          placeholder="Password"
+          aria-label="User password"
+        >
+        <button class="btn btn-outline-secondary password-toggle c-dark" type="button">
+          <i id="password-icon" class="fa fa-eye-slash fa-fw"></i>
+        </button>
+        {{#if errors.password}}<div class="invalid-feedback">{{ errors.password }}</div>{{/if}}
+      </div>
+
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary bg-light-green border-0">Register</button>
+        <div class="d-grid gap-2 mt-2">
+          <a href="/login/google" class="btn btn-danger border-0">
+            <i class="fa fa-google"></i>
+            Register with Google
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

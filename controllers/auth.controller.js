@@ -1,0 +1,106 @@
+const User = require("../models/User.model");
+const mongoose = require("mongoose");
+const passport = require("passport");
+const mailer = require("../config/mailer.config");
+
+module.exports.home = (req, res, next) => {
+  res.render("home");
+};
+
+module.exports.login = (req, res, next) => {
+  res.render("auth/login");
+};
+
+const login = (req, res, next, provider) => {
+  passport.authenticate(provider || "local-auth", (err, user, validations) => {
+    if (err) {
+      next(err);
+    } else if (!user) {
+      res.status(404).render("auth/login", { errors: validations.error });
+    } else {
+      req.login(user, (loginError) => {
+        if (loginError) {
+          next(loginError);
+        } else {
+          res.redirect("/home");
+        }
+      });
+    }
+  })(req, res, next);
+};
+
+module.exports.doLogin = (req, res, next) => {
+  login(req, res, next);
+};
+
+module.exports.doLoginGoogle = (req, res, next) => {
+  login(req, res, next, "google-auth");
+  //CREAR USERNAME RANDOM - CHEQUEAR QUE NO EXISTA - AGREGARLO A ESTE USER
+};
+
+module.exports.register = (req, res, next) => {
+  res.render("auth/register");
+};
+
+module.exports.doRegister = (req, res, next) => {
+  const user = req.body;
+
+  if(req.file) {
+    user.image = req.file.path
+  }
+
+  const renderWithErrors = (message) => {
+    if (message === 'usernameErr') {
+      res.render("auth/register", { errorUsername: "Username already exists. Choose another one.", user });
+    } else {
+      res.render("auth/register", { errorEmail: "Email already exists, login.", user });
+    }
+  };
+
+  User.findOne( {$or: [{ email: user.email }, { username: user.username }]} )
+    .then((userFound) => {
+      if (userFound) {
+        if (userFound.username === user.username) {
+          renderWithErrors('usernameErr');
+        } else if (userFound.email === user.email) {
+          renderWithErrors('emailErr');
+        };
+      } else {
+        return User.create(user).then((userCreated) => {
+          mailer.sendActivationMail(userCreated.email, userCreated.activationToken);
+          res.redirect("/home");
+        });
+      }
+    })
+    .catch((err) => {
+      if (err instanceof mongoose.Error.ValidationError) {
+        renderWithErrors(err.errors);
+      } else {
+        next(err);
+      }
+    });
+};
+
+module.exports.logout = (req, res, next) => {
+  req.logout(() => res.redirect("/"));
+};
+
+module.exports.activateAccount = (req, res, next) => {
+    const token = req.params.token;
+  
+    User.findOneAndUpdate(
+      { activationToken: token, status: false },
+      { status: true }
+    )
+      .then((user) => {
+        if (user) {
+          res.render("auth/login", {
+            user: { email: user.email },
+            message: "You have activated your account. Thanks for joining our team!"
+          })
+        } else {
+          res.redirect("/")
+        }
+      })
+      .catch(next)
+  }
