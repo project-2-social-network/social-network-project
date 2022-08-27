@@ -77,10 +77,11 @@ passport.use(
               return;
             }
             return User.create({
+              username,
+              name, 
               email,
               googleID,
               password: mongoose.Types.ObjectId(),
-              name,
               image,
               status: true,
             }).then((createdUser) => {
