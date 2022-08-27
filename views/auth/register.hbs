@@ -5,12 +5,13 @@
         <input
           type="text"
           name="username"
-          class="custom-form-control form-control py-2 ps-4 {{#if errorUsername}}is-invalid{{/if}}"
+          class="custom-form-control form-control py-2 ps-4 {{#if errorUsername}}is-invalid{{/if}} {{#if errors.username}}is-invalid{{/if}}"
           placeholder="Username"
           aria-label="User username"
           value="{{ user.username }}"
         >
       {{#if errorUsername}}<div class="invalid-feedback">{{ errorUsername }}</div>{{/if}}
+      {{#if errors.username}}<div class="invalid-feedback">{{ errors.username }}</div>{{/if}}
       </div>
 
       <div class="input-group mb-2">
@@ -29,24 +30,13 @@
         <input
           type="text"
           name="email"
-          class="custom-form-control form-control py-2 ps-4 {{#if errorEmail}}is-invalid{{/if}}"
+          class="custom-form-control form-control py-2 ps-4 {{#if errorEmail}}is-invalid{{/if}} {{#if errors.email}}is-invalid{{/if}}""
           placeholder="Email: user@example.org"
           aria-label="User email"
           value="{{ user.email }}"
         >
         {{#if errorEmail}}<div class="invalid-feedback">{{ errorEmail }}</div>{{/if}}
-      </div>
-
-      <div class="input-group mb-2">
-        <input
-          type="file"
-          name="image"
-          class="custom-form-control form-control py-2 ps-4 {{#if errors.image}}is-invalid{{/if}}"
-          placeholder="Upload Image"
-          aria-label="User name"
-          value="{{ user.image }}"
-        >
-        {{#if errors.image}}<div class="invalid-feedback">{{ errors.image }}</div>{{/if}}
+        {{#if errors.email}}<div class="invalid-feedback">{{ errors.email }}</div>{{/if}}
       </div>
 
       <div class="input-group mb-3">

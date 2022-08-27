@@ -35,7 +35,6 @@ module.exports.doLogin = (req, res, next) => {
 
 module.exports.doLoginGoogle = (req, res, next) => {
   login(req, res, next, "google-auth");
-  //CREAR USERNAME RANDOM - CHEQUEAR QUE NO EXISTA - AGREGARLO A ESTE USER
 };
 
 module.exports.register = (req, res, next) => {
@@ -45,36 +44,31 @@ module.exports.register = (req, res, next) => {
 module.exports.doRegister = (req, res, next) => {
   const user = req.body;
 
-  if(req.file) {
-    user.image = req.file.path
+  if (req.file) {
+    user.image = req.file.path;
   }
 
-  const renderWithErrors = (message) => {
-    if (message === 'usernameErr') {
-      res.render("auth/register", { errorUsername: "Username already exists. Choose another one.", user });
-    } else {
-      res.render("auth/register", { errorEmail: "Email already exists, login.", user });
-    }
-  };
-
-  User.findOne( {$or: [{ email: user.email }, { username: user.username }]} )
+  User.findOne({ $or: [{ email: user.email }, { username: user.username }] })
     .then((userFound) => {
       if (userFound) {
         if (userFound.username === user.username) {
-          renderWithErrors('usernameErr');
+          res.render("auth/register", { errorUsername: "Username already exists. Choose another one.", user});
         } else if (userFound.email === user.email) {
-          renderWithErrors('emailErr');
-        };
+          res.render("auth/register", { errorEmail: "Email already exists, login.", user});
+        }
       } else {
         return User.create(user).then((userCreated) => {
-          mailer.sendActivationMail(userCreated.email, userCreated.activationToken);
+          mailer.sendActivationMail(
+            userCreated.email,
+            userCreated.activationToken
+          );
           res.redirect("/home");
         });
       }
     })
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
-        renderWithErrors(err.errors);
+        res.render("auth/register", { errors: err.errors, user });
       } else {
         next(err);
       }
@@ -86,21 +80,22 @@ module.exports.logout = (req, res, next) => {
 };
 
 module.exports.activateAccount = (req, res, next) => {
-    const token = req.params.token;
-  
-    User.findOneAndUpdate(
-      { activationToken: token, status: false },
-      { status: true }
-    )
-      .then((user) => {
-        if (user) {
-          res.render("auth/login", {
-            user: { email: user.email },
-            message: "You have activated your account. Thanks for joining our team!"
-          })
-        } else {
-          res.redirect("/")
-        }
-      })
-      .catch(next)
-  }
+  const token = req.params.token;
+
+  User.findOneAndUpdate(
+    { activationToken: token, status: false },
+    { status: true }
+  )
+    .then((user) => {
+      if (user) {
+        res.render("auth/login", {
+          user: { email: user.email },
+          message:
+            "You have activated your account. Thanks for joining our team!",
+        });
+      } else {
+        res.redirect("/");
+      }
+    })
+    .catch(next);
+};

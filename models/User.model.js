@@ -10,18 +10,12 @@ const userSchema = new mongoose.Schema({
     username: {
         type: String,
         required: [true, 'Username is required.'],
-        unique: [true, 'This username already exists. Choose another one.'],
-        default: () => {
-            return Math.random().toString(36).substring(7) +
-            Math.random().toString(36).substring(7) +
-            Math.random().toString(36).substring(7) +
-            Math.random().toString(36).substring(7)
-        }
+        unique: true,
     },
     name: {
         type: String,
         required: [true, 'Name is required.'],
-        minLength: [2, 'Name must contain at least 3 characters.']
+        minLength: [2, 'Name must contain at least 2 characters.']
     },
     email: {
         type: String,

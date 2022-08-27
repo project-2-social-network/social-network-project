@@ -76,9 +76,16 @@ passport.use(
               next(null, user);
               return;
             }
+
+            let randomUsername =
+              Math.random().toString(36).substring(7) +
+              Math.random().toString(36).substring(7) +
+              Math.random().toString(36).substring(7) +
+              Math.random().toString(36).substring(7);
+
             return User.create({
-              username,
-              name, 
+              username: randomUsername,
+              name,
               email,
               googleID,
               password: mongoose.Types.ObjectId(),
