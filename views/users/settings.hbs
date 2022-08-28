@@ -1,6 +1,9 @@
-<a href="/changePassword">CHANGE PASSWORD.</a>
+<a href="/changePassword">CHANGE PASSWORD</a>
 {{#if message}}
 <p>{{message}}</p>
 {{/if}}
-<a href="/deleteAccount/{{user.id}}">DELETE ACCOUNT.</a>
+<form action="/deleteAccount/{{user.id}}" method="POST">
+    <button type="submit" id="btn2">DELETE ACCOUNT</button>
+</form>
+
 

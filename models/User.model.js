@@ -49,8 +49,12 @@ const userSchema = new mongoose.Schema({
           }
     },
     bankAccount: {
-        type: String,
+        type: String
     },
+    date: {
+        type: Date,
+        default: Date.now
+    }
 })
 
 userSchema.pre('save', function(next) {

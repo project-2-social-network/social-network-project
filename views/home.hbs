@@ -1,2 +1,22 @@
-<h1>aqui es la home</h1>
-<p>donde estaran los posts</p>
+<h1>Aqui es la home</h1>
+<div class="container">
+    <form action="/home" method="POST">
+        <h3>{{user.username}}</h3>
+        <input type="text" name="creator" value="{{user.id}}" hidden>
+        <input type="text" minlength="1" maxlength="240" name="content" placeholder="What are you thinking?" size="100">
+        <input type="file" name="media">
+        <button type="submit">POST</button>
+    </form>
+</div>
+
+<div class="container">
+    <div>Aqui estarán los posts:</div>
+    {{#each posts as | post |}}
+        <div>
+            {{!-- <img src="{{user.image}}" alt="User image"> --}}            
+            <h5>{{post.creator}}</h5>
+            <p>{{post.content}}</p>
+            {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded">{{/if}}          
+        </div>
+    {{/each}}
+</div>

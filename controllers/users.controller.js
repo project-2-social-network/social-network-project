@@ -1,11 +1,11 @@
 const User = require("../models/User.model");
 const mongoose = require("mongoose");
 const mailer = require("../config/mailer.config");
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
 const bcrypt = require('bcrypt');
 
 module.exports.settings = (req, res, next) => {
-    res.render("users/settings");
+    const user = req.user
+    res.render("users/settings", { user });
 };
 
 module.exports.changePassword = (req, res, next) => {
@@ -28,13 +28,21 @@ module.exports.doChangePassword = (req, res, next) => {
         res.render('users/settings', { message: 'Password successfully updated.' })
     })
     .catch((err) => {
-        /*if (err instanceof mongoose.Error.ValidationError) {
+        if (err instanceof mongoose.Error.ValidationError) {
             res.render("users/form-password", { error: err.errors });
-        }*/
+        }
         next(err);
     })
 };
 
 module.exports.deleteAccount = (req, res, next) => {
+    const { id } = req.params;
 
+    User.findOneAndDelete(id)
+    .then((userDeleted) => {
+        res.redirect('/')
+    })
+    .catch((err) => {
+        next(err);
+    })
 };

@@ -3,10 +3,6 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const mailer = require("../config/mailer.config");
 
-module.exports.home = (req, res, next) => {
-  res.render("home");
-};
-
 module.exports.login = (req, res, next) => {
   res.render("auth/login");
 };
