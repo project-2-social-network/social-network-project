@@ -3,6 +3,7 @@ const passport = require('passport');
 
 //CONTROLLERS
 const authController = require('../controllers/auth.controller')
+const userController = require('../controllers/users.controller')
 const authMiddlewares = require('../middlewares/auth.middleware')
 const fileUploader = require('./cloudinary.config')
 
@@ -27,6 +28,11 @@ router.get('/activate/:token', authMiddlewares.isNotAuthenticated, authControlle
 
 // //USER
 // router.get('/profile', authMiddlewares.isAuthenticated, (req, res, next) => {res.render('users/profile')})
+router.get('/settings', authMiddlewares.isAuthenticated, userController.settings)
+router.get('/changePassword', authMiddlewares.isAuthenticated, userController.changePassword)
+router.post('/changePassword/:id', authMiddlewares.isAuthenticated, userController.doChangePassword)
+router.post('/deleteAccount/:id', authMiddlewares.isAuthenticated, userController.deleteAccount)
+
 
 
 module.exports = router;

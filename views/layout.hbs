@@ -10,35 +10,35 @@
     integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
-<body>
-  {{> navbar}}
+  <body>
+    {{> navbar}}
 
-  <div class="container">
-    {{{body}}}
-  </div>
+    <div class="container">
+      {{{body}}}
+    </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-  <script>
-  function tooglePassword() {
-    const inputNode = document.getElementById("password-input");
-    const iconNode = document.getElementById("password-icon");
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js" integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      function tooglePassword() {
+        const inputNode = document.getElementById("password-input");
+        const iconNode = document.getElementById("password-icon");
 
-    if(inputNode) {  
-      if (inputNode.type === "password") {
-        inputNode.type = "text";
-        iconNode.classList.add("fa-eye");
-        iconNode.classList.remove("fa-eye-slash");
-      } else {
-        inputNode.type = "password";
-        iconNode.classList.remove("fa-eye");
-        iconNode.classList.add("fa-eye-slash");
+        if(inputNode) {  
+          if (inputNode.type === "password") {
+            inputNode.type = "text";
+            iconNode.classList.add("fa-eye");
+            iconNode.classList.remove("fa-eye-slash");
+          } else {
+            inputNode.type = "password";
+            iconNode.classList.remove("fa-eye");
+            iconNode.classList.add("fa-eye-slash");
+          }
+        }
       }
-    }
-  }
 
-  document.querySelector('.password-toggle')?.addEventListener('click', tooglePassword);
-</script>
-</body>
+      document.querySelector('.password-toggle')?.addEventListener('click', tooglePassword);
+    </script>
+  </body>
 </html>

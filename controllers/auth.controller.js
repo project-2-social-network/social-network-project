@@ -51,11 +51,13 @@ module.exports.doRegister = (req, res, next) => {
   User.findOne({ $or: [{ email: user.email }, { username: user.username }] })
     .then((userFound) => {
       if (userFound) {
-        if (userFound.username === user.username) {
-          res.render("auth/register", { errorUsername: "Username already exists. Choose another one.", user});
+        if (userFound.username === user.username && userFound.email === user.email) {
+          res.render("auth/register", { errorUsername: "Username already exists. Choose another one.", errorEmail: "Email already exists, login.", user});
         } else if (userFound.email === user.email) {
           res.render("auth/register", { errorEmail: "Email already exists, login.", user});
-        }
+        } else if (userFound.username === user.username) {
+          res.render("auth/register", { errorUsername: "Username already exists. Choose another one.", user});
+        };
       } else {
         return User.create(user).then((userCreated) => {
           mailer.sendActivationMail(
