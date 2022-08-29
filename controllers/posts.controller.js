@@ -5,12 +5,18 @@ const mongoose = require("mongoose");
 
 module.exports.home = (req, res, next) => {
     const user = req.user;
-
+    
     Post.find()
+    .populate('creator')
     .then((posts) => {
       posts.forEach((post) => {
-        return post.sameOwner = user.id === post.creator.valueOf() ? true : false;
+        if (post.creator) {
+          const postCreator = post.creator.id.valueOf()
+          post.sameOwner = user.id === postCreator ? true : false;
+        }
+     
       })
+
       posts.reverse()
       res.render('home', { user, posts })
     })
@@ -34,7 +40,6 @@ module.exports.doDelete = (req, res, next) => {
       res.status(204).send(post);
     })
     .catch((err) => {
-      console.error(err);
       next(createError(404, "Post not found"));
     });
 };

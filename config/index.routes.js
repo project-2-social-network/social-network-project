@@ -36,7 +36,7 @@ router.get('/profile/:username', authMiddlewares.isAuthenticated, userController
 router.get('/settings', authMiddlewares.isAuthenticated, userController.settings);
 router.get('/changePassword', authMiddlewares.isAuthenticated, userController.changePassword);
 router.post('/changePassword/:username', authMiddlewares.isAuthenticated, userController.doChangePassword);
-router.post('/deleteAccount/:username', authMiddlewares.isAuthenticated, userController.deleteAccount);
+router.post('/deleteAccount/:id', authMiddlewares.isAuthenticated, userController.deleteAccount);
 
 
 module.exports = router;

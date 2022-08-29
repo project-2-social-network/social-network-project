@@ -77,12 +77,20 @@ passport.use(
               return;
             };
 
-            let randomUsername = name + Math.random().toString(36).substring(7)
-            
-            /*User.findOne({ username: randomUsername })
-            .then((user) => {
-              randomUsername = name + Math.random().toString(36).substring(7) + Math.random().toString(36).substring(7)
-            }) */
+            let randomUsername;
+
+            const generateName = () => {
+              randomUsername = name.toLowerCase().split(' ').join('') + Math.random().toString(36).substring(7)
+              User.findOne({ username: randomUsername })
+                .then((user) => {
+                  if (user) {
+                    generateName();
+                  }
+                })
+                .catch((err) => next(err)) 
+            }
+
+            generateName();
 
             return User.create({
               username: randomUsername,

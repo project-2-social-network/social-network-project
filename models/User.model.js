@@ -58,6 +58,16 @@ const userSchema = new mongoose.Schema({
     birthdate: {
         type: Date
     }
+}, 
+{
+    toObject: { virtuals: true },
+});
+
+userSchema.virtual("posts", {
+    ref: "Post",
+    localField: "_id",
+    foreignField: "creator",
+    justOne: false,
 });
 
 userSchema.pre('save', function(next) {

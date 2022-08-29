@@ -36,11 +36,13 @@ module.exports.doChangePassword = (req, res, next) => {
 };
 
 module.exports.deleteAccount = (req, res, next) => {
-    const { username } = req.params;
+    const { id } = req.params;
 
-    User.findOneAndDelete(username)
+    User.findOneAndDelete(id)
     .then((userDeleted) => {
-        res.redirect('/')
+        req.logout(() => res.redirect("/"));
+        //const creatorId = creator.valueOf()
+        return Post.deleteMany({ creator: id})
     })
     .catch((err) => next(err))
 };
@@ -54,7 +56,6 @@ module.exports.profile = (req, res, next) => {
         const userId = user.id.valueOf()
         Post.find({ creator: userId })
         .then((posts) => {
-            console.log(user)
             res.render('users/profile', { user, posts })
         })
         .catch((err) => next(err))
