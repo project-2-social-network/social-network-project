@@ -12,11 +12,30 @@
 <div class="container">
     <div>Aqui estarán los posts:</div>
     {{#each posts as | post |}}
-        <div>
+        <div class="post" data-id="{{post.id}}">
             {{!-- <img src="{{user.image}}" alt="User image"> --}}            
             <h5>{{post.creator}}</h5>
             <p>{{post.content}}</p>
-            {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded">{{/if}}          
+            {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded">{{/if}}
+            {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}        
         </div>
     {{/each}}
 </div>
+
+
+<script>
+  const removeNodes = document.querySelectorAll('.remove');
+  for(let node of removeNodes) {
+    node.addEventListener('click', () => {
+      const nodeId = node.dataset.id;
+      axios.delete(`/home/deletePost/${nodeId}`)
+        .then(responseFromApi => {
+          console.log('Success!', responseFromApi);
+          if(responseFromApi.status == 204) {
+            document.querySelector(`.post[data-id="${nodeId}"]`).remove();
+          }
+        })
+        .catch(error => console.log('Error!', error))
+    })
+  }
+</script>

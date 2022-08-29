@@ -18,6 +18,8 @@ const SCOPES = [
 //HOME (POSTS)
 router.get('/home', authMiddlewares.isAuthenticated, postController.home);
 router.post('/home', authMiddlewares.isAuthenticated, postController.doCreate);
+router.delete('/home/deletePost/:id', authMiddlewares.isAuthenticated, postController.doDelete);
+
 
 //AUTH
 router.get('/register', authMiddlewares.isNotAuthenticated, authController.register);
