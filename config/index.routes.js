@@ -32,11 +32,11 @@ router.get("/logout", authMiddlewares.isAuthenticated, authController.logout);
 router.get('/activate/:token', authMiddlewares.isNotAuthenticated, authController.activateAccount);
 
 //USER
-// router.get('/profile', authMiddlewares.isAuthenticated, (req, res, next) => {res.render('users/profile')})
+router.get('/profile/:username', authMiddlewares.isAuthenticated, userController.profile)
 router.get('/settings', authMiddlewares.isAuthenticated, userController.settings);
 router.get('/changePassword', authMiddlewares.isAuthenticated, userController.changePassword);
-router.post('/changePassword/:id', authMiddlewares.isAuthenticated, userController.doChangePassword);
-router.post('/deleteAccount/:id', authMiddlewares.isAuthenticated, userController.deleteAccount);
+router.post('/changePassword/:username', authMiddlewares.isAuthenticated, userController.doChangePassword);
+router.post('/deleteAccount/:username', authMiddlewares.isAuthenticated, userController.deleteAccount);
 
 
 module.exports = router;

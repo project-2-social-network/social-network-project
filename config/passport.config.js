@@ -62,7 +62,6 @@ passport.use(
       callbackURL: "/auth/google/callback",
     },
     (accessToken, refreshToken, profile, next) => {
-      console.log(profile)
       const googleID = profile.id;
       const email = profile.emails[0] ? profile.emails[0].value : undefined;
       const name = profile.displayName;

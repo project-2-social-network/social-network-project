@@ -11,6 +11,7 @@ module.exports.home = (req, res, next) => {
       posts.forEach((post) => {
         return post.sameOwner = user.id === post.creator.valueOf() ? true : false;
       })
+      posts.reverse()
       res.render('home', { user, posts })
     })
     .catch((err) => next(err))
@@ -18,17 +19,10 @@ module.exports.home = (req, res, next) => {
 
 module.exports.doCreate = (req, res, next) => {
   const post = req.body;
-  const user = req.user;
   
   Post.create(post)
   .then((postCreated) => {
-    return Post.find()
-  })
-  .then((posts) => {
-    posts.forEach((post) => {
-      return post.sameOwner = user.id === post.creator.valueOf() ? true : false;
-    })
-    res.render('home', { posts })
+    res.redirect('home')
   })
   .catch((err) => next(err))
 };

@@ -54,8 +54,11 @@ const userSchema = new mongoose.Schema({
     date: {
         type: Date,
         default: Date.now
+    },
+    birthdate: {
+        type: Date
     }
-})
+});
 
 userSchema.pre('save', function(next) {
     const user = this;
