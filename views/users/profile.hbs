@@ -1,14 +1,14 @@
-<h1>PROFILE</h1>
-<img src="{{user.image}}" alt="{{user.username}}'s icon" width="200">
-
-<h2>{{user.name}}</h2>
-<h3>{{user.username}}</h3>
-<p>Joined BeCapy on {{user.joinedDate}}</p> <br>
-
-<p>Files/Likes/Following/Followers</p>
-
+<h1>{{user.name}}'s profile</h1>
 <div class="container">
-    <div>POSTS</div>
+    <img src="{{user.image}}" alt="{{user.username}}'s icon" width="200">
+    <h3>{{user.username}}</h3>
+    <p>Joined BeCapy on {{user.joinedDate}}</p>
+</div>
+<br>
+<h3>Files | Likes | Following | Followers</h2>
+<br>
+<div class="container">
+    <h3>POSTS:</h3>
     {{#each posts as | post |}}
         <div class="post" data-id="{{post.id}}">
             <img src="{{../user.image}}" alt="{{../user.username}}'s icon" width="50">            

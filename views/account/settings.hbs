@@ -1,0 +1,20 @@
+<br>
+<br>
+{{#unless currentUser.googleID}}
+<div class="container">
+    <a href="/changePassword">CHANGE PASSWORD</a>
+</div>
+<br>
+{{#if message}} <p>{{message}}</p> {{/if}}
+{{/unless}}
+<div class="container">
+
+<div class="container">
+    <form action="/deleteAccount/{{currentUser.id}}" method="POST">
+        <button type="submit" id="btn2">DELETE ACCOUNT</button>
+    </form>
+</div>
+
+
+
+

@@ -1,0 +1,16 @@
+{{#if users}}
+<h1>Capybaras found:</h1>
+<div class="container d-flex justify-content-between">
+    {{#each users as |user|}}
+        <div class="container">
+            <img src="{{user.image}}" alt="{{user.username}}'s icon" width="200">
+            <h2>{{user.name}}</h2>
+            <h3>{{user.username}}</h3>
+            <a href="">Follow</a>            
+        </div>     
+        <br>   
+    {{/each}}
+</div>
+{{else}}
+<h1>No Capybaras found &#128528</h1>
+{{/if}}

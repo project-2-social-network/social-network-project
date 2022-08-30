@@ -1,4 +1,6 @@
-<h1>Aqui es la home</h1>
+<br>
+<h1>Welcome to the home &#128516</h1>
+<br>
 <div class="container">
     <form action="/home" method="POST">
         <h3>{{currentUser.username}}</h3>
@@ -8,12 +10,12 @@
         <button type="submit">POST</button>
     </form>
 </div>
-
+<br>
 <div class="container">
-    <div>Aqui estarán los posts:</div>
+    <h3>POSTS:</h3>
     {{#each posts as | post |}}
         <div class="post" data-id="{{post.id}}">
-            <img src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40">            
+            <img src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40">        
             <h5>{{post.creator.username}}</h5>
             <p>{{post.content}}</p>
             {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded">{{/if}}
