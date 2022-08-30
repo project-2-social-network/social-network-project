@@ -7,7 +7,7 @@ const authMiddlewares = require('../middlewares/auth.middleware');
 const userController = require('../controllers/users.controller');
 const postController = require('../controllers/posts.controller');
 
-const fileUploader = require('./config/cloudinary.config');
+const fileUploader = require('./cloudinary.config');
 
 const SCOPES = [
     "profile",

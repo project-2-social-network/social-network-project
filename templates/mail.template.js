@@ -111,7 +111,7 @@ module.exports.generateEmail = (token) => {
                 >
       <div
          style="font-family:Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:center;color:#000000;"
-      ><p><span style="color: rgb(106, 138, 162);"><span style="font-weight: bold;"><span style="font-size: 16px;">Thanks for joining our pokedex team.</span></span>
+      ><p><span style="color: rgb(106, 138, 162);"><span style="font-weight: bold;"><span style="font-size: 16px;">Thanks for joining BeCapy!</span></span>
             </span>
           </p></div>
                 </td>
@@ -192,7 +192,7 @@ module.exports.generateEmail = (token) => {
       <div
          style="font-family:Ubuntu, Helvetica, Arial, sans-serif, Helvetica, Arial, sans-serif;font-size:13px;line-height:1;text-align:center;color:#000000;"
       ><p>Any questions, comments, concerns?</p>
-          <p>Contact our support staff at <a href="https://mjml.io" style="text-decoration: none; color: inherit;"><span style="font-weight: bold;">contact@pokedex.com</span></a></p></div>
+          <p>Contact our support staff at <a href="https://mjml.io" style="text-decoration: none; color: inherit;"><span style="font-weight: bold;">becappyorg@gmail.com</span></a></p></div>
     
                 </td>
               </tr>

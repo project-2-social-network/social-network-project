@@ -40,10 +40,6 @@ module.exports.register = (req, res, next) => {
 module.exports.doRegister = (req, res, next) => {
   const user = req.body;
 
-  if (req.file) {
-    user.image = req.file.path;
-  }
-
   User.findOne({ $or: [{ email: user.email }, { username: user.username }] })
     .then((userFound) => {
       if (userFound) {

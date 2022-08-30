@@ -17,17 +17,30 @@ module.exports.changePassword = (req, res, next) => {
 module.exports.doChangePassword = (req, res, next) => {
     const user = req.user;
     const { username } = req.params;    
-    const { password } = req.body;
+    const  { oldPassword, newPassword } = req.body;
 
     User.findOne( { username } )
     .then((userFound) => {
-        userFound.password = password;
-        console.log('entro 1');
-        return userFound.save();
-    })
-    .then((userSave) => {
-        console.log('entro');
-        res.render('users/settings', { user , message: 'Password successfully updated.' })
+        userFound.checkPassword(oldPassword)
+        .then((match) => {
+            if (match) {
+                userFound.password = newPassword;
+                userFound.save()
+                .then((userSave) => {
+                    res.render('users/settings', { user , message: 'Password successfully updated.' })
+                })
+                .catch((err) => {
+                    if (err instanceof mongoose.Error.ValidationError) {
+                        res.render("users/form-password", { error: err.errors });
+                    } else {
+                        next(err);
+                    }
+                })
+            } else {
+                res.render("users/form-password", { errorMatch: 'Incorrect password.' });
+                return
+            }   
+        })
     })
     .catch((err) => {
         if (err instanceof mongoose.Error.ValidationError) {
@@ -35,7 +48,6 @@ module.exports.doChangePassword = (req, res, next) => {
         } else {
             next(err);
         }
-       
     })
 };
 

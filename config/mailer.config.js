@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
 
 module.exports.sendActivationMail = (email, token) => {
   transporter.sendMail({
-    from: `Social Network <${process.env.NM_USER}>`,
+    from: `BeCapy <${process.env.NM_USER}>`,
     to: email,
     subject: "Thanks for joining us",
     html: template.generateEmail(token)
