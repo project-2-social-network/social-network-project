@@ -1,8 +1,8 @@
 <h1>Aqui es la home</h1>
 <div class="container">
     <form action="/home" method="POST">
-        <h3>{{user.username}}</h3>
-        <input type="text" name="creator" value="{{user.id}}" hidden>
+        <h3>{{currentUser.username}}</h3>
+        <input type="text" name="creator" value="{{currentUser.id}}" hidden>
         <input type="text" minlength="1" maxlength="240" name="content" placeholder="What are you thinking?" size="100">
         <input type="file" name="media">
         <button type="submit">POST</button>

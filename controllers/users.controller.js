@@ -15,23 +15,27 @@ module.exports.changePassword = (req, res, next) => {
 };
 
 module.exports.doChangePassword = (req, res, next) => {
-    const { username } = req.params;
-    const SALT_ROUNDS = 10;
-    const { password } = req.body
+    const user = req.user;
+    const { username } = req.params;    
+    const { password } = req.body;
 
-    bcrypt
-    .hash(password, SALT_ROUNDS)
-    .then(hash => {
-        return User.findOneAndUpdate(username, { password: hash }, { new: true })
+    User.findOne( { username } )
+    .then((userFound) => {
+        userFound.password = password;
+        console.log('entro 1');
+        return userFound.save();
     })
-    .then((response) => {
-        res.render('users/settings', { message: 'Password successfully updated.' })
+    .then((userSave) => {
+        console.log('entro');
+        res.render('users/settings', { user , message: 'Password successfully updated.' })
     })
     .catch((err) => {
         if (err instanceof mongoose.Error.ValidationError) {
             res.render("users/form-password", { error: err.errors });
+        } else {
+            next(err);
         }
-        next(err);
+       
     })
 };
 
@@ -41,7 +45,6 @@ module.exports.deleteAccount = (req, res, next) => {
     User.findOneAndDelete(id)
     .then((userDeleted) => {
         req.logout(() => res.redirect("/"));
-        //const creatorId = creator.valueOf()
         return Post.deleteMany({ creator: id})
     })
     .catch((err) => next(err))

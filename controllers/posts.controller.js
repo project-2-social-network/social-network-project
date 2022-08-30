@@ -13,8 +13,7 @@ module.exports.home = (req, res, next) => {
         if (post.creator) {
           const postCreator = post.creator.id.valueOf()
           post.sameOwner = user.id === postCreator ? true : false;
-        }
-     
+        }     
       })
 
       posts.reverse()
@@ -25,6 +24,10 @@ module.exports.home = (req, res, next) => {
 
 module.exports.doCreate = (req, res, next) => {
   const post = req.body;
+
+   if(req.file) {
+    post.media = req.file.path;
+  }
   
   Post.create(post)
   .then((postCreated) => {

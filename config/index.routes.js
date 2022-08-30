@@ -7,7 +7,7 @@ const authMiddlewares = require('../middlewares/auth.middleware');
 const userController = require('../controllers/users.controller');
 const postController = require('../controllers/posts.controller');
 
-const fileUploader = require('./cloudinary.config');
+const fileUploader = require('./config/cloudinary.config');
 
 const SCOPES = [
     "profile",
@@ -17,13 +17,13 @@ const SCOPES = [
 //ROUTES
 //HOME (POSTS)
 router.get('/home', authMiddlewares.isAuthenticated, postController.home);
-router.post('/home', authMiddlewares.isAuthenticated, postController.doCreate);
+router.post('/home', authMiddlewares.isAuthenticated, fileUploader.single('image'), postController.doCreate);
 router.delete('/home/deletePost/:id', authMiddlewares.isAuthenticated, postController.doDelete);
 
 
 //AUTH
 router.get('/register', authMiddlewares.isNotAuthenticated, authController.register);
-router.post('/register', authMiddlewares.isNotAuthenticated, fileUploader.single('image'), authController.doRegister);
+router.post('/register', authMiddlewares.isNotAuthenticated, authController.doRegister);
 router.get('/', authMiddlewares.isNotAuthenticated, authController.login);
 router.post('/', authMiddlewares.isNotAuthenticated, authController.doLogin);
 router.get('/login/google', authMiddlewares.isNotAuthenticated, passport.authenticate('google-auth', { scope: SCOPES  }));

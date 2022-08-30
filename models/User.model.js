@@ -72,7 +72,7 @@ userSchema.virtual("posts", {
 
 userSchema.pre('save', function(next) {
     const user = this;
-
+    console.log(user)
     if (user.isModified('password')) {
         bcrypt
             .hash(user.password, SALT_ROUNDS)
