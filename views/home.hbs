@@ -13,7 +13,7 @@
 <br>
 <div class="container">
     <h3>POSTS:</h3>
-    {{#each posts as | post |}}
+    {{#each listWithoutDuplicates as | post |}}
         <div class="post" data-id="{{post.id}}">
             <img src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40">        
             <h5>{{post.creator.username}}</h5>

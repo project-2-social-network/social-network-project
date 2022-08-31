@@ -70,24 +70,17 @@ userSchema.virtual("posts", {
     justOne: true,
 });
 
-userSchema.virtual("following", {
-    ref: "User",
+userSchema.virtual("follows", {
+    ref: "Follow",
+    localField: "_id",
+    foreignField: "follower",
+    justOne: true,
+});
+
+userSchema.virtual("follows", {
+    ref: "Follow",
     localField: "_id",
     foreignField: "following",
-    justOne: false,
-});
-
-userSchema.virtual("followers", {
-    ref: "User",
-    localField: "_id",
-    foreignField: "followers",
-    justOne: false,
-});
-
-userSchema.virtual("userWhoFollows", {
-    ref: "User",
-    localField: "_id",
-    foreignField: "userWhoFollows",
     justOne: true,
 });
 

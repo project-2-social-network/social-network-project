@@ -3,6 +3,17 @@
     <img src="{{user.image}}" alt="{{user.username}}'s icon" width="200">
     <h3>{{user.username}}</h3>
     <p>Joined BeCapy on {{user.joinedDate}}</p>
+    {{#unless itsMeMario}}
+        {{#if imFollower}}
+            <form action="/unfollow/{{user.username}}" method="POST">
+                <button type="submit">Unfollow</button>
+            </form>        
+        {{else}}        
+            <form action="/follow/{{user.username}}" method="POST">
+                <button type="submit">Follow</button>
+            </form> 
+        {{/if}}
+    {{/unless}}
 </div>
 <br>
 <h3>Files | Likes | Following | Followers</h2>
@@ -12,7 +23,7 @@
     {{#each posts as | post |}}
         <div class="post" data-id="{{post.id}}">
             <img src="{{../user.image}}" alt="{{../user.username}}'s icon" width="50">            
-            <h5>{{post.creator}}</h5>
+            <h5>{{post.creator.username}}</h5>
             <p>{{post.content}}</p>
             {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded">{{/if}}
             {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}        
