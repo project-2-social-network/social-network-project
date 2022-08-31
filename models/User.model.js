@@ -67,7 +67,28 @@ userSchema.virtual("posts", {
     ref: "Post",
     localField: "_id",
     foreignField: "creator",
+    justOne: true,
+});
+
+userSchema.virtual("following", {
+    ref: "User",
+    localField: "_id",
+    foreignField: "following",
     justOne: false,
+});
+
+userSchema.virtual("followers", {
+    ref: "User",
+    localField: "_id",
+    foreignField: "followers",
+    justOne: false,
+});
+
+userSchema.virtual("userWhoFollows", {
+    ref: "User",
+    localField: "_id",
+    foreignField: "userWhoFollows",
+    justOne: true,
 });
 
 userSchema.pre('save', function(next) {
