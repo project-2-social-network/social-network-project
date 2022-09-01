@@ -24,7 +24,21 @@ module.exports.profile = (req, res, next) => {
                     return post.sameOwner = currentUser.id === postCreator ? true : false;
                 })
                 posts.reverse()
-                res.render('users/profile', { user, posts, imFollower, itsMeMario })
+                Follow.find({following: userId})
+                .then((followers) => {
+                    const followersCount = followers.reduce((acc, curr) => {
+                        return acc += 1
+                    }, 0)
+                    Follow.find({follower: userId})
+                    .then((following) => {
+                        const followingCount = following.reduce((acc, curr) => {
+                            return acc += 1
+                        }, 0)
+                    res.render('users/profile', { user, posts, imFollower, itsMeMario, followersCount, followingCount })
+                    })
+                    .catch((err) => next(err))
+                })
+                .catch((err) => next(err))
             })
             .catch((err) => next(err))
         })
@@ -49,27 +63,52 @@ module.exports.doFollow = (req, res, next) => {
 
     User.findOne({username}, {id: 1})
     .then((userID) => {  
-        console.log('userID:', currentUser.id)
         Follow.findOne({follower: currentUser.id, following: userID.id})
         .then((response) => {
-            console.log('response:', response)
             if(response) {
                 Follow.findOneAndDelete({follower: currentUser.id, following: userID.id})
                 .then((followDeleted) => {
-                    console.log(followDeleted)
                     res.status(204).send(followDeleted);
                 })
                 .catch((err) => next(err))
             } else {
                 Follow.create({follower: currentUser.id, following: userID.id})
                 .then((followCreated) => {
-                    console.log(followCreated)
                     res.status(204).send(followCreated);
                 })
                 .catch((err) => next(err))
             }
-        })      
-        
+        })              
     })    
+    .catch((err) => next(err))
+};
+
+module.exports.followersList = (req, res, next) => {
+    const { username } = req.params;
+
+    User.findOne({username}, {id: 1})
+    .then((userID) => {  
+        Follow.find({following: userID.id})
+        .populate('follower')
+        .then((followers) => {
+            res.render('users/followers-list', { followers })
+        })
+        .catch((err) => next(err))
+    })
+    .catch((err) => next(err))
+};
+
+module.exports.followingList = (req, res, next) => {
+    const { username } = req.params;
+
+    User.findOne({username}, {id: 1})
+    .then((userID) => {  
+        Follow.find({follower: userID.id})
+        .populate('following')
+        .then((following) => {
+            res.render('users/following-list', { following })
+        })
+        .catch((err) => next(err))
+    })
     .catch((err) => next(err))
 };

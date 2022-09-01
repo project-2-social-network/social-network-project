@@ -1,0 +1,14 @@
+{{#if followers}}
+    <div class="container d-flex justify-content-between">
+        {{#each followers as |follower|}}
+            <div class="container">
+                <a href="/profile/{{follower.follower.username}}">
+                    <img src="{{follower.follower.image}}" alt="{{follower.follower.username}}'s icon" width="30">
+                    <h3>{{follower.follower.username}}</h3>
+                </a>
+            </div>
+        {{/each}}
+    </div>
+{{else}}
+    <h1>No Capybaras found &#128528</h1>
+{{/if}}

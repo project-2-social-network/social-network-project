@@ -12,7 +12,17 @@
     {{/unless}}
 </div>
 <br>
-<h3>Files | Likes | Following | Followers</h2>
+<div class="d-flex justify-content-around"> 
+    <div>
+        <a href="">Likes</a>
+    </div>
+    <div>
+        <a href="/following/{{user.username}}">Following: <ins id="followingCount">{{followingCount}}</ins></a>
+    </div>
+    <div>
+        <a href="/followers/{{user.username}}">Followers: <ins id="followersCount">{{followersCount}}</ins></a>
+    </div>
+</div>
 <br>
 <div class="container">
     <h3>POSTS:</h3>
@@ -29,6 +39,9 @@
 
 <script>
     const btnFollow = document.querySelector('.btn-follow');
+    const followersCount = document.getElementById('followersCount');
+    const followingCount = document.getElementById('followingCount');
+
         btnFollow.addEventListener('click', () => {
             const dataUsername = btnFollow.dataset.username;
 
@@ -40,10 +53,12 @@
                     btnFollow.textContent = 'Unfollow';
                     btnFollow.classList.remove('unfollowing');
                     btnFollow.classList.add('following');
+                    followersCount.textContent = Number(followersCount.textContent) + 1;
                     } else {
                     btnFollow.textContent = 'Follow';
                     btnFollow.classList.remove('following');
                     btnFollow.classList.add('unfollowing');
+                    followersCount.textContent = Number(followersCount.textContent) - 1;
                     }
                 }
             })
