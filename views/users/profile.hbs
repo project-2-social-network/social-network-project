@@ -5,13 +5,9 @@
     <p>Joined BeCapy on {{user.joinedDate}}</p>
     {{#unless itsMeMario}}
         {{#if imFollower}}
-            <form action="/unfollow/{{user.username}}" method="POST">
-                <button type="submit">Unfollow</button>
-            </form>        
+            <a class="btn-follow following" data-username="{{user.username}}">Unfollow</a>      
         {{else}}        
-            <form action="/follow/{{user.username}}" method="POST">
-                <button type="submit">Follow</button>
-            </form> 
+            <a class="btn-follow unfollowing" data-username="{{user.username}}">Follow</a>
         {{/if}}
     {{/unless}}
 </div>
@@ -26,7 +22,46 @@
             <h5>{{post.creator.username}}</h5>
             <p>{{post.content}}</p>
             {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded">{{/if}}
-            {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}        
+            {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}     
         </div>
     {{/each}}
 </div>
+
+<script>
+    const btnFollow = document.querySelector('.btn-follow');
+        btnFollow.addEventListener('click', () => {
+            const dataUsername = btnFollow.dataset.username;
+
+            axios.put(`/follow/${dataUsername}`)
+            .then(responseFromApi => {
+                console.log('Success!', responseFromApi);
+                if(responseFromApi.status == 204) {
+                    if (btnFollow.textContent === 'Follow') {
+                    btnFollow.textContent = 'Unfollow';
+                    btnFollow.classList.remove('unfollowing');
+                    btnFollow.classList.add('following');
+                    } else {
+                    btnFollow.textContent = 'Follow';
+                    btnFollow.classList.remove('following');
+                    btnFollow.classList.add('unfollowing');
+                    }
+                }
+            })
+            .catch(error => console.log('Error!', error))
+        });
+
+    const removeNodes = document.querySelectorAll('.remove');
+    for(let node of removeNodes) {
+        node.addEventListener('click', () => {
+        const nodeId = node.dataset.id;
+        axios.delete(`/home/deletePost/${nodeId}`)
+            .then(responseFromApi => {
+            console.log('Success!', responseFromApi);
+            if(responseFromApi.status == 204) {
+                document.querySelector(`.post[data-id="${nodeId}"]`).remove();
+            }
+            })
+            .catch(error => console.log('Error!', error))
+        })
+    }
+</script>

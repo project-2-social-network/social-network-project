@@ -2,13 +2,14 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const EMAIL_PATTERN = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
-//const IBAN_PATTERN = iadushiduhd
 const PASSWORD_PATTERN = /^.{8,}$/i
+const USERNAME_PATTERN = /^[A-Za-z]+$/
 const SALT_ROUNDS = 10
 
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
+        match: [USERNAME_PATTERN, 'Username cannot contain spaces, capital letters or special characters.'],
         required: [true, 'Username is required.'],
         unique: true,
     },

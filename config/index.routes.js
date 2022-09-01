@@ -41,7 +41,6 @@ router.post('/deleteAccount/:id', authMiddlewares.isAuthenticated, accountContro
 //USER
 router.get('/profile/:username', authMiddlewares.isAuthenticated, userController.profile);
 router.post('/list', authMiddlewares.isAuthenticated, userController.search);
-router.post('/follow/:username', authMiddlewares.isAuthenticated, userController.doFollow);
-router.post('/unfollow/:username', authMiddlewares.isAuthenticated, userController.doUnfollow);
+router.put('/follow/:username', authMiddlewares.isAuthenticated, userController.doFollow);
 
 module.exports = router;
