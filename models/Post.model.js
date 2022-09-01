@@ -17,7 +17,17 @@ const postSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     }
-})
+},
+{
+    toObject: { virtuals: true },
+});
+
+postSchema.virtual("likes", {
+  ref: "Like",
+  localField: "_id",
+  foreignField: "like",
+  justOne: true,
+});
 
 const Post = mongoose.model('Post', postSchema);
 

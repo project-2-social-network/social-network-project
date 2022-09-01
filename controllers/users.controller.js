@@ -11,6 +11,7 @@ module.exports.profile = (req, res, next) => {
     .then((user) => {
         user.joinedDate = user.date.getFullYear()
         const userId = user.id.valueOf()
+        const active = user.status ? true : false;
 
         Follow.findOne({ $and: [{follower: currentUser.id}, {following: userId}]})
         .then((response) => {
@@ -34,7 +35,15 @@ module.exports.profile = (req, res, next) => {
                         const followingCount = following.reduce((acc, curr) => {
                             return acc += 1
                         }, 0)
-                    res.render('users/profile', { user, posts, imFollower, itsMeMario, followersCount, followingCount })
+                    res.render("users/profile", {
+                      user,
+                      posts,
+                      imFollower,
+                      itsMeMario,
+                      followersCount,
+                      followingCount,
+                      active,
+                    });
                     })
                     .catch((err) => next(err))
                 })
@@ -49,8 +58,17 @@ module.exports.profile = (req, res, next) => {
 
 module.exports.search = (req, res, next) => {
     const { searchInfo } = req.body;
-
-    User.find({$or: [{ username: {$regex : searchInfo, $options : 'i'}}, { name: {$regex : searchInfo, $options : 'i'}}]})
+    User.find({
+      $and: [
+        { status: true },
+        {
+          $or: [
+            { username: { $regex: searchInfo, $options: "i" } },
+            { name: { $regex: searchInfo, $options: "i" } }
+          ]
+        }
+      ]
+    })
     .then((users) => {
         res.render('users/list', { users });
     })

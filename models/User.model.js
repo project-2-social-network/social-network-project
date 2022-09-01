@@ -85,6 +85,13 @@ userSchema.virtual("follows", {
     justOne: true,
 });
 
+userSchema.virtual("likes", {
+  ref: "Like",
+  localField: "_id",
+  foreignField: "userWhoLikes",
+  justOne: true,
+});
+
 userSchema.pre('save', function(next) {
     const user = this;
     if (user.isModified('password')) {

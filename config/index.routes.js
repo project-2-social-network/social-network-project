@@ -31,6 +31,8 @@ router.get('/activate/:token', authMiddlewares.isNotAuthenticated, authControlle
 router.get('/home', authMiddlewares.isAuthenticated, postController.home);
 router.post('/home', authMiddlewares.isAuthenticated, fileUploader.single('image'), postController.doCreate);
 router.delete('/home/deletePost/:id', authMiddlewares.isAuthenticated, postController.doDelete);
+router.put("/like/:id", authMiddlewares.isAuthenticated, postController.doLike);
+router.get("/likes/:username", authMiddlewares.isAuthenticated, postController.likeList);
 
 //ACCOUNT 
 router.get('/settings', authMiddlewares.isAuthenticated, accountController.settings);

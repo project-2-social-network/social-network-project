@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const User = require("../models/User.model");
 const Post = require("../models/Post.model");
 const Follow = require("../models/Follow.model");
+const Like = require("../models/Like.model");
 
 module.exports.home = (req, res, next) => {
   const currentUser = req.user;
@@ -60,3 +61,51 @@ module.exports.doDelete = (req, res, next) => {
       next(createError(404, "Post not found"));
     });
 };
+
+module.exports.doLike = (req, res, next) => {
+  const { id } = req.params;
+  const currentUser = req.user;
+
+  Like.findOne({like: id})
+  .then((likeFound) => {
+    if (likeFound) {
+      Like.findOneAndDelete({ userWhoLikes: currentUser.id, like: id })
+        .then((likeDeleted) => {
+          res.status(204).send(likeDeleted);
+        })
+        .catch((err) => next(err));
+    } else {
+      Like.create({ userWhoLikes: currentUser.id, like: id })
+        .then((likeCreated) => {
+          res.status(204).send(likeCreated);
+        })
+        .catch((err) => next(err));
+    }
+  })
+  .catch((err) => next(err))
+};
+
+module.exports.likeList = (req, res, next) => {
+  const { username } = req.params;
+
+  User.findOne({ username }, { id: 1 })
+    .then((userID) => {
+      Like.find({ userWhoLikes: userID.id })
+        .populate('like')
+        .populate(
+          {
+            path: "like", // Donde entra el populate
+            populate: {
+              path: "creator", // Porque el like es un post y quiero el creator
+              model: "User", // Y el creator es un modelo de User
+            }
+          }
+        )
+        .then((posts) => {
+          res.render("users/likes-list", { posts, username });
+        })
+        .catch((err) => next(err));
+    })
+    .catch((err) => next(err));
+};
+
