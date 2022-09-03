@@ -8,6 +8,7 @@ module.exports.login = (req, res, next) => {
 };
 
 const login = (req, res, next, provider) => {
+
   passport.authenticate(provider || "local-auth", (err, user, validations) => {
     if (err) {
       next(err);

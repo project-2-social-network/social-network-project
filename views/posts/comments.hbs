@@ -23,8 +23,13 @@
     
     {{#each comments as | comment |}}
         <div class="comment" data-id="{{comment.id}}">
-            <img src="{{comment.creator.image}}" alt="{{comment.creator.username}}'s icon" width="40">        
-            <h5>{{comment.creator.username}}</h5>
+            {{#if comment.creator}}
+                <img src="{{comment.creator.image}}" alt="{{comment.creator.username}}'s icon" width="40">        
+                <h5>{{comment.creator.username}}</h5>
+            {{else}}
+                <img src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg" width="40">        
+                <h5>User no longer exists</h5>
+            {{/if}}
             <p>{{comment.content}}</p>
             {{#if comment.media}}<img src="{{comment.media}}" alt="Media uploaded">{{/if}}
             {{#if comment.sameOwner}} <a class="remove" data-id="{{comment.id}}">Delete</a>{{/if}}      

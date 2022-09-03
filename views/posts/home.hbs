@@ -15,13 +15,15 @@
     <h3>POSTS:</h3>
     {{#each listWithoutDuplicates as | post |}}
         <div class="post" data-id="{{post.id}}">
+          <a href="/profile/{{post.creator.username}}">
             <img src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40">        
             <h5>{{post.creator.username}}</h5>
-            <p>{{post.content}}</p>
-            {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded">{{/if}}
-            {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}      
-            <a class="btn-like unliked" data-id="{{post.id}}">Like<ins id="likesCount">{{likesCount}}</ins></a>  
-            <a href="/comments/{{post.id}}" class="btn-comment" data-id="{{post.id}}">Comments</a>  
+          </a>
+          <p>{{post.content}}</p>
+          {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded">{{/if}}
+          {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}      
+          <a class="btn-like unliked" data-id="{{post.id}}">Like<ins id="likesCount">{{post.likesCount}}</ins></a>
+          <a href="/comments/{{post.id}}" class="btn-comment" data-id="{{post.id}}">Comments: <ins id="commentsCount">{{post.commentsCount}}</ins></a>  
         </div>
     {{/each}}
 </div>

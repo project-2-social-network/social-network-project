@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 
 const EMAIL_PATTERN = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 const PASSWORD_PATTERN = /^.{8,}$/i
-const USERNAME_PATTERN = /^[A-Za-z]+$/
+const USERNAME_PATTERN = /^\S*$/
 const SALT_ROUNDS = 10
 
 const userSchema = new mongoose.Schema(

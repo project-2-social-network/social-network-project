@@ -56,11 +56,10 @@ module.exports.deleteAccount = (req, res, next) => {
 
     User.findOneAndDelete(id)
     .then((userDeleted) => {
-        req.logout(() => res.redirect("/"));
         return Post.deleteMany({ creator: id });
     })
     .then((postDeleted) => {
-        return Comment.deleteMany({ creator: id });
+        req.logout(() => res.redirect("/"));
     })
     .catch((err) => next(err))
 };

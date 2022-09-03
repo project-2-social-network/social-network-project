@@ -80,18 +80,22 @@ passport.use(
             let randomUsername;
 
             const generateName = () => {
-              randomUsername = name.toLowerCase().split(' ').join('') + Math.random().toString(36).substring(7)
+              randomUsername = name.toLowerCase().split(' ').join('') + String(Math.random(7)).slice(2, 10);
               User.findOne({ username: randomUsername })
                 .then((user) => {
                   if (user) {
                     generateName();
                   }
                 })
-                .catch((err) => next(err)) 
+                .catch((err) => {
+                  next(err)
+                }) 
             }
 
             generateName();
 
+            console.log(randomUsername)
+            
             return User.create({
               username: randomUsername,
               name,
@@ -104,7 +108,10 @@ passport.use(
               next(null, createdUser);
             });
           })
-          .catch((err) => next(err));
+          .catch((err) => {
+            next(err)
+            console.log(err)
+          });
       } else {
         next(null, false, { error: "Error connecting to Google." });
       }

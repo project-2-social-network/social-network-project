@@ -4,6 +4,7 @@ const Post = require("../models/Post.model");
 const Follow = require("../models/Follow.model");
 const Like = require("../models/Like.model");
 const Comment = require("../models/Comment.model");
+const { populate } = require("../models/User.model");
 
 module.exports.home = (req, res, next) => {
   const currentUser = req.user;
@@ -15,11 +16,11 @@ module.exports.home = (req, res, next) => {
       usersIfollow.forEach((follow) => {
         const userID = follow.following.valueOf();
         everyUserPostListPromise.push(
-          Post.find({ creator: userID }).populate("creator")
-        );
+          Post.find({ creator: userID }).populate("creator", { username: 1, image: 1 })
+        )
       });
       everyUserPostListPromise.push(
-        Post.find({ creator: currentUser.id }).populate("creator")
+        Post.find({ creator: currentUser.id }).populate("creator", { username: 1, image: 1 })
       );
       return Promise.all(everyUserPostListPromise).then((everyUserPostList) => {
         const finalList = everyUserPostList.reduce((acc, curr) => {
@@ -112,12 +113,13 @@ module.exports.likeList = (req, res, next) => {
 
 
 module.exports.comments = (req, res, next) => {
-  const  id  = req.params;
+  const  { id }  = req.params;
 
-  Post.findOne(id)
+  Post.findById(id)
   .populate('creator')
   .then((post) => {
     Comment.find({ post: post.id })
+    .populate('creator')
     .then((comments) => {
       comments.reverse();
       res.render("posts/comments", { post, comments });
@@ -129,17 +131,20 @@ module.exports.comments = (req, res, next) => {
 module.exports.doComment = (req, res, next) => {
   const { id } = req.params;
   const commentToCreate = req.body;
-  const currentUser = req.user;
-  
+
   commentToCreate.post = id;
     
   Comment.create(commentToCreate)
   .then((commentCreated) => {
-    return Comment.find({ post: id });
+    return Post.findById(id)
   })
-  .then((comments) => {
-    comments.reverse();
-    res.render("posts/comments", { comments });
+  .then((postFound) => {
+    const newCount = postFound.commentsCount += 1
+    console.log(newCount)
+    return Post.findByIdAndUpdate(id, { commentsCount: newCount })
+  })
+  .then((updated) => {
+    res.redirect(`/comments/${id}`);
   })
   .catch((err) => next(err));
 };

@@ -12,6 +12,16 @@ const postSchema = new mongoose.Schema({
     },
     media: {
         type: String,
+    },
+    likesCount: {
+        type: Number,
+        required: true,
+        default: 0
+    },
+    commentsCount: {
+        type: Number,
+        required: true,
+        default: 0
     }
 },
 {
