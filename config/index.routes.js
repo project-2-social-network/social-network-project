@@ -33,6 +33,8 @@ router.post('/home', authMiddlewares.isAuthenticated, fileUploader.single('image
 router.delete('/home/deletePost/:id', authMiddlewares.isAuthenticated, postController.doDelete);
 router.put("/like/:id", authMiddlewares.isAuthenticated, postController.doLike);
 router.get("/likes/:username", authMiddlewares.isAuthenticated, postController.likeList);
+router.get('/comments/:id', authMiddlewares.isAuthenticated, postController.comments);
+router.post('/comments/:id', authMiddlewares.isAuthenticated, postController.doComment);
 
 //ACCOUNT 
 router.get('/settings', authMiddlewares.isAuthenticated, accountController.settings);

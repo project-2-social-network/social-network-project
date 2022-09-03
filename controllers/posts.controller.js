@@ -3,6 +3,7 @@ const User = require("../models/User.model");
 const Post = require("../models/Post.model");
 const Follow = require("../models/Follow.model");
 const Like = require("../models/Like.model");
+const Comment = require("../models/Comment.model");
 
 module.exports.home = (req, res, next) => {
   const currentUser = req.user;
@@ -31,7 +32,7 @@ module.exports.home = (req, res, next) => {
           }
         });
         const listWithoutDuplicates = [...new Set(finalList)].reverse();
-        res.render("home", { listWithoutDuplicates });
+        res.render("posts/home", { listWithoutDuplicates });
       });
     })
     .catch((err) => next(err));
@@ -109,3 +110,36 @@ module.exports.likeList = (req, res, next) => {
     .catch((err) => next(err));
 };
 
+
+module.exports.comments = (req, res, next) => {
+  const  id  = req.params;
+
+  Post.findOne(id)
+  .populate('creator')
+  .then((post) => {
+    Comment.find({ post: post.id })
+    .then((comments) => {
+      comments.reverse();
+      res.render("posts/comments", { post, comments });
+    })
+  })
+  .catch((err) => next(err));
+};
+
+module.exports.doComment = (req, res, next) => {
+  const { id } = req.params;
+  const commentToCreate = req.body;
+  const currentUser = req.user;
+  
+  commentToCreate.post = id;
+    
+  Comment.create(commentToCreate)
+  .then((commentCreated) => {
+    return Comment.find({ post: id });
+  })
+  .then((comments) => {
+    comments.reverse();
+    res.render("posts/comments", { comments });
+  })
+  .catch((err) => next(err));
+};

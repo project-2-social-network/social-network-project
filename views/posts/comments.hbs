@@ -1,0 +1,33 @@
+<div class="container">
+        <div class="post" data-id="{{post.id}}">
+            <img src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40">        
+            <h5>{{post.creator.username}}</h5>
+            <p>{{post.content}}</p>
+            {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded">{{/if}}
+            {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}      
+        </div>
+</div>
+
+<div class="container">
+    <h3>Comments:</h3>
+    <br>
+    <div class="container">
+        <form action="/comments/{{post.id}}" method="POST">
+            <h3>{{currentUser.username}}</h3>
+            <input type="text" name="creator" value="{{currentUser.id}}" hidden>
+            <input type="text" minlength="1" maxlength="240" name="content" placeholder="Type your comment here" size="100">
+            <input type="file" name="media">
+            <button type="submit">COMMENT</button>
+        </form>
+    </div>
+    
+    {{#each comments as | comment |}}
+        <div class="comment" data-id="{{comment.id}}">
+            <img src="{{comment.creator.image}}" alt="{{comment.creator.username}}'s icon" width="40">        
+            <h5>{{comment.creator.username}}</h5>
+            <p>{{comment.content}}</p>
+            {{#if comment.media}}<img src="{{comment.media}}" alt="Media uploaded">{{/if}}
+            {{#if comment.sameOwner}} <a class="remove" data-id="{{comment.id}}">Delete</a>{{/if}}      
+        </div>
+    {{/each}}
+</div>

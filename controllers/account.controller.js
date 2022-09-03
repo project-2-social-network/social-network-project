@@ -1,5 +1,6 @@
 const User = require("../models/User.model");
 const Post = require("../models/Post.model");
+const Comment = require("../models/Comment.model");
 const mongoose = require("mongoose");
 
 
@@ -56,7 +57,10 @@ module.exports.deleteAccount = (req, res, next) => {
     User.findOneAndDelete(id)
     .then((userDeleted) => {
         req.logout(() => res.redirect("/"));
-        return Post.deleteMany({ creator: id})
+        return Post.deleteMany({ creator: id });
+    })
+    .then((postDeleted) => {
+        return Comment.deleteMany({ creator: id });
     })
     .catch((err) => next(err))
 };

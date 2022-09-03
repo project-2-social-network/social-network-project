@@ -6,63 +6,68 @@ const PASSWORD_PATTERN = /^.{8,}$/i
 const USERNAME_PATTERN = /^[A-Za-z]+$/
 const SALT_ROUNDS = 10
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema(
+  {
     username: {
-        type: String,
-        match: [USERNAME_PATTERN, 'Username cannot contain spaces, capital letters or special characters.'],
-        required: [true, 'Username is required.'],
-        unique: true,
+      type: String,
+      match: [
+        USERNAME_PATTERN,
+        "Username cannot contain spaces, capital letters or special characters.",
+      ],
+      required: [true, "Username is required."],
+      unique: true,
     },
     name: {
-        type: String,
-        required: [true, 'Name is required.'],
-        minLength: [2, 'Name must contain at least 2 characters.']
+      type: String,
+      required: [true, "Name is required."],
+      minLength: [2, "Name must contain at least 2 characters."],
     },
     email: {
-        type: String,
-        required: [true, 'Email is required.'],
-        match: [EMAIL_PATTERN, 'Email must be valid.'],
-        unique: true,
+      type: String,
+      required: [true, "Email is required."],
+      match: [EMAIL_PATTERN, "Email must be valid."],
+      unique: true,
     },
     password: {
-        type: String,
-        required: [true, 'Password is required.'],
-        match: [PASSWORD_PATTERN, 'Password must contain at least 8 characters.']
+      type: String,
+      required: [true, "Password is required."],
+      match: [PASSWORD_PATTERN, "Password must contain at least 8 characters."],
     },
     googleID: {
-        type: String,
+      type: String,
     },
     image: {
-        type: String,
-        default: 'https://res.cloudinary.com/plasoironhack/image/upload/v1644663323/ironhack/multer-example/icono-de-li%CC%81nea-perfil-usuario-si%CC%81mbolo-empleado-avatar-web-y-disen%CC%83o-ilustracio%CC%81n-signo-aislado-en-fondo-blanco-192379539_jvh06m.jpg'
+      type: String,
+      default:
+        "https://res.cloudinary.com/plasoironhack/image/upload/v1644663323/ironhack/multer-example/icono-de-li%CC%81nea-perfil-usuario-si%CC%81mbolo-empleado-avatar-web-y-disen%CC%83o-ilustracio%CC%81n-signo-aislado-en-fondo-blanco-192379539_jvh06m.jpg",
     },
     status: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
     activationToken: {
-        type: String,
-        default: () => {
-            return Math.random().toString(36).substring(7) +
-            Math.random().toString(36).substring(7) +
-            Math.random().toString(36).substring(7) +
-            Math.random().toString(36).substring(7)
-          }
+      type: String,
+      default: () => {
+        return (
+          Math.random().toString(36).substring(7) +
+          Math.random().toString(36).substring(7) +
+          Math.random().toString(36).substring(7) +
+          Math.random().toString(36).substring(7)
+        );
+      },
     },
     bankAccount: {
-        type: String
-    },
-    date: {
-        type: Date,
-        default: Date.now
+      type: String,
     },
     birthdate: {
-        type: Date
+      type: Date,
     }
-}, 
-{
-    toObject: { virtuals: true },
-});
+  },
+  {
+    timestamps: true,
+    toObject: { virtuals: true }
+  }
+);
 
 userSchema.virtual("posts", {
     ref: "Post",
@@ -91,6 +96,14 @@ userSchema.virtual("likes", {
   foreignField: "userWhoLikes",
   justOne: true,
 });
+
+userSchema.virtual("comments", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "creator",
+  justOne: true,
+});
+
 
 userSchema.pre('save', function(next) {
     const user = this;

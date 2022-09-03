@@ -12,20 +12,25 @@ const postSchema = new mongoose.Schema({
     },
     media: {
         type: String,
-    },
-    date: {
-        type: Date,
-        default: Date.now
     }
 },
 {
+    timestamps: true,
     toObject: { virtuals: true },
+
 });
 
 postSchema.virtual("likes", {
   ref: "Like",
   localField: "_id",
   foreignField: "like",
+  justOne: true,
+});
+
+postSchema.virtual("comments", {
+  ref: "Comment",
+  localField: "_id",
+  foreignField: "comment",
   justOne: true,
 });
 

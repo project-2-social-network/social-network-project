@@ -9,7 +9,7 @@ module.exports.profile = (req, res, next) => {
     
     User.findOne({ username })
     .then((user) => {
-        user.joinedDate = user.date.getFullYear()
+        user.joinedDate = user.createdAt.getFullYear()
         const userId = user.id.valueOf()
         const active = user.status ? true : false;
 
