@@ -5,6 +5,9 @@ const Follow = require("../models/Follow.model");
 const Like = require("../models/Like.model");
 const Comment = require("../models/Comment.model");
 
+//API
+const GIPHY = require("giphy-api")("bT7sxcny5vsYAU965S2mbJy8MA0LuF6m");
+
 module.exports.home = (req, res, next) => {
   const currentUser = req.user;
 
@@ -15,11 +18,17 @@ module.exports.home = (req, res, next) => {
       usersIfollow.forEach((follow) => {
         const userID = follow.following.valueOf();
         everyUserPostListPromise.push(
-          Post.find({ creator: userID }).populate("creator", { username: 1, image: 1 })
-        )
+          Post.find({ creator: userID }).populate("creator", {
+            username: 1,
+            image: 1,
+          })
+        );
       });
       everyUserPostListPromise.push(
-        Post.find({ creator: currentUser.id }).populate("creator", { username: 1, image: 1 })
+        Post.find({ creator: currentUser.id }).populate("creator", {
+          username: 1,
+          image: 1,
+        })
       );
       return Promise.all(everyUserPostListPromise).then((everyUserPostList) => {
         const finalList = everyUserPostList.reduce((acc, curr) => {
@@ -33,12 +42,14 @@ module.exports.home = (req, res, next) => {
         });
         const listWithoutDuplicates = [...new Set(finalList)].reverse();
         listWithoutDuplicates.forEach((post) => {
-          Like.findOne({$and: [{like: post._id}, {userWhoLikes: currentUser.id}]})
-          .then((likeFound) => {
-            return post.alreadyLiked = likeFound ? true : false;
+          Like.findOne({
+            $and: [{ like: post._id }, { userWhoLikes: currentUser.id }],
           })
-          .catch((err) => console.log(err))
-        })
+            .then((likeFound) => {
+              return (post.alreadyLiked = likeFound ? true : false);
+            })
+            .catch((err) => console.log(err));
+        });
         res.render("posts/home", { listWithoutDuplicates });
       });
     })
@@ -54,9 +65,16 @@ module.exports.doCreate = (req, res, next) => {
 
   Post.create(post)
     .then((postCreated) => {
-      res.redirect("home");
+      res.redirect('home');
     })
-    .catch((err) => next(err));
+    .catch((err) => {
+      if (err.message === "No Content provided") {
+        res.redirect('home');
+        
+      } else {
+        next(err);
+      }
+    });
 };
 
 module.exports.doDelete = (req, res, next) => {
@@ -75,50 +93,49 @@ module.exports.doLike = (req, res, next) => {
   const currentUser = req.user;
 
   Like.findOne({ userWhoLikes: currentUser.id, like: id })
-  .then((likeFound) => {
-    if (likeFound) {
-      Like.findOneAndDelete({ userWhoLikes: currentUser.id, like: id })
-        .then((likeDeleted) => {
-          res.status(204).send(likeDeleted);
-          Post.findByIdAndUpdate(id, { $inc: { likesCount: -1 }})
-          .then((postUpdated) => {
+    .then((likeFound) => {
+      if (likeFound) {
+        Like.findOneAndDelete({ userWhoLikes: currentUser.id, like: id })
+          .then((likeDeleted) => {
+            res.status(204).send(likeDeleted);
+            Post.findByIdAndUpdate(id, { $inc: { likesCount: -1 } })
+              .then((postUpdated) => {})
+              .catch((err) => next(err));
           })
-          .catch((err) => next(err))
-        })
-        .catch((err) => next(err));
-    } else {
-      Like.create({ userWhoLikes: currentUser.id, like: id })
-        .then((likeCreated) => {
-          res.status(204).send(likeCreated);
-          Post.findByIdAndUpdate(id, { $inc: { likesCount: 1 }})
-          .then((postUpdated) => {
+          .catch((err) => next(err));
+      } else {
+        Like.create({ userWhoLikes: currentUser.id, like: id })
+          .then((likeCreated) => {
+            res.status(204).send(likeCreated);
+            Post.findByIdAndUpdate(id, { $inc: { likesCount: 1 } })
+              .then((postUpdated) => {})
+              .catch((err) => next(err));
           })
-          .catch((err) => next(err))
-        })
-        .catch((err) => next(err));
-    }
-  })
-  .catch((err) => next(err))
+          .catch((err) => next(err));
+      }
+    })
+    .catch((err) => next(err));
 };
 
 module.exports.comments = (req, res, next) => {
-  const  { id }  = req.params;
+  const { id } = req.params;
   const currentUser = req.user;
 
   Post.findById(id)
-  .populate('creator')
-  .then((post) => {
-    Comment.find({ post: post.id })
-    .populate('creator')
-    .then((comments) => {
-      comments.forEach((comment) => {
-        comment.sameOwner = comment.creator.id === currentUser.id ? true : false;
-      })
-      comments.reverse();
-      res.render("posts/comments", { post, comments });
+    .populate("creator")
+    .then((post) => {
+      Comment.find({ post: post.id })
+        .populate("creator")
+        .then((comments) => {
+          comments.forEach((comment) => {
+            comment.sameOwner =
+              comment.creator.id === currentUser.id ? true : false;
+          });
+          comments.reverse();
+          res.render("posts/comments", { post, comments });
+        });
     })
-  })
-  .catch((err) => next(err));
+    .catch((err) => next(err));
 };
 
 module.exports.doComment = (req, res, next) => {
@@ -126,45 +143,45 @@ module.exports.doComment = (req, res, next) => {
   const commentToCreate = req.body;
 
   commentToCreate.post = id;
-    
+
   Comment.create(commentToCreate)
-  .then((commentCreated) => {
-    return Post.findById(id)
-  })
-  .then((postFound) => {
-    const newCount = postFound.commentsCount += 1
-    console.log(newCount)
-    return Post.findByIdAndUpdate(id, { commentsCount: newCount })
-  })
-  .then((updated) => {
-    res.redirect(`/comments/${id}`);
-  })
-  .catch((err) => next(err));
+    .then((commentCreated) => {
+      return Post.findById(id);
+    })
+    .then((postFound) => {
+      const newCount = (postFound.commentsCount += 1);
+      console.log(newCount);
+      return Post.findByIdAndUpdate(id, { commentsCount: newCount });
+    })
+    .then((updated) => {
+      res.redirect(`/comments/${id}`);
+    })
+    .catch((err) => next(err));
 };
 
 module.exports.likesList = (req, res, next) => {
   const { id } = req.params;
 
-    Like.find({ like: id })
-      .populate("userWhoLikes")
-      .then((people) => {
-        res.render("posts/likes-list", { people });
-      })
-      .catch((err) => next(err));
+  Like.find({ like: id })
+    .populate("userWhoLikes")
+    .then((people) => {
+      res.render("posts/likes-list", { people });
+    })
+    .catch((err) => next(err));
 };
 
 module.exports.doDeleteComment = (req, res, next) => {
   const { id } = req.params;
   Comment.findByIdAndDelete(id)
     .then((comment) => {
-      const postId = comment.post.valueOf()
-      Post.findByIdAndUpdate(postId, { $inc: { commentsCount: -1 }})
-      .then((postUpdated) => {
-        res.status(204).send(comment);
-      })
-      .catch((err) => {
-        next(createError(404, "Comment not found"));
-      });
+      const postId = comment.post.valueOf();
+      Post.findByIdAndUpdate(postId, { $inc: { commentsCount: -1 } })
+        .then((postUpdated) => {
+          res.status(204).send(comment);
+        })
+        .catch((err) => {
+          next(createError(404, "Comment not found"));
+        });
     })
     .catch((err) => {
       next(createError(404, "Comment not found"));

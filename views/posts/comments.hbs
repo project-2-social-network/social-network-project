@@ -1,11 +1,11 @@
 <div class="container">
-        <div class="post" data-id="{{post.id}}">
-            <img src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40">        
-            <h5>{{post.creator.username}}</h5>
-            <p>{{post.content}}</p>
-            {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded">{{/if}}
-            {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}      
-        </div>
+    <div class="post" data-id="{{post.id}}">
+        <img src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40px">        
+        <h5>{{post.creator.username}}</h5>
+        <p>{{post.content}}</p>
+        {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded" width="400px">{{/if}}
+        {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}      
+    </div>
 </div>
 
 <div class="container">
@@ -15,16 +15,31 @@
         <form action="/comments/{{post.id}}" method="POST">
             <h3>{{currentUser.username}}</h3>
             <input type="text" name="creator" value="{{currentUser.id}}" hidden>
-            <input type="text" minlength="1" maxlength="240" name="content" placeholder="Type your comment here" size="100">
-            <input type="file" name="media">
+            <input type="text" minlength="1" maxlength="240" name="content" placeholder="Type your comment here" size="100px">
+            <br>
+            <input type="file" name="media">            
+            <button id="btn-giphy" onclick="showGiphy()">GIPHY</button>
             <button type="submit">COMMENT</button>
         </form>
     </div>
-    
+</div>
+
+{{!-- GIPHY SEARCH & MODAL RESULTS --}}
+<div class="hidden">
+    <input type="text">
+    <a>Search</a>
+  <div>  
+    <div>
+      <img src="" alt="">
+    </div>
+  </div>  
+</div>
+
+<div>
     {{#each comments as | comment |}}
         <div class="comment" data-id="{{comment.id}}">
             {{#if comment.creator}}
-                <img src="{{comment.creator.image}}" alt="{{comment.creator.username}}'s icon" width="40">        
+                <img src="{{comment.creator.image}}" alt="{{comment.creator.username}}'s icon" width="100px">        
                 <h5>{{comment.creator.username}}</h5>
             {{else}}
                 <img src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg" width="40">        
@@ -53,4 +68,14 @@
         .catch(error => console.log('Error!', error))
     })
   }
+
+  $('#exampleModal').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget) // Button that triggered the modal
+  var recipient = button.data('whatever') // Extract info from data-* attributes
+  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+  var modal = $(this)
+  modal.find('.modal-title').text('New message to ' + recipient)
+  modal.find('.modal-body input').val(recipient)
+})
 </script>

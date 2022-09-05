@@ -11,7 +11,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: 'project-social-network',
+    folder: 'BeCapy',
     allowedFormats: ['jpg', 'png'],
     public_id: (req, file) => file.originalname.split('.')[0],
   },

@@ -1,34 +1,34 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const postSchema = new mongoose.Schema({
+const postSchema = new mongoose.Schema(
+  {
     creator: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User'
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
     content: {
-        type: String,
-        minLength: 1,
-        maxlength: 240      
+      type: String,
+      maxlength: 240,
     },
     media: {
-        type: String,
+      type: String,
     },
     likesCount: {
-        type: Number,
-        required: true,
-        default: 0
+      type: Number,
+      required: true,
+      default: 0,
     },
     commentsCount: {
-        type: Number,
-        required: true,
-        default: 0
-    }
-},
-{
+      type: Number,
+      required: true,
+      default: 0,
+    },
+  },
+  {
     timestamps: true,
     toObject: { virtuals: true },
-
-});
+  }
+);
 
 postSchema.virtual("likes", {
   ref: "Like",
@@ -44,6 +44,12 @@ postSchema.virtual("comments", {
   justOne: true,
 });
 
-const Post = mongoose.model('Post', postSchema);
+postSchema.pre("save", function (next) {
+  const hasContent = this.content || this.media;
+  console.log("hasContent ", hasContent);
+  return hasContent ? next() : next(new Error("No Content provided"));
+});
+
+const Post = mongoose.model("Post", postSchema);
 
 module.exports = Post;

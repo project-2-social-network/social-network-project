@@ -73,6 +73,22 @@ module.exports.doChangeUsername = (req, res, next) => {
     }
 };
 
+module.exports.doChangeImage = (req, res, next) => {
+  const { username } = req.params;
+  const user = {};
+  user.image = req.body.image;
+
+  if (req.file) {
+    user.image = req.file.path
+  }
+
+  User.findOneAndUpdate({ username }, { image: user.image })
+    .then((imageUpdated) => {
+      res.redirect(`/profile/${username}`)
+    })
+    .catch((err) => next(err));
+};
+
 module.exports.deleteAccount = (req, res, next) => {
     const { id } = req.params;
 
