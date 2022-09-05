@@ -1,0 +1,14 @@
+{{#if people}}
+    <div class="container d-flex justify-content-between">
+        {{#each people as |user|}}
+            <div class="container">
+                <a href="/profile/{{user.userWhoLikes.username}}">
+                    <img src="{{user.userWhoLikes.image}}" alt="{{user.userWhoLikes.username}}'s icon" width="30">
+                    <h3>{{user.userWhoLikes.username}}</h3>
+                </a>
+            </div>
+        {{/each}}
+    </div>
+{{else}}
+    <h1>No one liked this post yet &#128528</h1>
+{{/if}}

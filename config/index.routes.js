@@ -32,15 +32,20 @@ router.get('/home', authMiddlewares.isAuthenticated, postController.home);
 router.post('/home', authMiddlewares.isAuthenticated, fileUploader.single('image'), postController.doCreate);
 router.delete('/home/deletePost/:id', authMiddlewares.isAuthenticated, postController.doDelete);
 router.put("/like/:id", authMiddlewares.isAuthenticated, postController.doLike);
-router.get("/likes/:username", authMiddlewares.isAuthenticated, postController.likeList);
+router.get('/post/:id/likes', authMiddlewares.isAuthenticated, postController.likesList);
 router.get('/comments/:id', authMiddlewares.isAuthenticated, postController.comments);
 router.post('/comments/:id', authMiddlewares.isAuthenticated, postController.doComment);
+router.delete('/comments/delete/:id', authMiddlewares.isAuthenticated, postController.doDeleteComment);
+
 
 //ACCOUNT 
 router.get('/settings', authMiddlewares.isAuthenticated, accountController.settings);
-router.get('/changePassword', authMiddlewares.isAuthenticated, accountController.changePassword);
-router.post('/changePassword/:username', authMiddlewares.isAuthenticated, accountController.doChangePassword);
+router.get('/change/password', authMiddlewares.isAuthenticated, accountController.changePassword);
+router.post('/change/password/:username', authMiddlewares.isAuthenticated, accountController.doChangePassword);
+router.get('/change/username', authMiddlewares.isAuthenticated, accountController.changeUsername);
+router.post('/change/username/:username', authMiddlewares.isAuthenticated, accountController.doChangeUsername);
 router.post('/deleteAccount/:id', authMiddlewares.isAuthenticated, accountController.deleteAccount);
+
 
 //USER
 router.get('/profile/:username', authMiddlewares.isAuthenticated, userController.profile);
@@ -48,6 +53,7 @@ router.post('/list', authMiddlewares.isAuthenticated, userController.search);
 router.put('/follow/:username', authMiddlewares.isAuthenticated, userController.doFollow);
 router.get('/followers/:username', authMiddlewares.isAuthenticated, userController.followersList);
 router.get('/following/:username', authMiddlewares.isAuthenticated, userController.followingList);
+router.get("/profile/:username/likes", authMiddlewares.isAuthenticated, userController.likesList);
 
 
 module.exports = router;

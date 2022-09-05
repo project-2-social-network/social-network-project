@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const User = require("../models/User.model");
 const Post = require("../models/Post.model");
 const Follow = require("../models/Follow.model");
+const Like = require("../models/Like.model");
 
 module.exports.profile = (req, res, next) => {
     const { username } = req.params;
@@ -130,3 +131,27 @@ module.exports.followingList = (req, res, next) => {
     })
     .catch((err) => next(err))
 };
+
+module.exports.likesList = (req, res, next) => {
+    const { username } = req.params;
+  
+    User.findOne({ username }, { id: 1 })
+      .then((userID) => {
+        Like.find({ userWhoLikes: userID.id })
+          .populate('like')
+          .populate(
+            {
+              path: "like", // Donde entra el populate
+              populate: {
+                path: "creator", // Porque el like es un post y quiero el creator
+                model: "User", // Y el creator es un modelo de User
+              }
+            }
+          )
+          .then((posts) => {
+            res.render("users/likes-list", { posts, username });
+          })
+          .catch((err) => next(err));
+      })
+      .catch((err) => next(err));
+  };

@@ -4,7 +4,6 @@ const Post = require("../models/Post.model");
 const Follow = require("../models/Follow.model");
 const Like = require("../models/Like.model");
 const Comment = require("../models/Comment.model");
-const { populate } = require("../models/User.model");
 
 module.exports.home = (req, res, next) => {
   const currentUser = req.user;
@@ -33,6 +32,13 @@ module.exports.home = (req, res, next) => {
           }
         });
         const listWithoutDuplicates = [...new Set(finalList)].reverse();
+        listWithoutDuplicates.forEach((post) => {
+          Like.findOne({$and: [{like: post._id}, {userWhoLikes: currentUser.id}]})
+          .then((likeFound) => {
+            return post.alreadyLiked = likeFound ? true : false;
+          })
+          .catch((err) => console.log(err))
+        })
         res.render("posts/home", { listWithoutDuplicates });
       });
     })
@@ -68,18 +74,26 @@ module.exports.doLike = (req, res, next) => {
   const { id } = req.params;
   const currentUser = req.user;
 
-  Like.findOne({like: id})
+  Like.findOne({ userWhoLikes: currentUser.id, like: id })
   .then((likeFound) => {
     if (likeFound) {
       Like.findOneAndDelete({ userWhoLikes: currentUser.id, like: id })
         .then((likeDeleted) => {
           res.status(204).send(likeDeleted);
+          Post.findByIdAndUpdate(id, { $inc: { likesCount: -1 }})
+          .then((postUpdated) => {
+          })
+          .catch((err) => next(err))
         })
         .catch((err) => next(err));
     } else {
       Like.create({ userWhoLikes: currentUser.id, like: id })
         .then((likeCreated) => {
           res.status(204).send(likeCreated);
+          Post.findByIdAndUpdate(id, { $inc: { likesCount: 1 }})
+          .then((postUpdated) => {
+          })
+          .catch((err) => next(err))
         })
         .catch((err) => next(err));
     }
@@ -87,33 +101,9 @@ module.exports.doLike = (req, res, next) => {
   .catch((err) => next(err))
 };
 
-module.exports.likeList = (req, res, next) => {
-  const { username } = req.params;
-
-  User.findOne({ username }, { id: 1 })
-    .then((userID) => {
-      Like.find({ userWhoLikes: userID.id })
-        .populate('like')
-        .populate(
-          {
-            path: "like", // Donde entra el populate
-            populate: {
-              path: "creator", // Porque el like es un post y quiero el creator
-              model: "User", // Y el creator es un modelo de User
-            }
-          }
-        )
-        .then((posts) => {
-          res.render("users/likes-list", { posts, username });
-        })
-        .catch((err) => next(err));
-    })
-    .catch((err) => next(err));
-};
-
-
 module.exports.comments = (req, res, next) => {
   const  { id }  = req.params;
+  const currentUser = req.user;
 
   Post.findById(id)
   .populate('creator')
@@ -121,6 +111,9 @@ module.exports.comments = (req, res, next) => {
     Comment.find({ post: post.id })
     .populate('creator')
     .then((comments) => {
+      comments.forEach((comment) => {
+        comment.sameOwner = comment.creator.id === currentUser.id ? true : false;
+      })
       comments.reverse();
       res.render("posts/comments", { post, comments });
     })
@@ -147,4 +140,33 @@ module.exports.doComment = (req, res, next) => {
     res.redirect(`/comments/${id}`);
   })
   .catch((err) => next(err));
+};
+
+module.exports.likesList = (req, res, next) => {
+  const { id } = req.params;
+
+    Like.find({ like: id })
+      .populate("userWhoLikes")
+      .then((people) => {
+        res.render("posts/likes-list", { people });
+      })
+      .catch((err) => next(err));
+};
+
+module.exports.doDeleteComment = (req, res, next) => {
+  const { id } = req.params;
+  Comment.findByIdAndDelete(id)
+    .then((comment) => {
+      const postId = comment.post.valueOf()
+      Post.findByIdAndUpdate(postId, { $inc: { commentsCount: -1 }})
+      .then((postUpdated) => {
+        res.status(204).send(comment);
+      })
+      .catch((err) => {
+        next(createError(404, "Comment not found"));
+      });
+    })
+    .catch((err) => {
+      next(createError(404, "Comment not found"));
+    });
 };

@@ -36,3 +36,21 @@
         </div>
     {{/each}}
 </div>
+
+
+<script>
+  const removeNodes = document.querySelectorAll('.remove');
+  for(let node of removeNodes) {
+    node?.addEventListener('click', () => {
+      const nodeId = node.dataset.id;
+      axios.delete(`/comments/delete/${nodeId}`)
+        .then(responseFromApi => {
+          console.log('Success!', responseFromApi);
+          if(responseFromApi.status == 204) {
+            document.querySelector(`.comment[data-id="${nodeId}"]`).remove();
+          }
+        })
+        .catch(error => console.log('Error!', error))
+    })
+  }
+</script>

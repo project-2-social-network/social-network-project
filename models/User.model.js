@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
       type: String,
       match: [
         USERNAME_PATTERN,
-        "Username cannot contain spaces, capital letters or special characters.",
+        "Username cannot contain spaces.",
       ],
       required: [true, "Username is required."],
       unique: true,

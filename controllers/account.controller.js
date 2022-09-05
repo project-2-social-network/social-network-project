@@ -5,17 +5,17 @@ const mongoose = require("mongoose");
 
 
 module.exports.settings = (req, res, next) => {
-    const user = req.user
-    res.render("account/settings", { user });
+    const currentUser = req.user
+    res.render("account/settings", { currentUser });
 };
 
 module.exports.changePassword = (req, res, next) => {
-    const user = req.user
-    res.render("account/form-password", { user });
+    const currentUser = req.user
+    res.render("account/form-password", { currentUser });
 };
 
 module.exports.doChangePassword = (req, res, next) => {
-    const user = req.user;
+    const currentUser = req.user;
     const { username } = req.params;    
     const  { oldPassword, newPassword } = req.body;
 
@@ -27,7 +27,7 @@ module.exports.doChangePassword = (req, res, next) => {
                 userFound.password = newPassword;
                 userFound.save()
                 .then((userSave) => {
-                    res.render('account/settings', { user , message: 'Password successfully updated.' })
+                    res.render('account/settings', { currentUser , message: 'Password successfully updated.' })
                 })
                 .catch((err) => {
                     if (err instanceof mongoose.Error.ValidationError) {
@@ -49,6 +49,28 @@ module.exports.doChangePassword = (req, res, next) => {
             next(err);
         }
     })
+};
+
+module.exports.changeUsername = (req, res, next) => {
+    const currentUser = req.user;
+    res.render("account/form-username", { currentUser });
+};
+
+module.exports.doChangeUsername = (req, res, next) => {
+    const { id } = req.user;
+    const { username } = req.body;
+
+    if (username.includes(' ')) {
+        res.render("account/form-username", { error: "Username cannot contain spaces." })
+    } else {
+        User.findByIdAndUpdate( id , { username }, { new: true })
+        .then((userUpdated) => {
+            res.render('account/settings', { usernameMessage: 'Username successfully updated.' })
+        })
+        .catch((err) => {
+            res.render("account/form-username", { error: "Username already taken. Choose another one." });
+        })
+    }
 };
 
 module.exports.deleteAccount = (req, res, next) => {
