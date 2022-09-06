@@ -37,6 +37,7 @@
 
 
 <script>
+  //DELETE POST
   const removeNodes = document.querySelectorAll('.remove');
   for(let node of removeNodes) {
     node?.addEventListener('click', () => {
@@ -52,34 +53,36 @@
     })
   }
 
-    const likeNodes = document.querySelectorAll('.btn-like');
+  //LIKES
+  const likeNodes = document.querySelectorAll('.btn-like');
 
-    for(let node of likeNodes) {
-        node?.addEventListener('click', () => {
-        const dataPostID = node.dataset.id;
-        const likesCount = document.querySelector(`.likesCount-${dataPostID}`);
+  for(let node of likeNodes) {
+      node?.addEventListener('click', () => {
+      const dataPostID = node.dataset.id;
+      const likesCount = document.querySelector(`.likesCount-${dataPostID}`);
 
-        axios.put(`/like/${dataPostID}`)
-        .then(responseFromApi => {
-            console.log('Success!', responseFromApi);
-            if(responseFromApi.status == 204) {
-                if (node.textContent === 'Like') {
-                node.textContent = 'Unlike';
-                node.classList.remove('unliked');
-                node.classList.add('liked');
-                likesCount.textContent = Number(likesCount.textContent) + 1;
-                } else {
-                node.textContent = 'Like';
-                node.classList.remove('liked');
-                node.classList.add('unliked');
-                likesCount.textContent = Number(likesCount.textContent) - 1;
-                }
-            }
-        })
-        .catch(error => console.log('Error!', error))
-    });
-    }
+      axios.put(`/like/${dataPostID}`)
+      .then(responseFromApi => {
+          console.log('Success!', responseFromApi);
+          if(responseFromApi.status == 204) {
+              if (node.textContent === 'Like') {
+              node.textContent = 'Unlike';
+              node.classList.remove('unliked');
+              node.classList.add('liked');
+              likesCount.textContent = Number(likesCount.textContent) + 1;
+              } else {
+              node.textContent = 'Like';
+              node.classList.remove('liked');
+              node.classList.add('unliked');
+              likesCount.textContent = Number(likesCount.textContent) - 1;
+              }
+          }
+      })
+      .catch(error => console.log('Error!', error))
+  });
+  }
 
+  //UPLOAD CONTENT OR MEDIA
   function hasContent() {
     const btnPost = document.getElementById('btn-post');
     const inputText = document.getElementById('input-text');
@@ -107,5 +110,70 @@
     } else {
       btnPost.disabled = false; 
     }
-  }      
+  }
+
+  //AXIOS GIPHYS-LIST
+  const btnGiphys = document.getElementById('btn-giphys');
+  const giphyContainer = document.getElementById('giphy-container');
+  const giphyListContainer = document.getElementById('giphy-list-container');
+
+    btnGiphys.addEventListener('click', () => {
+    if(giphyContainer.classList.contains('hidden')) {
+      giphyContainer.classList.remove('hidden');
+
+      axios.get(`/gifs/list`)
+      .then(giphys => {
+          giphys.data.forEach((giphy) => {
+            let div = document.createElement('div');
+            div.setAttribute('class', 'gif');
+
+            let image = document.createElement('iframe');
+            image.src = giphy.embed_url;
+            image.setAttribute('alt', 'Gif not found');
+            image.setAttribute('referrerpolicy', 'no-referrer');
+
+            div.appendChild(image)
+            giphyListContainer.appendChild(div);
+          })
+      })
+      .catch(error => console.log('Error!'));
+    } else {
+      giphyContainer.classList.add('hidden');
+      while(giphyListContainer.firstChild) {
+        giphyListContainer.removeChild(giphyListContainer.firstChild)
+      }
+    };
+  })
+
+  //AXIOS SEARCH SPECIFIC GIPHY
+  const searchInput = document.getElementById('search-input');
+  const btnGiphy = document.getElementById('btn-giphy');
+
+  btnGiphy.addEventListener('click', () => {
+    const gifSearch = searchInput.value
+
+    axios.post(`/gifs/${gifSearch}`)
+    .then(giphys => {
+      while(giphyListContainer.firstChild) {
+          giphyListContainer.removeChild(giphyListContainer.firstChild)
+      };
+
+      if(giphys) {
+        giphys.data.forEach((giphy) => {
+          let div = document.createElement('div');
+          div.setAttribute('class', 'gif');
+
+          let image = document.createElement('iframe');
+          image.src = giphy.embed_url;
+          image.setAttribute('alt', 'Gif not found');
+          image.setAttribute('referrerpolicy', 'no-referrer');
+
+          div.appendChild(image)
+          giphyListContainer.appendChild(div);
+        })
+      }
+    })
+    .catch(error => console.log('Error!'));
+  });
+
 </script>

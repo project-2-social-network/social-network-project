@@ -23,6 +23,9 @@ const postSchema = new mongoose.Schema(
       required: true,
       default: 0,
     },
+    gif: {
+      type: String,
+    }
   },
   {
     timestamps: true,

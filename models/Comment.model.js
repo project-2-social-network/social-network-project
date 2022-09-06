@@ -17,6 +17,9 @@ const commentSchema = new mongoose.Schema({
     media: {
         type: String,
     },
+    gif: {
+        type: String,
+    }
 
 }, { 
     timestamps: true

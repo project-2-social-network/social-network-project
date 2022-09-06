@@ -78,6 +78,16 @@ router.delete(
   authMiddlewares.isAuthenticated,
   postController.doDeleteComment
 );
+router.get(
+  "/gifs/list",
+  authMiddlewares.isAuthenticated,
+  postController.giphyList
+);
+router.post(
+  "/gifs/:search",
+  authMiddlewares.isAuthenticated,
+  postController.giphySearchList
+);
 
 //ACCOUNT
 router.get(

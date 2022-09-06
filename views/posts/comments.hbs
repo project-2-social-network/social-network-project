@@ -17,21 +17,20 @@
             <input type="text" name="creator" value="{{currentUser.id}}" hidden>
             <input type="text" minlength="1" maxlength="240" name="content" placeholder="Type your comment here" size="100px">
             <br>
-            <input type="file" name="media">            
-            <button id="btn-giphy" onclick="showGiphy()">GIPHY</button>
+            <input type="file" name="media">
+            <input type="file" name="gif" id="gif-input" hidden>
             <button type="submit">COMMENT</button>
         </form>
+        <button id="btn-giphys">GIF</button>
     </div>
 </div>
 
 {{!-- GIPHY SEARCH & MODAL RESULTS --}}
-<div class="hidden">
-    <input type="text">
-    <a>Search</a>
-  <div>  
-    <div>
-      <img src="" alt="">
-    </div>
+<div class="hidden" id="giphy-container">
+    <input type="text" id="search-input">
+    <button id="btn-giphy">Search</button>
+  <div id="giphy-list-container"> 
+        
   </div>  
 </div>
 
@@ -52,30 +51,96 @@
     {{/each}}
 </div>
 
-
 <script>
-  const removeNodes = document.querySelectorAll('.remove');
-  for(let node of removeNodes) {
-    node?.addEventListener('click', () => {
-      const nodeId = node.dataset.id;
-      axios.delete(`/comments/delete/${nodeId}`)
-        .then(responseFromApi => {
-          console.log('Success!', responseFromApi);
-          if(responseFromApi.status == 204) {
-            document.querySelector(`.comment[data-id="${nodeId}"]`).remove();
-          }
-        })
-        .catch(error => console.log('Error!', error))
-    })
-  }
+  //AXIOS DELETE COMMENTS
+const removeNodes = document.querySelectorAll('.remove');
+for(let node of removeNodes) {
+  node?.addEventListener('click', () => {
+    const nodeId = node.dataset.id;
+    axios.delete(`/comments/delete/${nodeId}`)
+      .then(responseFromApi => {
+        console.log('Success!', responseFromApi);
+        if(responseFromApi.status == 204) {
+          document.querySelector(`.comment[data-id="${nodeId}"]`).remove();
+        }
+      })
+      .catch(error => console.log('Error!', error))
+  })
+}
 
-  $('#exampleModal').on('show.bs.modal', function (event) {
-  var button = $(event.relatedTarget) // Button that triggered the modal
-  var recipient = button.data('whatever') // Extract info from data-* attributes
-  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-  var modal = $(this)
-  modal.find('.modal-title').text('New message to ' + recipient)
-  modal.find('.modal-body input').val(recipient)
-})
+//AXIOS GIPHYS-LIST
+const btnGiphys = document.getElementById('btn-giphys');
+const giphyContainer = document.getElementById('giphy-container');
+const giphyListContainer = document.getElementById('giphy-list-container');
+
+  btnGiphys.addEventListener('click', () => {
+  if(giphyContainer.classList.contains('hidden')) {
+    giphyContainer.classList.remove('hidden');
+
+    axios.get(`/gifs/list`)
+    .then(giphys => {
+        giphys.data.forEach((giphy) => {
+          let div = document.createElement('div');
+          div.setAttribute('class', 'gif');
+
+          let image = document.createElement('iframe');
+          image.src = giphy.embed_url;
+          image.setAttribute('alt', 'Gif not found');
+          image.setAttribute('referrerpolicy', 'no-referrer');
+
+          div.appendChild(image)
+          giphyListContainer.appendChild(div);
+        })
+    })
+    .catch(error => console.log('Error!'));
+  } else {
+    giphyContainer.classList.add('hidden');
+    while(giphyListContainer.firstChild) {
+      giphyListContainer.removeChild(giphyListContainer.firstChild)
+    }
+  };
+  })
+
+  //AXIOS SEARCH SPECIFIC GIPHY
+  const searchInput = document.getElementById('search-input');
+  const btnGiphy = document.getElementById('btn-giphy');
+
+
+  btnGiphy.addEventListener('click', () => {
+    const gifSearch = searchInput.value
+
+    axios.post(`/gifs/${gifSearch}`)
+    .then(giphys => {
+      while(giphyListContainer.firstChild) {
+          giphyListContainer.removeChild(giphyListContainer.firstChild)
+      };
+
+      if(giphys) {
+        giphys.data.forEach((giphy) => {
+          let div = document.createElement('div');
+          div.setAttribute('class', 'gif');
+
+          let image = document.createElement('iframe');
+          image.src = giphy.embed_url;
+          image.setAttribute('alt', 'Gif not found');
+          image.setAttribute('referrerpolicy', 'no-referrer');
+
+          div.appendChild(image)
+          giphyListContainer.appendChild(div);
+        })
+      }
+    })
+    .catch(error => console.log('Error!'));
+  });
+
+  //EVENT LISTENER EACH GIF
+  /* const allGifs = document.querySelectorAll('iframe');
+  const gifInput = document.getElementById('gif-input');
+
+  allGifs.forEach((gif) => {
+    gif.addEventListener('click', () => {
+      let src = gif.getAttribute('src');
+      gifInput.setAttribute('value', gif.getAttribute('src'));
+    })
+  }) */
 </script>

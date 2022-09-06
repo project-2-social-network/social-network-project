@@ -6,7 +6,7 @@ const Like = require("../models/Like.model");
 const Comment = require("../models/Comment.model");
 
 //API
-const GIPHY = require("giphy-api")("bT7sxcny5vsYAU965S2mbJy8MA0LuF6m");
+const GIPHY = require("giphy-api")(process.env.GIPHY_KEY);
 
 module.exports.home = (req, res, next) => {
   const currentUser = req.user;
@@ -185,5 +185,29 @@ module.exports.doDeleteComment = (req, res, next) => {
     })
     .catch((err) => {
       next(createError(404, "Comment not found"));
+    });
+};
+
+module.exports.giphyList = (req, res, next) => {
+  GIPHY.trending({limit: 6})
+    .then((gifs) => {
+      const giphys = gifs.data
+      res.send(giphys);
+    })
+    .catch((err) => {
+      next(createError(404, "Gifs not found"));
+    });
+};
+
+module.exports.giphySearchList = (req, res, next) => {
+  const { search }= req.params;
+
+  GIPHY.search({q:search, limit:6})
+    .then((gifs) => {
+      const giphys = gifs.data
+      res.send(giphys);
+    })
+    .catch((err) => {
+      next(createError(404, "Gifs not found"));
     });
 };
