@@ -48,7 +48,7 @@ module.exports.home = (req, res, next) => {
             .then((likeFound) => {
               return (post.alreadyLiked = likeFound ? true : false);
             })
-            .catch((err) => console.log(err));
+            .catch((err) => next(err));
         });
         res.render("posts/home", { listWithoutDuplicates });
       });
@@ -144,13 +144,16 @@ module.exports.doComment = (req, res, next) => {
 
   commentToCreate.post = id;
 
+   if (req.file) {
+     commentToCreate.media = req.file.path;
+   }
+
   Comment.create(commentToCreate)
     .then((commentCreated) => {
       return Post.findById(id);
     })
     .then((postFound) => {
       const newCount = (postFound.commentsCount += 1);
-      console.log(newCount);
       return Post.findByIdAndUpdate(id, { commentsCount: newCount });
     })
     .then((updated) => {
@@ -189,9 +192,9 @@ module.exports.doDeleteComment = (req, res, next) => {
 };
 
 module.exports.giphyList = (req, res, next) => {
-  GIPHY.trending({limit: 6})
+  GIPHY.trending({ limit: 6 })
     .then((gifs) => {
-      const giphys = gifs.data
+      const giphys = gifs.data;
       res.send(giphys);
     })
     .catch((err) => {
@@ -200,11 +203,11 @@ module.exports.giphyList = (req, res, next) => {
 };
 
 module.exports.giphySearchList = (req, res, next) => {
-  const { search }= req.params;
+  const { search } = req.params;
 
-  GIPHY.search({q:search, limit:6})
+  GIPHY.search({ q:search, limit:6 })
     .then((gifs) => {
-      const giphys = gifs.data
+      const giphys = gifs.data;
       res.send(giphys);
     })
     .catch((err) => {

@@ -71,6 +71,7 @@ router.get(
 router.post(
   "/comments/:id",
   authMiddlewares.isAuthenticated,
+  fileUploader.single("media"),
   postController.doComment
 );
 router.delete(

@@ -12,14 +12,18 @@
     <h3>Comments:</h3>
     <br>
     <div class="container">
-        <form action="/comments/{{post.id}}" method="POST">
+        <div class="user-container">
+            <img class="user-icon" src="{{currentUser.image}}" alt="{{currentUser.username}}'s icon">
+            <h3>{{currentUser.username}}</h3>
+        </div>
+        <form action="/comments/{{post.id}}" method="POST" enctype="multipart/form-data">
             <h3>{{currentUser.username}}</h3>
             <input type="text" name="creator" value="{{currentUser.id}}" hidden>
-            <input type="text" minlength="1" maxlength="240" name="content" placeholder="Type your comment here" size="100px">
+            <input id="input-text" type="text" onkeyup="hasContent()" maxlength="240" name="content" placeholder="Type your comment here" size="100px">
             <br>
-            <input type="file" name="media">
-            <input type="file" name="gif" id="gif-input" hidden>
-            <button type="submit">COMMENT</button>
+            <input id="input-media" type="file" onchange="hasMedia()" name="media">
+            <input id="gif-input" type="file" name="gif" hidden>
+            <button id="btn-comment" type="submit" disabled>COMMENT</button>
         </form>
         <button id="btn-giphys">GIF</button>
     </div>
@@ -29,11 +33,11 @@
 <div class="hidden" id="giphy-container">
     <input type="text" id="search-input">
     <button id="btn-giphy">Search</button>
-  <div id="giphy-list-container"> 
-        
+  <div id="giphy-list-container">         
   </div>  
 </div>
 
+<br>
 <div>
     {{#each comments as | comment |}}
         <div class="comment" data-id="{{comment.id}}">
@@ -45,33 +49,57 @@
                 <h5>User no longer exists</h5>
             {{/if}}
             <p>{{comment.content}}</p>
-            {{#if comment.media}}<img src="{{comment.media}}" alt="Media uploaded">{{/if}}
+            {{#if comment.media}}<img src="{{comment.media}}" alt="Media uploaded" width="100px">{{/if}}
             {{#if comment.sameOwner}} <a class="remove" data-id="{{comment.id}}">Delete</a>{{/if}}      
         </div>
     {{/each}}
 </div>
 
 <script>
-  //AXIOS DELETE COMMENTS
-const removeNodes = document.querySelectorAll('.remove');
-for(let node of removeNodes) {
-  node?.addEventListener('click', () => {
-    const nodeId = node.dataset.id;
-    axios.delete(`/comments/delete/${nodeId}`)
-      .then(responseFromApi => {
-        console.log('Success!', responseFromApi);
-        if(responseFromApi.status == 204) {
-          document.querySelector(`.comment[data-id="${nodeId}"]`).remove();
-        }
-      })
-      .catch(error => console.log('Error!', error))
-  })
-}
+//AXIOS DELETE COMMENTS
+  const removeNodes = document.querySelectorAll('.remove');
+  for(let node of removeNodes) {
+    node?.addEventListener('click', () => {
+      const nodeId = node.dataset.id;
+      axios.delete(`/comments/delete/${nodeId}`)
+        .then(responseFromApi => {
+          console.log('Success!', responseFromApi);
+          if(responseFromApi.status == 204) {
+            document.querySelector(`.comment[data-id="${nodeId}"]`).remove();
+          }
+        })
+        .catch(error => console.log('Error!', error))
+    })
+  }
+
+//UPLOAD CONTENT OR MEDIA
+  function hasContent() {
+    const btnComment = document.getElementById('btn-comment');
+    const inputText = document.getElementById('input-text');
+    const inputMedia = document.getElementById('input-media');
+
+    if (inputText.value === '') {
+      btnComment.disabled = true; 
+    } else {
+      btnComment.disabled = false; 
+    }
+  }      
+
+  function hasMedia() {
+    const btnComment = document.getElementById('btn-comment');
+    const inputMedia = document.getElementById('input-media');
+
+     if (!inputMedia.value) {
+      btnComment.disabled = true; 
+    } else {
+      btnComment.disabled = false; 
+    }
+  }
 
 //AXIOS GIPHYS-LIST
-const btnGiphys = document.getElementById('btn-giphys');
-const giphyContainer = document.getElementById('giphy-container');
-const giphyListContainer = document.getElementById('giphy-list-container');
+  const btnGiphys = document.getElementById('btn-giphys');
+  const giphyContainer = document.getElementById('giphy-container');
+  const giphyListContainer = document.getElementById('giphy-list-container');
 
   btnGiphys.addEventListener('click', () => {
   if(giphyContainer.classList.contains('hidden')) {
@@ -102,36 +130,36 @@ const giphyListContainer = document.getElementById('giphy-list-container');
   })
 
   //AXIOS SEARCH SPECIFIC GIPHY
-  const searchInput = document.getElementById('search-input');
-  const btnGiphy = document.getElementById('btn-giphy');
+    const searchInput = document.getElementById('search-input');
+    const btnGiphy = document.getElementById('btn-giphy');
 
 
-  btnGiphy.addEventListener('click', () => {
-    const gifSearch = searchInput.value
+    btnGiphy.addEventListener('click', () => {
+      const gifSearch = searchInput.value
 
-    axios.post(`/gifs/${gifSearch}`)
-    .then(giphys => {
-      while(giphyListContainer.firstChild) {
-          giphyListContainer.removeChild(giphyListContainer.firstChild)
-      };
+      axios.post(`/gifs/${gifSearch}`)
+      .then(giphys => {
+        while(giphyListContainer.firstChild) {
+            giphyListContainer.removeChild(giphyListContainer.firstChild)
+        };
 
-      if(giphys) {
-        giphys.data.forEach((giphy) => {
-          let div = document.createElement('div');
-          div.setAttribute('class', 'gif');
+        if(giphys) {
+          giphys.data.forEach((giphy) => {
+            let div = document.createElement('div');
+            div.setAttribute('class', 'gif');
 
-          let image = document.createElement('iframe');
-          image.src = giphy.embed_url;
-          image.setAttribute('alt', 'Gif not found');
-          image.setAttribute('referrerpolicy', 'no-referrer');
+            let image = document.createElement('iframe');
+            image.src = giphy.embed_url;
+            image.setAttribute('alt', 'Gif not found');
+            image.setAttribute('referrerpolicy', 'no-referrer');
 
-          div.appendChild(image)
-          giphyListContainer.appendChild(div);
-        })
-      }
-    })
-    .catch(error => console.log('Error!'));
-  });
+            div.appendChild(image)
+            giphyListContainer.appendChild(div);
+          })
+        }
+      })
+      .catch(error => console.log('Error!'));
+    });
 
   //EVENT LISTENER EACH GIF
   /* const allGifs = document.querySelectorAll('iframe');

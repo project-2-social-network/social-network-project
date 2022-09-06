@@ -1,40 +1,49 @@
-<br>
-<h1>Welcome to the home &#128516</h1>
-<br>
-<div class="container">
-    <form action="/home" method="POST" enctype="multipart/form-data">
-        <h3>{{currentUser.username}}</h3>
-        <input type="text" name="creator" value="{{currentUser.id}}" hidden>
-        <input id="input-text" onkeyup="hasContent()" type="text" maxlength="240" name="content" placeholder="What are you thinking?" size="100">
-        <input id="input-media" onchange="hasMedia()" type="file" name="media">
-        <input type="text" name="giphy" hidden>
-        {{!-- <button id="btn-giphy" onclick="showGiphy()">GIPHY</button> --}}
-        <button id="btn-post" type="submit" disabled>POST</button>
-    </form>
+<div id="home">  
+  <div class="form-container">    
+      <div class="user-container">
+          <img class="user-icon" src="{{currentUser.image}}" alt="{{currentUser.username}}'s icon">
+          <h3>{{currentUser.username}}</h3>
+      </div>  
+      <form action="/home" method="POST" enctype="multipart/form-data">
+          <input type="text" name="creator" value="{{currentUser.id}}" hidden>
+          <input id="input-text" onkeyup="hasContent()" type="textarea" cols="40" rows="5" maxlength="240" name="content" placeholder="What are you thinking?" size="100px">
+          <br>
+          <input id="input-media" onchange="hasMedia()" type="file" name="media">
+          <input id="gif-input" type="file" name="gif" hidden>
+          <button id="btn-post" type="submit" disabled>POST</button>
+      </form>
+      <button id="btn-giphys">GIF</button>
+  </div>
+  <br>
+  <div class="hidden" id="giphy-container">
+      <input type="text" id="search-input">
+      <button id="btn-giphy">Search</button>
+    <div id="giphy-list-container">         
+    </div>  
+  </div>
+  <br>
+  <div class="container">
+      <h3>POSTS:</h3>
+      {{#each listWithoutDuplicates as | post |}}
+          <div class="post" data-id="{{post.id}}">
+            <a href="/profile/{{post.creator.username}}">
+              <img src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40">        
+              <h5>{{post.creator.username}}</h5>
+            </a>
+            <p>{{post.content}}</p>
+            {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded" width="400px">{{/if}}
+            {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}
+            {{#if post.alreadyLiked}}
+              <a class="btn-like liked" data-id="{{post.id}}">Unlike</a>
+            {{else}}
+              <a class="btn-like unliked" data-id="{{post.id}}">Like</a>
+            {{/if}}  
+            <a href="/post/{{post.id}}/likes" class="likesCount-{{post.id}}">{{post.likesCount}}</a>
+            <a href="/comments/{{post.id}}" class="btn-comment" data-id="{{post.id}}">Comments: <ins id="commentsCount">{{post.commentsCount}}</ins></a>  
+          </div>
+      {{/each}}
+  </div>
 </div>
-<br>
-<div class="container">
-    <h3>POSTS:</h3>
-    {{#each listWithoutDuplicates as | post |}}
-        <div class="post" data-id="{{post.id}}">
-          <a href="/profile/{{post.creator.username}}">
-            <img src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40">        
-            <h5>{{post.creator.username}}</h5>
-          </a>
-          <p>{{post.content}}</p>
-          {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded" width="400px">{{/if}}
-          {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}
-          {{#if post.alreadyLiked}}
-            <a class="btn-like liked" data-id="{{post.id}}">Unlike</a>
-          {{else}}
-            <a class="btn-like unliked" data-id="{{post.id}}">Like</a>
-          {{/if}}  
-          <a href="/post/{{post.id}}/likes" class="likesCount-{{post.id}}">{{post.likesCount}}</a>
-          <a href="/comments/{{post.id}}" class="btn-comment" data-id="{{post.id}}">Comments: <ins id="commentsCount">{{post.commentsCount}}</ins></a>  
-        </div>
-    {{/each}}
-</div>
-
 
 <script>
   //DELETE POST
@@ -93,12 +102,6 @@
     } else {
       btnPost.disabled = false; 
     }
-
-     if (!inputMedia.value) {
-      btnPost.disabled = true; 
-    } else {
-      btnPost.disabled = false; 
-    }
   }      
 
   function hasMedia() {
@@ -118,7 +121,7 @@
   const giphyListContainer = document.getElementById('giphy-list-container');
 
     btnGiphys.addEventListener('click', () => {
-    if(giphyContainer.classList.contains('hidden')) {
+    if (giphyContainer.classList.contains('hidden')) {
       giphyContainer.classList.remove('hidden');
 
       axios.get(`/gifs/list`)
