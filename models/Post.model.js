@@ -48,7 +48,7 @@ postSchema.virtual("comments", {
 });
 
 postSchema.pre("save", function (next) {
-  const hasContent = this.content || this.media;
+  const hasContent = this.content || this.media || this.gif;
   console.log("hasContent ", hasContent);
   return hasContent ? next() : next(new Error("No Content provided"));
 });

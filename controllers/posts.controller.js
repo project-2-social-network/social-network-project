@@ -48,26 +48,52 @@ module.exports.home = (req, res, next) => {
             })
             .catch((err) => next(err));
         });
+        
         res.render("posts/home", { listWithoutDuplicates });
       });
     })
     .catch((err) => next(err));
 };
 
-module.exports.doCreate = (req, res, next) => {
-  const post = req.body;
+module.exports.explore = (req, res, next) => {
+  const currentUser = req.user;
+  
+  Post.find()
+    .limit(50)
+    .populate("creator")
+    .then((posts) => {
+      posts.forEach((post) => {
+        Like.findOne({
+          $and: [{ like: post._id }, { userWhoLikes: currentUser.id }],
+        })
+          .then((likeFound) => {
+            return (post.alreadyLiked = likeFound ? true : false);
+          })
+          .catch((err) => next(err));      
+      })
+    posts.reverse();
+    res.render("posts/explore", { posts });
+    })
+    .catch((err) => next(err));
+};
 
+module.exports.doCreate = (req, res, next) => {
+  console.log("HOMEEEEEEs");
+  const post = req.body;
+  console.log('******************************** req body', req.body)
   if (req.file) {
     post.media = req.file.path;
   }
 
   Post.create(post)
     .then((postCreated) => {
-      res.redirect('home');
+      console.log('******************************** post created', postCreated)
+      res.redirect('/home');
     })
     .catch((err) => {
+      console.log(err);
       if (err.message === "No Content provided") {
-        res.redirect('home');
+        res.redirect('/home');
         
       } else {
         next(err);
@@ -139,7 +165,7 @@ module.exports.comments = (req, res, next) => {
 module.exports.doComment = (req, res, next) => {
   const { id } = req.params;
   const commentToCreate = req.body;
-
+  
   commentToCreate.post = id;
 
    if (req.file) {
@@ -151,8 +177,8 @@ module.exports.doComment = (req, res, next) => {
       return Post.findById(id);
     })
     .then((postFound) => {
-      const newCount = (postFound.commentsCount += 1);
-      return Post.findByIdAndUpdate(id, { commentsCount: newCount });
+      postFound.commentsCount += 1;
+      return postFound.save();
     })
     .then((updated) => {
       res.redirect(`/comments/${id}`);
@@ -190,7 +216,7 @@ module.exports.doDeleteComment = (req, res, next) => {
 };
 
 module.exports.giphyList = (req, res, next) => {
-  GIPHY.trending({ limit: 6 })
+  GIPHY.trending({ limit: 8 })
     .then((gifs) => {
       const giphys = gifs.data;
       res.send(giphys);
@@ -203,7 +229,7 @@ module.exports.giphyList = (req, res, next) => {
 module.exports.giphySearchList = (req, res, next) => {
   const { search } = req.params;
 
-  GIPHY.search({ q:search, limit:6 })
+  GIPHY.search({ q:search, limit: 8 })
     .then((gifs) => {
       const giphys = gifs.data;
       res.send(giphys);

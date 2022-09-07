@@ -46,6 +46,7 @@ router.get(
 
 //HOME (POSTS)
 router.get("/home", authMiddlewares.isAuthenticated, postController.home);
+router.get("/explore", authMiddlewares.isAuthenticated, postController.explore);
 router.post(
   "/home",
   authMiddlewares.isAuthenticated,

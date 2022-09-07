@@ -11,7 +11,6 @@ const commentSchema = new mongoose.Schema({
     },
     content: {
         type: String,
-        minLength: 1,
         maxlength: 240,
     },
     media: {
@@ -20,7 +19,6 @@ const commentSchema = new mongoose.Schema({
     gif: {
         type: String,
     }
-
 }, { 
     timestamps: true
 });

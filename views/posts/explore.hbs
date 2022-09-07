@@ -1,0 +1,54 @@
+<div id="explore">
+  <h3>Last posts published by capybaras:</h3>
+  <div class="post-container">
+      {{#each posts as | post |}}
+          <div class="post" data-id="{{post.id}}">
+            <a href="/profile/{{post.creator.username}}">
+              <img src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40">        
+              <h5>{{post.creator.username}}</h5>
+            </a>
+            <p>{{post.content}}</p>
+            {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded" width="400px">{{/if}}
+            {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}
+            {{#if post.alreadyLiked}}
+              <a class="btn-like liked" data-id="{{post.id}}">Unlike</a>
+            {{else}}
+              <a class="btn-like unliked" data-id="{{post.id}}">Like</a>
+            {{/if}}  
+            <a href="/post/{{post.id}}/likes" class="likesCount-{{post.id}}">{{post.likesCount}}</a>
+            <a href="/comments/{{post.id}}" class="btn-comment" data-id="{{post.id}}">Comments: <ins id="commentsCount">{{post.commentsCount}}</ins></a>  
+          </div>
+      {{/each}}
+  </div>
+</div>
+
+<script>
+//LIKES
+  const likeNodes = document.querySelectorAll('.btn-like');
+
+  for(let node of likeNodes) {
+      node?.addEventListener('click', () => {
+      const dataPostID = node.dataset.id;
+      const likesCount = document.querySelector(`.likesCount-${dataPostID}`);
+
+      axios.put(`/like/${dataPostID}`)
+      .then(responseFromApi => {
+          console.log('Success!', responseFromApi);
+          if(responseFromApi.status == 204) {
+              if (node.textContent === 'Like') {
+              node.textContent = 'Unlike';
+              node.classList.remove('unliked');
+              node.classList.add('liked');
+              likesCount.textContent = Number(likesCount.textContent) + 1;
+              } else {
+              node.textContent = 'Like';
+              node.classList.remove('liked');
+              node.classList.add('unliked');
+              likesCount.textContent = Number(likesCount.textContent) - 1;
+              }
+          }
+      })
+      .catch(error => console.log('Error!', error))
+    });
+  }
+</script>
