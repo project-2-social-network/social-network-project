@@ -17,7 +17,6 @@
 }
 
 /* SEARCH BAR */
-
 .label {
     font-size: .625rem;
     font-weight: 400;
@@ -59,13 +58,14 @@
 }
 
 /* NAV BAR */
-
 #nav-bar {
     width: 25rem;
     padding-left: 2rem;
     padding-right: 2rem;
     padding-top: 2rem;
     position: fixed;
+    height: 100vh;
+    border-right: 1px solid #7FB77E;
 }
 
 .logo-search-container {
@@ -82,11 +82,23 @@
 
 .nav-bar-link {
     text-decoration: none;
+    color: black;
+}
+
+.nav-bar-text {
+    font-size: 1.3rem;
+    margin-left: 1rem;
+}
+
+#logout-div {
+    border: 2px solid black;
+    border-radius: 2rem;
 }
 
 /* HOME */
 
 #home {
+    padding-left: 2rem;
     display: flex;
     flex-direction: column;
 }

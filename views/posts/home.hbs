@@ -22,8 +22,8 @@
     </div>  
   </div>
   <br>
-  <div class="container">
-      <h3>POSTS:</h3>
+  <h3>POSTS:</h3>
+  <div class="post-container">
       {{#each listWithoutDuplicates as | post |}}
           <div class="post" data-id="{{post.id}}">
             <a href="/profile/{{post.creator.username}}">
@@ -178,5 +178,4 @@
     })
     .catch(error => console.log('Error!'));
   });
-
 </script>
