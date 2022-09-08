@@ -7,6 +7,7 @@ const authMiddlewares = require("../middlewares/auth.middleware");
 const postController = require("../controllers/posts.controller");
 const accountController = require("../controllers/account.controller");
 const userController = require("../controllers/users.controller");
+const msgController = require("../controllers/message.controller");
 
 const fileUploader = require("./cloudinary.config");
 
@@ -155,6 +156,23 @@ router.get(
   "/profile/:username/likes",
   authMiddlewares.isAuthenticated,
   userController.likesList
+);
+
+//MESSAGES
+router.get(
+  "/messages",
+  authMiddlewares.isAuthenticated,
+  msgController.selectUser
+);
+router.get(
+  "/message/:username",
+  authMiddlewares.isAuthenticated,
+  msgController.messages
+);
+router.post(
+  "/message/:username",
+  authMiddlewares.isAuthenticated,
+  msgController.createMessage
 );
 
 module.exports = router;

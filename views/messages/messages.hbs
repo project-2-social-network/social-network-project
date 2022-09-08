@@ -1,0 +1,49 @@
+<h1>Messages</h1>
+
+    <div id="messages">
+        {{#if msgs}}
+            {{#each msgs as |msg|}}
+                <div class="msg">
+                    <p>{{msg.msg}}</p>
+                    <span>{{msg.createdAt}}</span>
+                </div>
+            {{/each}}
+        {{/if}}
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <form id="msgForm">
+        <input id="text-input" type="text" name="msg">
+        <input id="input-username" type="text" value="{{username}}" class="hidden">
+        <button id="btn-send">Send</button>
+    </form>
+
+<script>
+    const btnSendMsg = document.getElementById('btn-send');
+    const usernameInput = document.getElementById('input-username');
+    const username = usernameInput.value;
+
+    btnSendMsg.addEventListener('click', () => {
+        const textInput = document.getElementById('text-input').value;
+
+        const options = {
+            method: 'post',
+            url: `/message/${username}`,
+            data: {
+                msg: textInput,
+            }
+        };
+         
+        axios(options)
+        .then(response => {
+          console.log('Success!', response);
+        })
+        .catch(error => console.log('Error!', error))
+    })
+</script>

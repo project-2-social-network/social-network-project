@@ -23,6 +23,11 @@ const commentSchema = new mongoose.Schema({
     timestamps: true
 });
 
+commentSchema.pre("save", function (next) {
+    const hasContent = this.content || this.media || this.gif;
+    return hasContent ? next() : next(new Error("No Content provided"));
+  });
+
 const Comment = mongoose.model("Comment", commentSchema);
 
 module.exports = Comment;

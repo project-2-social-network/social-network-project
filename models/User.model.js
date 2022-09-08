@@ -104,6 +104,20 @@ userSchema.virtual("comments", {
   justOne: true,
 });
 
+userSchema.virtual("messages", {
+  ref: "Message",
+  localField: "_id",
+  foreignField: "sender",
+  justOne: true,
+});
+
+userSchema.virtual("messages", {
+  ref: "Message",
+  localField: "_id",
+  foreignField: "receiver",
+  justOne: true,
+});
+
 
 userSchema.pre('save', function(next) {
     const user = this;
