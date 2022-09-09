@@ -24,10 +24,8 @@ const options = { cors: { origin: '*' } };
 const io = require("socket.io")(server, options);
 
 io.on("connection", socket => { 
-  console.log('User connected')
   socket.emit('message', '')
   socket.on('disconnect', () => {
-    console.log('User disconnected')
   })
   socket.on('chatmessage', msg => {
     io.emit('message', msg)

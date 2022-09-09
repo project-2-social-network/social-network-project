@@ -1,0 +1,15 @@
+<div id="list-users-messages-container">
+    <h1>INBOX:</h1>
+    <div>
+        {{#if listWithoutDuplicates}}
+        {{#each listWithoutDuplicates as |user|}}
+            <div>
+                <a href="/message/{{user.username}}">
+                    <img src="{{user.image}}" alt="{{user.username}}'s icon" width="50px">
+                    <h3>{{user.username}}</h3>
+                </a>       
+            </div> 
+        {{/each}}
+        {{/if}}
+    </div>
+</div>

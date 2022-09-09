@@ -2,7 +2,38 @@ const Message = require("../models/Message.model");
 const User = require("../models/User.model");
 
 module.exports.selectUser = (req, res, next) => {
-    res.send('pagina con usuarios para enviar msgs')
+  const currentUser = req.user;
+  const usersArr = [];
+  
+  Message.find({ sender: currentUser.id })
+  .populate('receiver', {
+    username: 1,
+    image: 1
+  })
+  .then((messages) => {
+    
+    if(messages) {
+      messages.forEach((message) => {
+        usersArr.push(message.receiver);
+      })
+    }
+    return Message.find({ receiver: currentUser.id })
+           .populate('sender', {
+            username: 1,
+            image: 1
+          })
+  })
+  .then((messages) => {
+    if(messages) {
+      messages.forEach((message) => {
+        usersArr.push(message.sender);
+    })
+  }
+    
+    const listWithoutDuplicates = [...new Set(usersArr)]
+    res.render('messages/list-users-message', { listWithoutDuplicates })
+  })
+  .catch((err) => next(err));
 };
 
 module.exports.messages = (req, res, next) => {
@@ -11,7 +42,7 @@ module.exports.messages = (req, res, next) => {
 
   User.findOne({username})
   .then((userFound)=> {
-    return Message.find({$and: [{sender: currentUser.id}, {receiver: userFound.id}]})
+    return Message.find({$or: [{$and: [{sender: currentUser.id}, {receiver: userFound.id}]}, {$and: [{receiver: currentUser.id}, {sender: userFound.id}]}]})
   })
   .then((msgs) => {
     res.render('messages/messages', { username, msgs })
@@ -23,17 +54,15 @@ module.exports.createMessage = (req, res, next) => {
   const currentUser = req.user;
   const { username } = req.params;
   const { msg } = req.body;
-  console.log('entra:', msg)
+  
   let msgToSave = {};
 
   msgToSave.sender = currentUser.id;
   msgToSave.msg = msg;
-  console.log('entra2:', msgToSave)  
+   
   User.findOne({ username })
   .then((userFound)=> {
-    console.log('entra3:', userFound) 
     msgToSave.receiver = userFound.id;
-    console.log(msgToSave)
     return Message.create(msgToSave)
   })
   .then((msgSaved) => {
