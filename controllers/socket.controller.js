@@ -1,4 +1,5 @@
 const Message = require("../models/Message.model");
+const Notification = require('../models/Notification.model');
 const User = require("../models/User.model");
 
 module.exports.selectUser = (req, res, next) => {
@@ -62,11 +63,43 @@ module.exports.createMessage = (req, res, next) => {
    
   User.findOne({ username })
   .then((userFound)=> {
+    const userID = userFound.id
     msgToSave.receiver = userFound.id;
-    return Message.create(msgToSave)
-  })
-  .then((msgSaved) => {
-    res.status(204).send(msgSaved);
-  })
+    Message.create(msgToSave)
+    .then((msgSaved) => {
+      res.status(204).send(msgSaved);
+      return Notification.create({
+        type: "Message",
+        sender: currentUser.id,
+        receiver: userID,
+      })
+    })
+    .catch((err) => next(err));
+  })  
   .catch((err) => next(err));
+};
+
+module.exports.notifications = (req, res, next) => {
+  const currentUser = req.user;
+
+  Notification.find({ receiver: currentUser.id })
+  .populate('sender')
+    .then((notifications) => {
+      console.log(notifications)
+      notifications.forEach((not) => {
+        if (not.type === "Like") {
+          not.newLike = "gave you a like.";
+        } else if (not.type === "Follow") {
+          not.newFollow = "started following you.";
+        } else if (not.type === "Comment") {
+          not.newComment = "commented on your post.";
+        } else {
+          not.newMessage = "messaged you.";
+        }
+      })      
+      console.log(notifications)
+      res.render("notifications", { notifications });
+    })
+    .catch((err) => next(err));
+  
 };

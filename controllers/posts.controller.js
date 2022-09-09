@@ -2,6 +2,8 @@ const Post = require("../models/Post.model");
 const Follow = require("../models/Follow.model");
 const Like = require("../models/Like.model");
 const Comment = require("../models/Comment.model");
+const Notification = require("../models/Notification.model");
+const User = require("../models/User.model");
 
 //API
 const GIPHY = require("giphy-api")(process.env.GIPHY_KEY);
@@ -131,8 +133,18 @@ module.exports.doLike = (req, res, next) => {
         Like.create({ userWhoLikes: currentUser.id, like: id })
           .then((likeCreated) => {
             res.status(204).send(likeCreated);
-            Post.findByIdAndUpdate(id, { $inc: { likesCount: 1 } })
-              .then((postUpdated) => {})
+            Post.findById(id)
+            .populate('creator')
+              .then((postFound) => {
+                const userID = postFound.creator.id;
+                postFound.likesCount += 1;
+                postFound.save();
+                Notification.create({
+                  type: "Like",
+                  sender: currentUser.id,
+                  receiver: userID.id,
+                });
+              })
               .catch((err) => next(err));
           })
           .catch((err) => next(err));
@@ -165,6 +177,7 @@ module.exports.comments = (req, res, next) => {
 module.exports.doComment = (req, res, next) => {
   const { id } = req.params;
   const commentToCreate = req.body;
+  const currentUser = req.user;
   
   commentToCreate.post = id;
 
@@ -174,14 +187,19 @@ module.exports.doComment = (req, res, next) => {
 
   Comment.create(commentToCreate)
     .then((commentCreated) => {
-      return Post.findById(id);
+      return Post.findById(id)
+      .populate('creator');
     })
     .then((postFound) => {
+      const userID = postFound.creator.id;
       postFound.commentsCount += 1;
-      return postFound.save();
-    })
-    .then((updated) => {
+      postFound.save();
       res.redirect(`/comments/${id}`);
+      Notification.create({
+        type: "Comment",
+        sender: currentUser.id,
+        receiver: userID.id,
+      });    
     })
     .catch((err) => next(err));
 };

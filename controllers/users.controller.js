@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
 const User = require("../models/User.model");
 const Post = require("../models/Post.model");
 const Follow = require("../models/Follow.model");
 const Like = require("../models/Like.model");
+const Notification = require("../models/Notification.model");
 
 module.exports.profile = (req, res, next) => {
     const { username } = req.params;
@@ -94,6 +94,11 @@ module.exports.doFollow = (req, res, next) => {
                 Follow.create({follower: currentUser.id, following: userID.id})
                 .then((followCreated) => {
                     res.status(204).send(followCreated);
+                    Notification.create({
+                      type: "Follow",
+                      sender: currentUser.id,
+                      receiver: userID.id,
+                    });
                 })
                 .catch((err) => next(err))
             }

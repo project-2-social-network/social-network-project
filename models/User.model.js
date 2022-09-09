@@ -119,6 +119,20 @@ userSchema.virtual("messages", {
 });
 
 
+userSchema.virtual("notifications", {
+  ref: "Notification",
+  localField: "_id",
+  foreignField: "sender",
+  justOne: true,
+});
+
+userSchema.virtual("notifications", {
+  ref: "Notification",
+  localField: "_id",
+  foreignField: "receiver",
+  justOne: true,
+});
+
 userSchema.pre('save', function(next) {
     const user = this;
     if (user.isModified('password')) {

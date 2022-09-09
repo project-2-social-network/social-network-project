@@ -72,6 +72,27 @@
           const html = `<div>${message}</div>`
           messages.innerHTML += html
       };
+
+      // NOTIFICATIONS
+
+      const btnFollow = document.querySelector('.btn-follow');
+
+      btnFollow.addEventListener('click', e => {
+          e.preventDefault()
+          socket.emit('notification')
+      });
+
+      const btnNot = document.getElementById('not-icon')
+
+
+
+      //const btnLike = 
+      //const btnComment = 
+      //const btnMsg = 
+
+
+
+
   </script>
   </body>
 </html>

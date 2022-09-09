@@ -30,6 +30,9 @@ io.on("connection", socket => {
   socket.on('chatmessage', msg => {
     io.emit('message', msg)
   })
+  socket.on("notification", () => {
+    io.emit("not");
+  });
 });
 
 app.set("views", __dirname + "/views");

@@ -1,0 +1,15 @@
+<h1>Notifications</h1>
+
+<div id="notification-container">
+    {{#each notifications as |not|}}
+        <div>
+            <img src="{{not.sender.image}}" alt="{{not.sender.username}}'s icon" width="50px">
+            <p>
+                {{#if not.newLike}} {{not.sender.username}} {{not.newLike}} {{/if}}
+                {{#if not.newFollow}} {{not.sender.username}} {{not.newFollow}} {{/if}}
+                {{#if not.newComment}} {{not.sender.username}} {{not.newComment}} {{/if}}
+                {{#if not.newMessage}}{{not.sender.username}} {{not.newMessage}} {{/if}}
+            </p>
+        </div>
+    {{/each}}
+</div>
