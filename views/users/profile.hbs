@@ -1,45 +1,49 @@
 {{#if active}}
-    <h1>{{user.name}}'s profile</h1>
-    <div class="container">
-        <img src="{{user.image}}" alt="{{user.username}}'s icon" width="200">
-        <h3>{{user.username}}</h3>
-        <p>Joined BeCapy on {{user.joinedDate}}</p>
-        {{#unless itsMeMario}}
-            {{#if imFollower}}
-                <a class="btn-follow following" data-username="{{user.username}}">Unfollow</a>      
-            {{else}}        
-                <a class="btn-follow unfollowing" data-username="{{user.username}}">Follow</a>
-            {{/if}}
-        {{/unless}}
-        <a href="/message/{{user.username}}">Message</a>
-    </div>
-    <br>
-    <div class="d-flex justify-content-around"> 
-        <div>
-            <a href="/profile/{{user.username}}/likes">Likes</a>
+    <div id="profile-container">
+        <h1>{{user.name}}'s profile</h1>
+        <div class="container">
+            <img src="{{user.image}}" alt="{{user.username}}'s icon" width="200">
+            <h3>{{user.username}}</h3>
+            <p>Joined BeCapy on {{user.joinedDate}}</p>
+            {{#unless itsMeMario}}
+                {{#if imFollower}}
+                    <a class="btn-follow following" data-username="{{user.username}}">Unfollow</a>      
+                {{else}}        
+                    <a class="btn-follow unfollowing" data-username="{{user.username}}">Follow</a>
+                {{/if}}
+            {{/unless}}
+            <a href="/message/{{user.username}}">Message</a>
         </div>
-        <div>
-            <a href="/following/{{user.username}}">Following: <ins id="followingCount">{{followingCount}}</ins></a>
-        </div>
-        <div>
-            <a href="/followers/{{user.username}}">Followers: <ins id="followersCount">{{followersCount}}</ins></a>
-        </div>
-    </div>
-    <br>
-    <div class="container">
-        <h3>POSTS:</h3>
-        {{#each posts as | post |}}
-            <div class="post" data-id="{{post.id}}">
-                <img src="{{../user.image}}" alt="{{../user.username}}'s icon" width="50">            
-                <h5>{{post.creator.username}}</h5>
-                <p>{{post.content}}</p>
-                {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded">{{/if}}
-                {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}     
+        <br>
+        <div class="d-flex justify-content-around"> 
+            <div>
+                <a href="/profile/{{user.username}}/likes">Likes</a>
             </div>
-        {{/each}}
+            <div>
+                <a href="/following/{{user.username}}">Following: <ins id="followingCount">{{followingCount}}</ins></a>
+            </div>
+            <div>
+                <a href="/followers/{{user.username}}">Followers: <ins id="followersCount">{{followersCount}}</ins></a>
+            </div>
+        </div>
+        <br>
+        <div class="container">
+            <h3>POSTS:</h3>
+            {{#each posts as | post |}}
+                <div class="post" data-id="{{post.id}}">
+                    <img src="{{../user.image}}" alt="{{../user.username}}'s icon" width="50">            
+                    <h5>{{post.creator.username}}</h5>
+                    <p>{{post.content}}</p>
+                    {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded">{{/if}}
+                    {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}     
+                </div>
+            {{/each}}
+        </div>
+    </div>    
+    {{else}}
+    <div id="profile-container">
+        <h1>No Capybaras found &#128528</h1>
     </div>
- {{else}}
-  <h1>No Capybaras found &#128528</h1>  
 {{/if}}
 
 <script>
