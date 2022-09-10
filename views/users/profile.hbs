@@ -9,7 +9,7 @@
                 {{#if imFollower}}
                     <a class="btn-follow following" data-username="{{user.username}}">Unfollow</a>      
                 {{else}}        
-                    <a class="btn-follow unfollowing" data-username="{{user.username}}">Follow</a>
+                    <a class="btn-follow unfollowing emit-notification" data-username="{{user.username}}">Follow</a>
                 {{/if}}
             {{/unless}}
             <a href="/message/{{user.username}}">Message</a>

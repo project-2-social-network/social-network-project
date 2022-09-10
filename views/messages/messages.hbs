@@ -9,7 +9,7 @@
                 </div>
             {{/each}}
         {{/if}}
-    </div> 
+    </div>
 
     <br>
     <br>
@@ -21,7 +21,7 @@
     <form id="msgForm">
         <input id="text-input" type="text" name="msg">
         <input id="input-username" type="text" value="{{username}}" class="hidden">
-        <button id="btn-send">Send</button>
+        <button id="btn-send" class="emit-notification">Send</button>
     </form>
 
 <script>
@@ -47,38 +47,25 @@
         .catch(error => console.log('Error!', error))
     });
 
-    const socketUsername = '{{currentUser.username}}'
-    const socket = io('http://localhost:3000');
+    //MESSAGES
+    const receiverUsername = `${username}`;
+    const senderUsername = '{{currentUser.username}}';
     const messages = document.getElementById('messages');
-    const msgForm = document.getElementById('msgForm');
+    const msgForm = document.getElementById('msgForm');   
 
-    window.addEventListener('load', () => {
-      socket.emit('newUser', socketUsername)
-    })
+    msgForm.addEventListener('submit', e => {
+      e.preventDefault()
+      socket.emit('chatmessage', msgForm.msg.value, receiverUsername);
+      msgForm.msg.value = '';
+    });
 
     function appendMessages(message) {
-      const html = `<div>${message}</div>`
+      const html = `<div><p>${message}</p><span>Just now</span></div>`
       messages.innerHTML += html
     };
 
     socket.on('message', (data) => {
       appendMessages(data)
     });
-
-    socket.on('output-messages', (data) => {
-      if (data.length) {
-        data.forEach(message => {
-            appendMessages(message.msg)
-        });
-      }
-    });
-
-    msgForm.addEventListener('submit', e => {
-      e.preventDefault()
-      const dataObj = {};
-      dataObj.msgValue = msgForm.msg.value;
-      dataObj.socketUsername = socketUsername    
-      socket.emit('chatmessage', dataObj)
-      msgForm.msg.value = '';
-    });
+    
 </script>

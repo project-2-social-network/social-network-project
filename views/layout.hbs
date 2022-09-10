@@ -43,6 +43,15 @@
     }
 
     document.querySelector('.password-toggle')?.addEventListener('click', tooglePassword);
+
+    //SOCKET
+    const socket = io('http://localhost:3000');
+    const senderUsername = '{{currentUser.username}}';
+
+    window.addEventListener('load', () => {
+      socket.emit('newUser', senderUsername)
+    });
+
   </script>
   </body>
 </html>

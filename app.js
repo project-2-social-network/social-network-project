@@ -44,18 +44,26 @@ const Follow = require("./models/Follow.model");
 app.use((req, res, next) => {
   newsapi.v2.topHeadlines({
     language: 'en',
-  }).then(response => {
+  })
+  .then(response => {
     response.articles.splice(3);
     res.locals.news = response.articles;
-    return User.find()
+    next();
   })
+  .catch((err) => {
+    next()
+  })
+});
+
+app.use((req, res, next) => { 
+  User.find()
   .then((users) => {
     return Follow.find({follower: {$ne: res.locals.currentUser.id }}, {following: 1}).populate('following')
   })
   .then((follows) => {
-    follows.splice(3);
-    console.log(follows)
-    res.locals.usersToFollow = follows;
+    follows.splice(3);  
+    const usersToFollow = follows;
+    res.locals.usersToFollow = usersToFollow;
     next()
   })
   .catch((err) => {
@@ -78,6 +86,7 @@ const removeUser = (socketID) => {
 };
 
 io.on("connection", socket => {
+
   socket.on('newUser', username => {
     addNewUser(username, socket.id)
   })
@@ -86,18 +95,21 @@ io.on("connection", socket => {
     removeUser(socket.id)
   })
 
-  socket.emit('message', msg => {
-    io.emit('message', msg)
+  socket.on('chatmessage', (msg, username) => {
+    const userToMessage = onlineUsers.find(user => {
+      return user.username === username
+    });
+ 
+    if (userToMessage) {
+       io.to(userToMessage.socketID).emit("message", msg);
+    }   
+
+    io.to(socket.id).emit("message", msg);
   })
 
-  socket.on('chatmessage', data => {
-    const userToMessage = onlineUsers.find(user => user.username === data.socketUsername);
-    console.log('--------------------------------------------------', msgValue)
-    io.to(userToMessage.socketID).emit('message', data.msgValue)
-  })
-
-  socket.on("notification", () => {
-    io.emit("not");
+  socket.on("notification", (username) => {
+    //console.log(username)
+    //io.to(username).emit("not");
   });
 });
 
