@@ -3,7 +3,6 @@ const Follow = require("../models/Follow.model");
 const Like = require("../models/Like.model");
 const Comment = require("../models/Comment.model");
 const Notification = require("../models/Notification.model");
-const User = require("../models/User.model");
 
 //API
 const GIPHY = require("giphy-api")(process.env.GIPHY_KEY);

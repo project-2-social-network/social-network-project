@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const random = require('mongoose-random');
 
 const EMAIL_PATTERN = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 const PASSWORD_PATTERN = /^.{8,}$/i
@@ -146,13 +147,13 @@ userSchema.pre('save', function(next) {
     } else {
         next()
     }
-})
+});
 
 userSchema.methods.checkPassword = function(password) {
     const user = this;
 
     return bcrypt.compare(password, user.password)
-}
+};
 
 const User = mongoose.model('User', userSchema);
 

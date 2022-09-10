@@ -13,7 +13,7 @@ const fileUploader = require("./cloudinary.config");
 
 const SCOPES = ["profile", "email"];
 
-//ROUTES:
+//ROUTES
 
 //AUTH
 router.get(
@@ -176,10 +176,10 @@ router.post(
 );
 
 //NOTIFICATIONS
-router.get(
-  "/notifications",
-  authMiddlewares.isAuthenticated,
-  socketController.notifications
-);
+// router.get(
+//   "/notifications",
+//   authMiddlewares.isAuthenticated,
+//   socketController.notifications
+// );
 
 module.exports = router;

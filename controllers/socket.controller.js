@@ -79,27 +79,27 @@ module.exports.createMessage = (req, res, next) => {
   .catch((err) => next(err));
 };
 
-module.exports.notifications = (req, res, next) => {
-  const currentUser = req.user;
+// module.exports.notifications = (req, res, next) => {
+//   const currentUser = req.user;
 
-  Notification.find({ receiver: currentUser.id })
-  .populate('sender')
-    .then((notifications) => {
-      console.log(notifications)
-      notifications.forEach((not) => {
-        if (not.type === "Like") {
-          not.newLike = "gave you a like.";
-        } else if (not.type === "Follow") {
-          not.newFollow = "started following you.";
-        } else if (not.type === "Comment") {
-          not.newComment = "commented on your post.";
-        } else {
-          not.newMessage = "messaged you.";
-        }
-      })      
-      console.log(notifications)
-      res.render("notifications", { notifications });
-    })
-    .catch((err) => next(err));
+//   Notification.find({ receiver: currentUser.id })
+//   .populate('sender')
+//     .then((notifications) => {
+//       console.log(notifications)
+//       notifications.forEach((not) => {
+//         if (not.type === "Like") {
+//           not.newLike = "gave you a like.";
+//         } else if (not.type === "Follow") {
+//           not.newFollow = "started following you.";
+//         } else if (not.type === "Comment") {
+//           not.newComment = "commented on your post.";
+//         } else {
+//           not.newMessage = "messaged you.";
+//         }
+//       })      
+//       console.log(notifications)
+//       res.render("notifications", { notifications });
+//     })
+//     .catch((err) => next(err));
   
-};
+// };
