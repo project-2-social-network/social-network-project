@@ -71,7 +71,7 @@
       node?.addEventListener('click', () => {
       const dataPostID = node.dataset.id;
       const likesCount = document.querySelector(`.likesCount-${dataPostID}`);
-      const receiverUsername = node.getAttribute('data-receiver')      
+      const receiverUsername = node.getAttribute('data-receiver');    
 
       axios.put(`/like/${dataPostID}`)
       .then(responseFromApi => {
@@ -82,6 +82,7 @@
                 node.classList.remove('unliked');
                 node.classList.add('liked');
                 likesCount.textContent = Number(likesCount.textContent) + 1;
+                //NOTIFICATION
                 socket.emit('notification', receiverUsername);              
               } else {
                 node.textContent = 'Like';

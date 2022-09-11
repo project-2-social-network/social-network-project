@@ -25,7 +25,7 @@
       <img src="" alt="gif selected" class="hidden" id="gif-selected" width="200px">
       <input id="input-media" type="file" onchange="hasMedia()" name="media">
       <input id="gif-input" type="text" onchange="hasGif()" name="gif" class="hidden">
-      <button class="emit-notification" id="btn-comment" type="submit" disabled>COMMENT</button>
+      <button class="emit-notification" id="btn-comment" type="submit" data-receiver="{{post.creator.username}}" disabled>COMMENT</button>
     </form>
     <button id="btn-giphys">GIF</button>
   </div>
@@ -162,7 +162,6 @@
   const searchInput = document.getElementById('search-input');
   const btnGiphy = document.getElementById('btn-giphy');
 
-
   btnGiphy.addEventListener('click', () => {
     const gifSearch = searchInput.value
 
@@ -204,4 +203,12 @@
       })
       .catch(error => console.log('Error!'));
   });
+
+  //NOTIFICATION
+  const btnComment = document.getElementById('btn-comment');
+  receiverUsername = btnComment.getAttribute('data-receiver')
+
+  btnComment.addEventListener('click', () => {
+    socket.emit('notification', receiverUsername);
+  })
 </script>

@@ -48,8 +48,9 @@
     });
 
     //MESSAGES
+    socket = io('http://localhost:3000');
     const receiverUsername = `${username}`;
-    const senderUsername = '{{currentUser.username}}';
+    senderUsername = '{{currentUser.username}}';
     const messages = document.getElementById('messages');
     const msgForm = document.getElementById('msgForm');   
 
@@ -57,6 +58,8 @@
       e.preventDefault()
       socket.emit('chatmessage', msgForm.msg.value, receiverUsername);
       msgForm.msg.value = '';
+      //NOTIFICATION
+      socket.emit('notification', receiverUsername);
     });
 
     function appendMessages(message) {

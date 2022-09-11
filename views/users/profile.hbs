@@ -63,6 +63,8 @@
                     btnFollow.classList.remove('unfollowing');
                     btnFollow.classList.add('following');
                     followersCount.textContent = Number(followersCount.textContent) + 1;
+                    //NOTIFICATION
+                    socket.emit('notification', dataUsername);
                     } else {
                     btnFollow.textContent = 'Follow';
                     btnFollow.classList.remove('following');

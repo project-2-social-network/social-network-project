@@ -46,7 +46,7 @@ app.use((req, res, next) => {
     language: 'en',
   })
   .then(response => {
-    response.articles.splice(3);
+    response.articles.splice(2);
     res.locals.news = response.articles;
     next();
   })
@@ -56,19 +56,26 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => { 
-  User.find()
-  .then((users) => {
-    return Follow.find({follower: {$ne: res.locals.currentUser.id }}, {following: 1}).populate('following')
-  })
-  .then((follows) => {
-    follows.splice(3);  
-    const usersToFollow = follows;
-    res.locals.usersToFollow = usersToFollow;
-    next()
-  })
-  .catch((err) => {
-    next()
-  })
+  User.find({}, { id: 1, username: 1, image: 1})
+    .then((users) => {
+      return Follow.find({ follower: res.locals.currentUser.id }, { following: 1 })
+            .then((follows) => {
+              for(i = 0; i < follows.length; i++) {
+                let followingId = follows[i].following.valueOf();
+                for(j = 0; j < users.length; j++) {
+                  if(followingId === users[j].id || users[j].id === res.locals.currentUser.id) {
+                    users.splice(j, 1)
+                  }
+                }
+              }
+              users.splice(2);
+              res.locals.usersToFollow = users;
+              next()
+            })
+            .catch((err) => {next()})  
+          next()
+        })      
+        .catch((err) => {next()})    
 });
 
 const onlineUsers = [];
@@ -108,8 +115,13 @@ io.on("connection", socket => {
   })
 
   socket.on("notification", (username) => {
-    //console.log(username)
-    //io.to(username).emit("not");
+    const userToNot = onlineUsers.find(user => {
+      return user.username === username
+    });
+    
+    if (userToNot) {
+      io.to(userToNot.socketID).emit("not");
+   }
   });
 });
 

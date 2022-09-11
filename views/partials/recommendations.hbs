@@ -16,12 +16,12 @@
             <br>
             {{#each usersToFollow as |user|}}
                 <div class="container">
-                    <img src="{{user.following.image}}" alt="{{user.following.username}}'s icon" width="200">
+                    <img src="{{user.image}}" alt="{{user.username}}'s icon" width="50px">
                     <div>
-                        <h2>{{user.following.name}}</h2>
-                        <h3>{{user.following.username}}</h3>
+                        <h2>{{user.name}}</h2>
+                        <h3>{{user.username}}</h3>
                     </div>                
-                    <a href="/profile/{{user.following.username}}">Profile</a>       
+                    <a href="/profile/{{user.username}}">Profile</a>       
                 </div>     
                 <br>   
             {{/each}}

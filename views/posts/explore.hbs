@@ -13,7 +13,7 @@
             {{#if post.alreadyLiked}}
               <a class="btn-like liked" data-id="{{post.id}}">Unlike</a>
             {{else}}
-              <a class="btn-like unliked" data-id="{{post.id}}">Like</a>
+              <a class="btn-like unliked" data-id="{{post.id}}" data-receiver="{{post.creator.username}}">Like</a>
             {{/if}}  
             <a href="/post/{{post.id}}/likes" class="likesCount-{{post.id}}">{{post.likesCount}}</a>
             <a href="/comments/{{post.id}}" class="btn-comment" data-id="{{post.id}}">Comments: <ins id="commentsCount">{{post.commentsCount}}</ins></a>  
@@ -30,6 +30,7 @@
       node?.addEventListener('click', () => {
       const dataPostID = node.dataset.id;
       const likesCount = document.querySelector(`.likesCount-${dataPostID}`);
+      const receiverUsername = node.getAttribute('data-receiver'); 
 
       axios.put(`/like/${dataPostID}`)
       .then(responseFromApi => {
@@ -40,6 +41,8 @@
               node.classList.remove('unliked');
               node.classList.add('liked');
               likesCount.textContent = Number(likesCount.textContent) + 1;
+              //NOTIFICATION
+              socket.emit('notification', receiverUsername);       
               } else {
               node.textContent = 'Like';
               node.classList.remove('liked');

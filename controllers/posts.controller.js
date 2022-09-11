@@ -141,7 +141,7 @@ module.exports.doLike = (req, res, next) => {
                 Notification.create({
                   type: "Like",
                   sender: currentUser.id,
-                  receiver: userID.id,
+                  receiver: userID,
                 });
               })
               .catch((err) => next(err));
@@ -197,7 +197,7 @@ module.exports.doComment = (req, res, next) => {
       Notification.create({
         type: "Comment",
         sender: currentUser.id,
-        receiver: userID.id,
+        receiver: userID,
       });    
     })
     .catch((err) => next(err));

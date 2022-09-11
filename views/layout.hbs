@@ -45,11 +45,30 @@
     document.querySelector('.password-toggle')?.addEventListener('click', tooglePassword);
 
     //SOCKET
-    const socket = io('http://localhost:3000');
-    const senderUsername = '{{currentUser.username}}';
+    let socket = io('http://localhost:3000');
+    let senderUsername = '{{currentUser.username}}';
 
     window.addEventListener('load', () => {
       socket.emit('newUser', senderUsername)
+    });
+
+    //NOTIFICATION
+    const bellIcon = document.getElementById('not-icon');
+    const bellIconRemove = document.getElementById('not-remove')
+
+    function switchBellIcon() {
+      bellIcon.src = '/images/explore-icon.png'
+    };
+
+    socket.on('not', () => {
+      console.log('entra')
+      switchBellIcon()
+    });
+
+    bellIconRemove.addEventListener('click', () => {
+      if (bellIcon.src === '/images/explore-icon.png') {
+        bellIcon.src = '/images/notification-icon.png'
+      }
     });
 
   </script>
