@@ -57,7 +57,7 @@
     const bellIconRemove = document.getElementById('not-remove')
 
     function switchBellIcon() {
-      bellIcon.src = '/images/explore-icon.png'
+      bellIcon.src = '/images/notification-icon-orange.png'
     };
 
     socket.on('not', () => {
@@ -66,7 +66,7 @@
     });
 
     bellIconRemove.addEventListener('click', () => {
-      if (bellIcon.src === '/images/explore-icon.png') {
+      if (bellIcon.src === '/images/notification-icon-orange.png') {
         bellIcon.src = '/images/notification-icon.png'
       }
     });

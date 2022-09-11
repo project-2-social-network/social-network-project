@@ -1,7 +1,7 @@
 <div id="home">  
-  <div class="form-container">    
+    <div class="form-container">    
       <div class="user-container">
-          <img class="user-icon" src="{{currentUser.image}}" alt="{{currentUser.username}}'s icon">
+          <img class="image-cover-medium" src="{{currentUser.image}}" alt="{{currentUser.username}}'s icon">
           <h3>{{currentUser.username}}</h3>
       </div>  
       <form action="/home" method="POST" enctype="multipart/form-data">
@@ -9,11 +9,14 @@
           <input id="input-text" onkeyup="hasContent()" type="textarea" cols="40" rows="5" maxlength="240" name="content" placeholder="What are you thinking?" size="100px">
           <br>
           <img src="" alt="gif selected" class="hidden" id="gif-selected" width="200px">
+        
+          <label for="input-media"><img class="img-input-media"src="/images/File-icon-hover.png"/></label>
           <input id="input-media" onchange="hasMedia()" type="file" name="media">
+          <a id="btn-giphys" width="30px"><img src="/images/GIF-icon-hover.png" alt="GIF icon"></a>
+
           <input id="gif-input" type="text" onchange="hasGif()" name="gif" class="hidden">
           <button id="btn-post" type="submit" disabled>POST</button>
       </form>
-      <button id="btn-giphys">GIF</button>
   </div>
   <br>
   <div class="hidden" id="giphy-container">
@@ -28,7 +31,7 @@
       {{#each listWithoutDuplicates as | post |}}
           <div class="post" data-id="{{post.id}}">
             <a href="/profile/{{post.creator.username}}">
-              <img src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40">        
+              <img class="image-cover-medium" src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40">        
               <h5>{{post.creator.username}}</h5>
             </a>
             <p>{{post.content}}</p>

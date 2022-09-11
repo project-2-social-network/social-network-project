@@ -2,54 +2,54 @@
   <nav id="nav-bar">
     <div class="logo-container">      
         <a href="/">
-          <img src="/images/logo.png" alt="Becapy's logo" width="80">
+          <img src="/images/logo.png" alt="Becapy's logo" width="100">
         </a>     
     </div>   
     
     <ul class="nav-bar-list">
-      <li>
+      <li class="nav-bar-hover">
         <a class="nav-bar-link" href="/home">
-          <div class="nav-bar-div"><img src="/images/home-icon.png" alt="home's icon"><span class="nav-bar-text">Home</span></div>
+          <img src="/images/home-icon.png" alt="home's icon" class="nav-bar-img"><span class="nav-bar-text">Home</span>
         </a>
       </li>
-      <li>
+      <li class="nav-bar-hover">
         <a class="nav-bar-link" href="/explore">
-          <div class="nav-bar-div"><img src="/images/explore-icon.png" alt="explore's icon"><span class="nav-bar-text">Explore</span></div>
+          <img src="/images/explore-icon.png" alt="explore's icon" class="nav-bar-img"><span class="nav-bar-text">Explore</span>
         </a>
       </li>
-      <li id="not-remove">
+      <li id="not-remove" class="nav-bar-hover">
         <a class="nav-bar-link" href="/notifications">
-          <div class="nav-bar-div"><img id="not-icon" src="/images/notification-icon.png" alt="notification's icon"><span class="nav-bar-text">Notifications</span></div>
+          <img id="not-icon" src="/images/notification-icon.png" alt="notification's icon" class="nav-bar-img"><span class="nav-bar-text">Notifications</span>
         </a>
       </li>
-      <li>
+      <li class="nav-bar-hover">
         <a class="nav-bar-link" href="/messages">
-          <div class="nav-bar-div"><img src="/images/message-icon.png" alt="messages's icon"><span class="nav-bar-text">Messages</span></div>
+          <img src="/images/message-icon.png" alt="messages's icon" class="nav-bar-img"><span class="nav-bar-text">Messages</span>
         </a>
       </li>
-      <li>
+      <li class="nav-bar-hover">
         <a class="nav-bar-link" href="/profile/{{currentUser.username}}">
-          <div class="nav-bar-div"><img src="/images/profile-icon.png" alt="profile's icon"><span class="nav-bar-text">Profile</span></div>
+          <img src="/images/profile-icon.png" alt="profile's icon" class="nav-bar-img"><span class="nav-bar-text">Profile</span>
         </a>
       </li>
-      <li>
+      <li class="nav-bar-hover">
         <a class="nav-bar-link" href="/settings">
-          <div class="nav-bar-div"><img src="/images/setting-icon.png" alt="settings's icon"><span class="nav-bar-text">Settings</span></div>
+          <img src="/images/setting-icon.png" alt="settings's icon" class="nav-bar-img"><span class="nav-bar-text">Settings</span>
         </a>
       </li>
-      <li>
+      <li class="nav-bar-hover">
         <a class="nav-bar-link" href="#">
-          <div class="nav-bar-div"><img src="/images/about-us-icon.png" alt="about us's icon"><span class="nav-bar-text">About Us</span></div>
+          <img src="/images/about-us-icon.png" alt="about us's icon" class="nav-bar-img"><span class="nav-bar-text">About Us</span>
         </a>
       </li>
-      <li>
+      <li class="nav-bar-hover">
         <a class="nav-bar-link" href="#">
-          <div class="nav-bar-div"><img src="/images/help-icon.png" alt="help's icon"><span class="nav-bar-text">Help</span></div>
+          <img src="/images/help-icon.png" alt="help's icon" class="nav-bar-img"><span class="nav-bar-text">Help</span>
         </a>
       </li>
-      <li>
+      <li id="logout-li">
         <a class="nav-bar-link" href="/logout">
-          <div id="logout-div" class="nav-bar-div"><img src="/images/logout-icon.png" alt="logout's icon"><span class="nav-bar-text">Log Out</span></div>
+          <span class="logout-text">Log Out</span>
         </a>
       </li>
     </ul>
