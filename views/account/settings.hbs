@@ -1,8 +1,10 @@
-<div id="settings-container">
+<div id="settings-container" class="dinamic-view-container">
     <h2>Settings</h2>     
 
-    <div class="settings-options-container">      
-        <img src="" alt="Profile image icon">
+    <div class="settings-options-container"> 
+        <div>
+            <img src="/images/Profile-image-icon.png" alt="Profile image icon">
+        </div>  
         <a href="/change/image">
             <h3>Change your profile's image</h3>
             <p>Update your profile's image at any time.</p>
@@ -11,7 +13,9 @@
     {{#if imageMessage}} <p>{{imageMessage}}</p> {{/if}}
 
     <div class="settings-options-container">
-        <img src="" alt="Username icon">
+        <div>
+            <img src="/images/Username-icon.png" alt="Username icon">
+        </div>        
         <a href="/change/username">
             <h3>Change your username</h3>
             <p>Choose the username you prefer.</p>
@@ -21,7 +25,9 @@
     
     {{#unless currentUser.googleID}}
     <div class="settings-options-container">
-        <img src="" alt="Password icon">
+        <div>
+            <img src="/images/Password-icon.png" alt="Password icon">
+        </div>
         <a href="/change/password">
             <h3>Change your password</h3>
             <p>Change your password at any time.</p>
@@ -30,8 +36,10 @@
     {{#if message}} <p>{{message}}</p> {{/if}}   
     {{/unless}}
 
-    <div class="settings-options-container">        
-        <img src="" alt="Delete account icon">
+    <div class="settings-options-container">
+        <div>
+            <img src="/images/Delete-account-icon.png" alt="Delete account icon">
+        </div>     
         <a href="/deleteAccount">
             <h3>Delete your account</h3>
             <p>Find out how you can delete your account.</p>
