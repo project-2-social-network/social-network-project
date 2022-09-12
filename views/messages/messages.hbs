@@ -25,6 +25,7 @@
     </form>
 
 <script>
+    socket = io('http://localhost:3000')
     const btnSendMsg = document.getElementById('btn-send');
     const usernameInput = document.getElementById('input-username');
     const username = usernameInput.value;
@@ -48,19 +49,16 @@
     });
 
     //MESSAGES
-    socket = io('http://localhost:3000');
     const receiverUsername = `${username}`;
     senderUsername = '{{currentUser.username}}';
     const messages = document.getElementById('messages');
-    const msgForm = document.getElementById('msgForm');   
+    const msgForm = document.getElementById('msgForm');
 
     msgForm.addEventListener('submit', e => {
       e.preventDefault()
       socket.emit('chatmessage', msgForm.msg.value, receiverUsername);
       msgForm.msg.value = '';
-      //NOTIFICATION
-      socket.emit('notification', receiverUsername);
-    });
+    }); 
 
     function appendMessages(message) {
       const html = `<div><p>${message}</p><span>Just now</span></div>`
@@ -68,7 +66,7 @@
     };
 
     socket.on('message', (data) => {
+        console.log('entra2')
       appendMessages(data)
-    });
-    
+    });    
 </script>

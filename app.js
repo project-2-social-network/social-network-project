@@ -108,9 +108,9 @@ io.on("connection", socket => {
     });
  
     if (userToMessage) {
-       io.to(userToMessage.socketID).emit("message", msg);
+      io.to(userToMessage.socketID).emit("message", msg);
     }   
-
+    console.log(socket.id, onlineUsers)
     io.to(socket.id).emit("message", msg);
   })
 
