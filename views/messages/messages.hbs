@@ -1,36 +1,41 @@
 <h1>Messages</h1>
 
-    <div id="messages">
-        {{#if msgs}}
-            {{#each msgs as |msg|}}
-                <div class="msg">
-                    <p>{{msg.msg}}</p>
-                    <span>{{msg.createdAt}}</span>
-                </div>
-            {{/each}}
-        {{/if}}
+<div id="messages">
+    {{#if msgs}}
+    {{#each msgs as |msg|}}
+    <div class="msg">
+        <p>{{msg.msg}}</p>
+        <span>{{msg.createdAt}}</span>
     </div>
+    {{/each}}
+    {{/if}}
+</div>
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
-    <form id="msgForm">
-        <input id="text-input" type="text" name="msg">
-        <input id="input-username" type="text" value="{{username}}" class="hidden">
-        <button id="btn-send" class="emit-notification">Send</button>
-    </form>
+<form id="msgForm">
+    <input id="text-input" type="text" name="msg">
+    <input id="input-username" type="text" value="{{username}}" class="hidden">
+    <button id="btn-send" class="emit-notification">Send</button>
+</form>
 
 <script>
-    socket = io('http://localhost:3000')
     const btnSendMsg = document.getElementById('btn-send');
     const usernameInput = document.getElementById('input-username');
     const username = usernameInput.value;
 
-    btnSendMsg.addEventListener('click', () => {
+    const receiverUsername = `${username}`;
+    senderUsername = '{{currentUser.username}}';
+    const messages = document.getElementById('messages');
+    const msgForm = document.getElementById('msgForm');
+
+    btnSendMsg.addEventListener('click', (e) => {
+        e.preventDefault()
         const textInput = document.getElementById('text-input').value;
 
         const options = {
@@ -40,33 +45,12 @@
                 msg: textInput,
             }
         };
-         
+
         axios(options)
-        .then(response => {
-          console.log('Success!', response);
-        })
-        .catch(error => console.log('Error!', error))
+            .then(response => {
+                socket.emit('chatmessage', msgForm.msg.value, receiverUsername);
+                msgForm.msg.value = '';
+            })
+            .catch(error => console.log('Error!', error))
     });
-
-    //MESSAGES
-    const receiverUsername = `${username}`;
-    senderUsername = '{{currentUser.username}}';
-    const messages = document.getElementById('messages');
-    const msgForm = document.getElementById('msgForm');
-
-    msgForm.addEventListener('submit', e => {
-      e.preventDefault()
-      socket.emit('chatmessage', msgForm.msg.value, receiverUsername);
-      msgForm.msg.value = '';
-    }); 
-
-    function appendMessages(message) {
-      const html = `<div><p>${message}</p><span>Just now</span></div>`
-      messages.innerHTML += html
-    };
-
-    socket.on('message', (data) => {
-        console.log('entra2')
-      appendMessages(data)
-    });    
 </script>
