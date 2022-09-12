@@ -1,15 +1,17 @@
-<h2>CHANGE USERNAME</h2>
+<div class="dinamic-view-container">
+  <h2>Change your username</h2>
 
-<form action='/change/username/{{currentUser.username}}' method="POST"> 
-    <div class="input-group mb-3">
-        <input
-          type="username"
-          name="username"
-          class="username-input custom-form-control form-control py-2 ps-4 {{#if error}}is-invalid{{/if}}"
-          placeholder="New username"
-          aria-label="User username"
-        >
-        {{#if error}}<div class="invalid-feedback">{{ error }}</div>{{/if}}
-    </div>
-    <button type="submit" class="btn btn-primary bg-light-green border-0">SUBMIT</button>
-</form>
+  <form action='/change/username/{{currentUser.username}}' method="POST"> 
+      <div class="input-group mb-3">
+          <input
+            type="username"
+            name="username"
+            class="username-input custom-form-control form-control py-2 ps-4 {{#if error}}is-invalid{{/if}}"
+            placeholder="New username"
+            aria-label="User username"
+          >
+          {{#if error}}<div class="invalid-feedback">{{ error }}</div>{{/if}}
+      </div>
+      <button type="submit" class="btn btn-primary bg-light-green border-0">SUBMIT</button>
+  </form>
+</div>

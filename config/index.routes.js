@@ -118,16 +118,26 @@ router.post(
   authMiddlewares.isAuthenticated,
   accountController.doChangeUsername
 );
+router.get(
+  "/change/image",
+  authMiddlewares.isAuthenticated,
+  accountController.changeImage
+);
 router.post(
   "/change/image/:username",
   authMiddlewares.isAuthenticated,
   fileUploader.single("image"),
   accountController.doChangeImage
 );
+router.get(
+  "/deleteAccount",
+  authMiddlewares.isAuthenticated,
+  accountController.deleteAccount
+);
 router.post(
   "/deleteAccount/:id",
   authMiddlewares.isAuthenticated,
-  accountController.deleteAccount
+  accountController.doDeleteAccount
 );
 
 //USER

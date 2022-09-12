@@ -5,6 +5,7 @@
     font-family: 'Open Sans', sans-serif;
     margin: 0;
     padding: 0;
+    background-color: #ffffff;
 }
 
 .hidden {
@@ -34,11 +35,6 @@
     padding-right: 2rem;
     padding-top: 2rem;
     position: fixed;
-    margin-top: 2vh;
-    height: 96vh;
-    border-radius: 50px;
-    background: #e6e6e6;
-    box-shadow:  20px 20px 60px #c4c4c4,-20px -20px 60px #ffffff;
 }
 
 .logo-container {
@@ -115,7 +111,7 @@
     position: fixed;
     right: 0%;
     height: 100vh;
-    border-left: 1px solid #B1D7B4;
+    /* border-left: 1px solid #B1D7B4; */
 }
 
 .label {
@@ -370,11 +366,6 @@
 
 /* HOME */
 
-#home {
-    display: flex;
-    flex-direction: column;
-}
-
 .form-container {
     padding-top: 2rem;
 }
@@ -449,4 +440,337 @@
 #profile-container {
     display: flex;
     flex-direction: column;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* MARU'S VIEWS */
+
+.dinamic-view-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
+    padding-top: 4rem;
+    padding-left: 2rem;
+    width: 45vw;
+    height: auto;
+    border-radius: 50px;
+    background: #ffffff;
+    box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
+}
+
+
+#settings-container > h2 {
+    margin-bottom: 4rem;
+}
+
+.settings-options-container {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 2rem;
+}
+
+.settings-options-container div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5rem;
+}
+
+.settings-options-container  img {
+    width: 2rem;
+}
+
+.settings-options-container > a {
+    padding-top: 1rem;
+    width: 30rem;
+    
+}
+
+.settings-options-container > a:hover {
+    color: #F8A668;
+}
+
+#form-delete-account { 
+    display: flex;
+    flex-direction: column;
+    width: 40vw;
+    height: 100vh;
+}
+
+#form-delete-account > h2 {
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+}
+
+#btn-delete-account {
+    background-color: #e6e6e6;
+    border: none;
+    margin-top: 4rem;
+    border: 2px solid #B1D7B4;
+    border-radius: 2rem;
 }
