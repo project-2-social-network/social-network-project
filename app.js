@@ -46,7 +46,10 @@ app.use((req, res, next) => {
     language: 'en',
   })
   .then(response => {
-    response.articles.splice(2);
+    response.articles.splice(3);
+    response.articles.forEach((art) => {
+      art.smallTitle = art.title.substring(0, 50) + '...'
+    })
     res.locals.news = response.articles;
     next();
   })
@@ -56,7 +59,7 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => { 
-  User.find({}, { id: 1, username: 1, image: 1})
+  User.find({}, { id: 1, username: 1, image: 1, name: 1})
     .then((users) => {
       return Follow.find({ follower: res.locals.currentUser.id }, { following: 1 })
             .then((follows) => {
