@@ -3,7 +3,6 @@ const MongoStore = require('connect-mongo');
 const { DB } = require('./db.config');
 
 const sessionMaxAge = process.env.SESSION_AGE || 7;
-
 const sessionConfig = expressSession({
     secret: process.env.COOKIE_SECRET,
     resave: false,
