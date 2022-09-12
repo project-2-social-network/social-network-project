@@ -46,7 +46,10 @@ app.use((req, res, next) => {
     language: 'en',
   })
   .then(response => {
-    response.articles.splice(2);
+    response.articles.splice(3);
+    response.articles.forEach((art) => {
+      art.smallTitle = art.title.substring(0, 50) + '...'
+    })
     res.locals.news = response.articles;
     next();
   })
@@ -56,19 +59,24 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => { 
-  User.find({}, { id: 1, username: 1, image: 1})
+  User.find({status: true}, { id: 1, username: 1, name: 1, image: 1})
     .then((users) => {
       return Follow.find({ follower: res.locals.currentUser.id }, { following: 1 })
             .then((follows) => {
               for(i = 0; i < follows.length; i++) {
                 let followingId = follows[i].following.valueOf();
                 for(j = 0; j < users.length; j++) {
-                  if(followingId === users[j].id || users[j].id === res.locals.currentUser.id) {
-                    users.splice(j, 1)
+                  if(followingId === users[j].id) {
+                    users.splice(j, 1);
                   }
                 }
-              }
+              };
               users.splice(2);
+              users.forEach((user, index) => {
+                if(user.id === res.locals.currentUser.id) {
+                  users.splice(index, 1)
+                }
+              })
               res.locals.usersToFollow = users;
               next()
             })
@@ -93,7 +101,6 @@ const removeUser = (socketID) => {
 };
 
 io.on("connection", socket => {
-
   socket.on('newUser', username => {
     addNewUser(username, socket.id)
   })
@@ -103,14 +110,15 @@ io.on("connection", socket => {
   })
 
   socket.on('chatmessage', (msg, username) => {
+
     const userToMessage = onlineUsers.find(user => {
       return user.username === username
     });
- 
+    
     if (userToMessage) {
       io.to(userToMessage.socketID).emit("message", msg);
     }   
-    console.log(socket.id, onlineUsers)
+
     io.to(socket.id).emit("message", msg);
   })
 

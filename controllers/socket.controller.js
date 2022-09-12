@@ -6,32 +6,31 @@ module.exports.selectUser = (req, res, next) => {
   const currentUser = req.user;
   const usersArr = [];
   
-  Message.find({ sender: currentUser.id })
+  Message.find({$or: [{ sender: currentUser.id }, { receiver: currentUser.id }]})
   .populate('receiver', {
     username: 1,
-    image: 1
+    image: 1,
+    _id: 0
+  })
+  .populate('sender', {
+    username: 1,
+    image: 1,
+    _id: 0
   })
   .then((messages) => {
-    
     if(messages) {
       messages.forEach((message) => {
         usersArr.push(message.receiver);
+        usersArr.push(message.sender)
       })
-    }
-    return Message.find({ receiver: currentUser.id })
-           .populate('sender', {
-            username: 1,
-            image: 1
-          })
-  })
-  .then((messages) => {
-    if(messages) {
-      messages.forEach((message) => {
-        usersArr.push(message.sender);
-    })
-  }
-    
-    const listWithoutDuplicates = [...new Set(usersArr)]
+    };
+
+    let listWithoutDuplicates = usersArr.filter((value, index, self) =>
+      index === self.findIndex((t) => (
+        t.username === value.username
+      ))
+    )
+
     res.render('messages/list-users-message', { listWithoutDuplicates })
   })
   .catch((err) => next(err));

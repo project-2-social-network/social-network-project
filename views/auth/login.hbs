@@ -1,7 +1,7 @@
 <div id="login-container">
   <div class="login-img-container">
     <img src="/images/capy.gif" alt="gif of a capybara" width="350px">
-    <img src="/images/text.png" alt="becapy's logo" width="400px">
+    <img src="/images/text-white.png" alt="becapy's logo" width="400px">
   </div>
   <div class="login-box-container">
     <div>
@@ -10,7 +10,7 @@
           <input
             type="text"
             name="email"
-            class="custom-form-control form-control py-2 ps-4 {{#if errors}}is-invalid{{/if}}"
+            class="custom-form-control login-input form-control py-2 ps-4 {{#if errors}}is-invalid{{/if}}"
             placeholder="user@example.org"
             aria-label="User email"
             value="{{ user.email }}"
@@ -22,31 +22,27 @@
             id="password-input"
             type="password"
             name="password"
-            class="custom-form-control form-control py-2 ps-4 {{#if errors}}is-invalid{{/if}}"
+            class="custom-form-control login-input form-control py-2 ps-4 {{#if errors}}is-invalid{{/if}}"
             placeholder="Password"
             aria-label="User password"
           >
           <button class="btn btn-outline-secondary password-toggle c-dark" type="button">
             <i id="password-icon" class="fa fa-eye-slash fa-fw"></i>
           </button>
+          {{#if message}}<div class="invalid-feedback">{{message}}</div>{{/if}}
+          {{#if errors}}<div class="invalid-feedback">{{errors}}</div>{{/if}}
         </div>
-
-        {{#if message}}<div>{{message}}</div>{{/if}}
-        {{#if errors}}<div>{{ errors }}</div>{{/if}}
-
         <div>
-          <div id="login-btn-container">
+          <div class="login-btn-container">
             <button type="submit">Login</button>
           </div>
-          <div id="login-btn-container">
+          <div class="login-btn-container">
             <a href="/login/google">
               <i class="fa fa-google"></i>
               Login with Google
             </a>
           </div>
-
           <a href="/register">Don't have an account? Register here</a>
-          
         </div>
       </form>
     </div>

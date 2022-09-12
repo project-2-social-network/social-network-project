@@ -1,14 +1,15 @@
-<div class="row justify-content-center mt-4">
-  <div class="col col-sm-8 col-md-6 col-lg-4">
-    <div class="intro-register-img mb-4">
-      <img src="/images/logo.png" width="100" class="mx-auto d-block" alt="intro" >
-    </div>
+<div id="register-container">
+  <div class="register-img-container">
+    <img src="/images/capy.gif" alt="gif of a capybara" width="350px">
+    <img src="/images/text-black.png" alt="becapy's logo" width="400px">
+  </div>
+  <div class="register-box-container">
     <form action="/register" method="POST">
-      <div class="input-group mb-2">
+      <div class="input-group mb-3">
         <input
           type="text"
           name="username"
-          class="custom-form-control form-control py-2 ps-4 {{#if errorUsername}}is-invalid{{/if}} {{#if errors.username}}is-invalid{{/if}}"
+          class="custom-form-control login-input form-control py-2 ps-4 {{#if errorUsername}}is-invalid{{/if}} {{#if errors.username}}is-invalid{{/if}}"
           placeholder="Username"
           aria-label="User username"
           value="{{ user.username }}"
@@ -17,11 +18,11 @@
       {{#if errors.username}}<div class="invalid-feedback">{{ errors.username }}</div>{{/if}}
       </div>
 
-      <div class="input-group mb-2">
+      <div class="input-group mb-3">
         <input
           type="text"
           name="name"
-          class="custom-form-control form-control py-2 ps-4 {{#if errors.name}}is-invalid{{/if}}"
+          class="custom-form-control login-input form-control py-2 ps-4 {{#if errors.name}}is-invalid{{/if}}"
           placeholder="Name"
           aria-label="User name"
           value="{{ user.name }}"
@@ -29,11 +30,11 @@
         {{#if errors.name}}<div class="invalid-feedback">{{ errors.name }}</div>{{/if}}
       </div>
 
-      <div class="input-group mb-2">
+      <div class="input-group mb-3">
         <input
           type="text"
           name="email"
-          class="custom-form-control form-control py-2 ps-4 {{#if errorEmail}}is-invalid{{/if}} {{#if errors.email}}is-invalid{{/if}}"
+          class="custom-form-control login-input form-control py-2 ps-4 {{#if errorEmail}}is-invalid{{/if}} {{#if errors.email}}is-invalid{{/if}}"
           placeholder="Email: user@example.org"
           aria-label="User email"
           value="{{ user.email }}"
@@ -47,7 +48,7 @@
           id="password-input"
           type="password"
           name="password"
-          class="custom-form-control form-control py-2 ps-4 {{#if errors.password}}is-invalid{{/if}}"
+          class="custom-form-control login-input form-control py-2 ps-4 {{#if errors.password}}is-invalid{{/if}}"
           placeholder="Password"
           aria-label="User password"
         >
@@ -56,16 +57,16 @@
         </button>
         {{#if errors.password}}<div class="invalid-feedback">{{ errors.password }}</div>{{/if}}
       </div>
-
-      <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary bg-light-green border-0">Register</button>
-        <div class="d-grid gap-2 mt-2">
-          <a href="/login/google" class="btn btn-danger border-0">
-            <i class="fa fa-google"></i>
-            Register with Google
-          </a>
-        </div>
+      <div class="register-btn-container">
+        <button type="submit">Register</button>
       </div>
+      <div class="register-btn-container">
+        <a href="/login/google">
+          <i class="fa fa-google"></i>
+          Register with Google
+        </a>
+      </div>
+      <a href="/">Already have an account? Login here</a>
     </form>
   </div>
 </div>
