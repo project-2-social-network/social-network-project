@@ -73,6 +73,11 @@ module.exports.doChangeUsername = (req, res, next) => {
     }
 };
 
+module.exports.changeImage = (req, res, next) => {
+    const currentUser = req.user;
+    res.render("account/form-image", { currentUser });
+};
+
 module.exports.doChangeImage = (req, res, next) => {
   const { username } = req.params;
   const user = {};
@@ -90,6 +95,11 @@ module.exports.doChangeImage = (req, res, next) => {
 };
 
 module.exports.deleteAccount = (req, res, next) => {
+  const currentUser = req.user;
+  res.render("account/form-delete-account", { currentUser });
+};
+
+module.exports.doDeleteAccount = (req, res, next) => {
     const { id } = req.params;
 
     User.findOneAndDelete(id)
