@@ -6,6 +6,7 @@
   <div class="login-box-container">
     <div>
       <form action="/" method="POST">
+        {{#if registerMessage}}<div class="register-feedback">{{registerMessage}}</div>{{/if}}
         <div class="input-group mb-2">
           <input
             type="text"
