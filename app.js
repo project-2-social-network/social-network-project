@@ -36,12 +36,12 @@ app.use((req, res, next) => {
   next();
 });
 
-const NewsAPI = require('newsapi');
-const newsapi = new NewsAPI(process.env.API_KEY_NEWS);
+/* const NewsAPI = require('newsapi');
+const newsapi = new NewsAPI(process.env.API_KEY_NEWS); */
 const User = require("./models/User.model");
 const Follow = require("./models/Follow.model");
 
-app.use((req, res, next) => {
+/* app.use((req, res, next) => {
   newsapi.v2.topHeadlines({
     language: 'en',
   })
@@ -56,7 +56,7 @@ app.use((req, res, next) => {
   .catch((err) => {
     next()
   })
-});
+}); */
 
 app.use((req, res, next) => { 
   User.find({status: true}, { id: 1, username: 1, name: 1, image: 1})

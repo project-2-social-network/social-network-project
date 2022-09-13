@@ -862,9 +862,10 @@
     color: #B1D7B4;
 }
 
-#btn-post { 
+#btn-post, #btn-comment{ 
     font-weight: 600;
-    width: 5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     height: 2.2rem;
     color: #ffffff;
     border: none;
@@ -873,14 +874,22 @@
     cursor: pointer;
 }
 
-#btn-post:hover {
+#btn-post:hover, #btn-comment:hover {
     font-weight: 600;
-    width: 5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     height: 2.2rem;
     color: #ffffff;
     border: none;
     border-radius: 50px;
     background: #7FB77E;
+}
+
+#trash-icon {
+    display: flex;
+    justify-content: flex-end;
+    width: 40.5rem;
+    padding-right: 1rem;
 }
 
 /* GIPHY */
@@ -1016,22 +1025,9 @@
     color: #F8A668;
 }
 
-#form-delete-account { 
-    display: flex;
-    flex-direction: column;
-    width: 40vw;
-    height: 100vh;
-}
 
 #form-delete-account > h2 {
     margin-top: 2rem;
     margin-bottom: 4rem;
 }
 
-#btn-delete-account {
-    background-color: #e6e6e6;
-    border: none;
-    margin-top: 4rem;
-    border: 2px solid #B1D7B4;
-    border-radius: 2rem;
-}

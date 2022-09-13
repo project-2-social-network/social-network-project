@@ -1,62 +1,74 @@
-<div class="container">
-  <div class="post" data-id="{{post.id}}">
-    <img src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40px">
-    <h5>{{post.creator.username}}</h5>
-    <p>{{post.content}}</p>
-    {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded" width="400px">{{/if}}
-    {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}
-  </div>
-</div>
-
-<div class="container">
-  <h3>Comments:</h3>
-  <br>
-  <div class="container">
+<div class="dinamic-view-container">
+  <h2>Comments</h2>
+  <div class="form-container">    
     <div class="user-container">
-      <img class="user-icon" src="{{currentUser.image}}" alt="{{currentUser.username}}'s icon">
-      <h3>{{currentUser.username}}</h3>
-    </div>
+        <img class="image-cover-medium" src="{{currentUser.image}}" alt="{{currentUser.username}}'s icon">
+    </div>  
+
     <form action="/comments/{{post.id}}" method="POST" enctype="multipart/form-data">
-      <h3>{{currentUser.username}}</h3>
-      <input type="text" name="creator" value="{{currentUser.id}}" hidden>
-      <input id="input-text" type="text" onkeyup="hasContent()" maxlength="240" name="content"
-        placeholder="Type your comment here" size="100px">
-      <br>
-      <img src="" alt="gif selected" class="hidden" id="gif-selected" width="200px">
-      <input id="input-media" type="file" onchange="hasMedia()" name="media">
-      <input id="gif-input" type="text" onchange="hasGif()" name="gif" class="hidden">
-      <button class="emit-notification" id="btn-comment" type="submit" data-receiver="{{post.creator.username}}" disabled>COMMENT</button>
+        <input type="text" name="creator" value="{{currentUser.id}}" hidden>
+        <textarea id="input-text" onkeyup="hasContent()" type="textarea" maxlength="240" name="content" placeholder="Type your comment here {{currentUser.username}}?" size="100px" cols="40" rows="2"></textarea>
+        <br>          
+          <img src="" alt="gif selected" class="hidden content-uploaded" id="gif-selected" width="200px">
+          <br>
+          <p class="hidden media-selected content-uploaded">File succesfully uploaded!</p>            
+        <div class="file-gif-post-container">
+            <div class="file-gif-post-btns">
+              <label for="input-media"><img class="img-input-media"src="/images/File-icon-hover.png"/></label>
+              <input id="input-media" onchange="hasMedia()" type="file" name="media">
+              <a id="btn-giphys" width="30px"><img src="/images/GIF-icon-hover.png" alt="GIF icon"></a>
+              <input id="gif-input" type="text" onchange="hasGif()" name="gif" class="hidden">
+            </div>              
+            <button class="emit-notification" id="btn-comment" type="submit" data-receiver="{{post.creator.username}}" disabled>COMMENT</button>
+        </div>          
     </form>
-    <button id="btn-giphys">GIF</button>
+  </div>
+  <br>
+  <br>
+  <div class="hidden" id="giphy-container">
+    <div class="searchBar">
+      <div class="search-container">
+        <input class="search-input" name="searchInfo" id="searchQueryInput" type="text" name="searchQueryInput" placeholder="Search for GIFs"/>
+        <a class="btn-giphy" name="searchQuerySubmit"><img height="30px" src="/images/Search_icon.png" alt="Search icon"></a>
+      </div>
+      <img height="20px" class="close-gif-btn" src="/images/Close-icon.png" alt="Close icon">
+    </div>
+    <div id="giphy-list-container">
+    </div>
+  </div>
+  <br>
+  <div>
+    {{#each comments as | comment |}}
+      <div class="post-container post comment" data-id="{{comment.id}}">
+        <div class="post-user-container">
+          <a class="user-img-post" href="/profile/{{post.creator.username}}">
+              {{#if comment.creator}} 
+                <img class="image-cover-medium" src="{{comment.creator.image}}" alt="{{comment.creator.username}}'s icon">
+              {{else}}
+                <img class="image-cover-medium" src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg">
+              {{/if}}
+          </a>
+          
+          <div class="post-content">
+              {{#if comment.creator}}
+                <h5>{{comment.creator.username}}</h5>
+              {{else}}
+                <h5>User no longer exists.</h5>
+              {{/if}}
+              <p>{{comment.content}}</p>
+              {{#if comment.media}}<img src="{{comment.media}}" alt="Media uploaded" width="100px">{{/if}}
+              {{#if comment.gif}}<img src="{{comment.gif}}" alt="Gif uploaded" width="100px">{{/if}}
+              {{#if comment.sameOwner}} <a id="trash-icon" class="remove" data-id="{{comment.id}}"><img width="20px" src="/images/Trash-icon.png" alt="Trash icon"></a>{{/if}}
+          </div>
+        </div>   
+      </div>            
+    {{/each}}
   </div>
 </div>
 
-{{!-- GIPHY SEARCH & MODAL RESULTS --}}
-<div class="hidden" id="giphy-container">
-  <input type="text" id="search-input">
-  <button id="btn-giphy">Search</button>
-  <div id="giphy-list-container">
-  </div>
-</div>
 
-<br>
-<div>
-  {{#each comments as | comment |}}
-  <div class="comment" data-id="{{comment.id}}">
-    {{#if comment.creator}}
-    <img src="{{comment.creator.image}}" alt="{{comment.creator.username}}'s icon" width="100px">
-    <h5>{{comment.creator.username}}</h5>
-    {{else}}
-    <img src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg" width="40">
-    <h5>User no longer exists</h5>
-    {{/if}}
-    <p>{{comment.content}}</p>
-    {{#if comment.media}}<img src="{{comment.media}}" alt="Media uploaded" width="100px">{{/if}}
-    {{#if comment.gif}}<img src="{{comment.gif}}" alt="Gif uploaded" width="100px">{{/if}}
-    {{#if comment.sameOwner}} <a class="remove" data-id="{{comment.id}}">Delete</a>{{/if}}
-  </div>
-  {{/each}}
-</div>
+  
+
 
 <script>
   //AXIOS DELETE COMMENTS
@@ -91,10 +103,13 @@
   function hasMedia() {
     const btnComment = document.getElementById('btn-comment');
     const inputMedia = document.getElementById('input-media');
+    const mediaSelected = document.querySelector('.media-selected');
 
     if (!inputMedia.value) {
+      mediaSelected.classList.add('hidden');
       btnComment.disabled = true;
     } else {
+      mediaSelected.classList.remove('hidden');
       btnComment.disabled = false;
     }
   };
@@ -110,12 +125,20 @@
     }
   };
 
-  //AXIOS GIPHYS-LIST
+  //GIPHYS
   const btnGiphys = document.getElementById('btn-giphys');
   const giphyContainer = document.getElementById('giphy-container');
   const giphyListContainer = document.getElementById('giphy-list-container');
   const gifInput = document.getElementById('gif-input');
 
+  //CLOSE GIF CONTAINER
+  const btnCloseGiphy = document.querySelector('.close-gif-btn');
+
+  btnCloseGiphy.addEventListener('click', () => {
+    giphyContainer.classList.add('hidden')    
+  });  
+
+  //AXIOS GIPHYS-LIST
   btnGiphys.addEventListener('click', () => {
     if (giphyContainer.classList.contains('hidden')) {
       giphyContainer.classList.remove('hidden');
@@ -159,8 +182,8 @@
   })
 
   //AXIOS SEARCH SPECIFIC GIPHY
-  const searchInput = document.getElementById('search-input');
-  const btnGiphy = document.getElementById('btn-giphy');
+  const searchInput = document.querySelector('.search-input');
+  const btnGiphy = document.querySelector('.btn-giphy');
 
   btnGiphy.addEventListener('click', () => {
     const gifSearch = searchInput.value
