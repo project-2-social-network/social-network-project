@@ -35,17 +35,39 @@
                 <a href="/followers/{{user.username}}"><ins id="followersCount">{{followersCount}}</ins> Followers</a>
             </div>
         </div>
-        <div class="profile-posts-container">
-            {{#each posts as | post |}}
-                <div class="post" data-id="{{post.id}}">
-                    <img src="{{../user.image}}" alt="{{../user.username}}'s icon" width="50">            
-                    <h5>{{post.creator.username}}</h5>
-                    <p>{{post.content}}</p>
-                    {{#if post.media}}<img src="{{post.media}}"{{/if}}
-                    {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}     
+        <div class="post-container post" data-id="{{post.id}}">>
+        {{#each posts as | post |}}
+                <div class="post-user-container">
+                    <a class="user-img-post" href="/profile/{{post.creator.username}}">
+                        <img class="image-cover-medium" src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40">
+                    </a>
+                    <div class="post-content">
+                        <h5>{{post.creator.username}}</h5>
+                        <p>{{post.content}}</p>
+                        {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded" width="400px">{{/if}}
+                        {{#if post.gif}}<img src="{{post.gif}}" alt="Gif uploaded" width="100px">{{/if}}
+                    </div>
                 </div>
-            {{/each}}
-        </div>
+
+                <div class="post-actions">  
+                    <div class="like-comment-container">
+                    <div>
+                        {{#if post.alreadyLiked}}
+                        <a class="btn-like liked" data-id="{{post.id}}"><img class="img-liked" width="20px" src="/images/Like-icon.png" alt="Unlike icon"></a>
+                        {{else}}
+                        <a class="btn-like unliked emit-notification" data-id="{{post.id}}" data-receiver="{{post.creator.username}}"><img class="img-unliked" width="20px" src="/images/Unlike-icon.png" alt="Like icon"></a>
+                        {{/if}}
+                        <a href="/post/{{post.id}}/likes" class="likesCount-{{post.id}} likes-count">{{post.likesCount}}</a>
+                    </div>             
+                    
+                    <div>
+                        <a href="/comments/{{post.id}}" class="btn-comment" data-id="{{post.id}}"><img width="20px" src="/images/Comment-icon.png" alt="Comment icon"></a>
+                        <ins id="commentsCount" class="comments-count">{{post.commentsCount}}</ins>
+                    </div>
+                    </div>              
+                    {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}"><img width="20px" src="/images/Trash-icon.png" alt=""></a>{{/if}}
+                </div>         
+        {{/each}}
     </div>    
     {{else}}
     <div id="profile-container">
