@@ -79,20 +79,16 @@ module.exports.explore = (req, res, next) => {
 };
 
 module.exports.doCreate = (req, res, next) => {
-  console.log("HOMEEEEEEs");
   const post = req.body;
-  console.log('******************************** req body', req.body)
   if (req.file) {
     post.media = req.file.path;
   }
 
   Post.create(post)
     .then((postCreated) => {
-      console.log('******************************** post created', postCreated)
       res.redirect('/home');
     })
     .catch((err) => {
-      console.log(err);
       if (err.message === "No Content provided") {
         res.redirect('/home');
         

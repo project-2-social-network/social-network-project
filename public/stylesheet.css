@@ -542,10 +542,21 @@
     border-radius: 50px;
 }
 
+/* NOTIFICATIONS */
 
+.not-container {
+    display: flex;
+    align-items: center;
+}
 
+.not-container p {
+    margin-top: 1rem;
+}
 
-
+.not-container:hover {
+    border-radius: 5rem;
+    background-color: rgba(255, 192, 144, 0.35);
+}
 
 
 

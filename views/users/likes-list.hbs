@@ -1,15 +1,24 @@
-{{#if posts}}
-    <h1>Posts liked by {{username}}:</h1>
-    <div class="container">
-       {{#each posts as | post |}}
-            <div class="post" data-id="{{post.id}}">
-                <img src="{{post.like.creator.image}}" alt="{{post.like.creator.image}}'s icon" width="50">            
-                <h5>{{post.like.creator.username}}</h5>
-                <p>{{post.like.content}}</p>
-                {{#if post.like.media}}<img src="{{post.like.media}}" alt="Media uploaded">{{/if}}    
+<div class="dinamic-view-container">
+    {{#if posts}}
+        <h2>Posts liked by {{username}}</h2>
+            <div>
+                {{#each posts as | post |}}
+                    <div class="post-container post" data-id="{{post.id}}">
+                        <div class="post-user-container">
+                            <a class="user-img-post">
+                                <img class="image-cover-medium" src="{{post.like.creator.image}}">
+                            </a>
+                            <div class="post-content">
+                                <h5>{{post.like.creator.username}}</h5>
+                                <p>{{post.like.content}}</p>
+                                {{#if post.like.media}}<img src="{{post.like.media}}" alt="Media uploaded" width="100px">{{/if}}
+                                {{#if post.like.gif}}<img src="{{post.like.gif}}" alt="Gif uploaded" width="100px">{{/if}}
+                            </div>
+                        </div>
+                    </div>
+                {{/each}}
             </div>
-        {{/each}}
-    </div>
-{{else}}
-    <h1>No Capybaras found &#128528</h1>
-{{/if}}
+    {{else}}
+        <h2>No posts liked yet &#128528</h1>
+    {{/if}}
+</div>

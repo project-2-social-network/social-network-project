@@ -75,8 +75,11 @@ app.use((req, res, next) => {
               users.forEach((user, index) => {
                 if(user.id === res.locals.currentUser.id) {
                   users.splice(index, 1)
-                }
+                };
+                user.smallName = user.name.substring(0, 15) + '...';
+                user.smallUsername = user.username.substring(0, 20) + '...'
               })
+
               res.locals.usersToFollow = users;
               next()
             })
