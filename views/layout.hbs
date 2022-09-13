@@ -54,7 +54,7 @@
     document.querySelector('.password-toggle')?.addEventListener('click', tooglePassword);
 
     //SOCKET
-    let socket = io(process.env.HOST);
+    let socket = io('https://becapy-production.up.railway.app');
     let senderUsername = '{{currentUser.username}}';
 
     window.addEventListener('load', () => {

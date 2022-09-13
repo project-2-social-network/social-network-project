@@ -1,40 +1,47 @@
 {{#if active}}
-    <div id="profile-container">
-        <h1>{{user.name}}'s profile</h1>
-        <div class="container">
-            <img src="{{user.image}}" alt="{{user.username}}'s icon" width="200">
-            <h3>{{user.username}}</h3>
-            <p>Joined BeCapy on {{user.joinedDate}}</p>
-            {{#unless itsMeMario}}
-                {{#if imFollower}}
-                    <a class="btn-follow following" data-username="{{user.username}}">Unfollow</a>      
-                {{else}}        
-                    <a class="btn-follow unfollowing emit-notification" data-username="{{user.username}}">Follow</a>
-                {{/if}}
-            {{/unless}}
-            <a href="/message/{{user.username}}">Message</a>
+    <div class="dinamic-view-container">
+        <h2>{{user.name}}'s profile</h2>
+        <div class="profile-container">
+            <div id="green-background"></div>
+            <div class="profile-division">
+                <div class="image-division">
+                    <img src="{{user.image}}" class="image-cover-large">
+                    <h4 id="profile-username">{{user.username}}</h4>
+                    <div id="joined-on-container">
+                        <img src="/images/calendar-icon.png" width="20px" height="20px">
+                        <p>Joined BeCapy on {{user.joinedDate}}</p>
+                    </div>
+                </div>
+                <div class="profile-message-division">
+                    {{#unless itsMeMario}}
+                        <a class="profile-btn" href="/message/{{user.username}}">Message</a>
+                    {{#if imFollower}}
+                        <a class="btn-follow following profile-btn" data-username="{{user.username}}">Unfollow</a>      
+                    {{else}}        
+                        <a class="btn-follow unfollowing emit-notification profile-btn" data-username="{{user.username}}">Follow</a>
+                    {{/if}}
+                    {{/unless}}
+                </div>
+            </div>
         </div>
-        <br>
-        <div class="d-flex justify-content-around"> 
+        <div class="profile-likes-container"> 
             <div>
                 <a href="/profile/{{user.username}}/likes">Likes</a>
             </div>
             <div>
-                <a href="/following/{{user.username}}">Following: <ins id="followingCount">{{followingCount}}</ins></a>
+                <a href="/following/{{user.username}}"><ins id="followingCount">{{followingCount}}</ins> Following</a>
             </div>
             <div>
-                <a href="/followers/{{user.username}}">Followers: <ins id="followersCount">{{followersCount}}</ins></a>
+                <a href="/followers/{{user.username}}"><ins id="followersCount">{{followersCount}}</ins> Followers</a>
             </div>
         </div>
-        <br>
-        <div class="container">
-            <h3>POSTS:</h3>
+        <div class="profile-posts-container">
             {{#each posts as | post |}}
                 <div class="post" data-id="{{post.id}}">
                     <img src="{{../user.image}}" alt="{{../user.username}}'s icon" width="50">            
                     <h5>{{post.creator.username}}</h5>
                     <p>{{post.content}}</p>
-                    {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded">{{/if}}
+                    {{#if post.media}}<img src="{{post.media}}"{{/if}}
                     {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}     
                 </div>
             {{/each}}
