@@ -807,6 +807,7 @@
     border: none;
     overflow: hidden;
     resize: none;
+    background-color: none;
 }
 
 #input-text:focus {
@@ -908,6 +909,21 @@
     background-color: #3f403f
 }
 
+.btn-giphy {
+    background-color: none;
+    border: none;
+    margin-left: 1rem;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    width: 20rem;
+}
+
 .close-gif-btn {
     cursor: pointer;
 }
@@ -948,7 +964,13 @@
     padding-right: 2rem; 
 }
 
-.btn-like, .btn-comment, .remove, .profile-btn, .btn-follow {
+.like-comment-container {
+    display: flex;
+    justify-content: space-between;
+    width: 20rem;
+}
+
+.btn-like, .btn-comment, .remove, .profile-btn, .btn-follow, .gif-img {
     cursor: pointer;
 }
 
