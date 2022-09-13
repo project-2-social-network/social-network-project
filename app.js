@@ -19,7 +19,7 @@ app.use(sessionConfig);
 
 app.use(express.static(__dirname + "/public"));
 
-const server = require("https").createServer(app);
+const server = require("http").createServer(app);
 const options = { cors: { origin: '*' } };
 const io = require("socket.io")(server, options);
 
@@ -134,6 +134,7 @@ io.on("connection", socket => {
 });
 
 const router = require("./config/index.routes");
+const { Server } = require("net");
 app.use(router);
 
 app.use((err, req, res, next) => {
@@ -142,4 +143,4 @@ app.use((err, req, res, next) => {
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+server.listen(port, () => console.log(`Listening on port ${port}`));
