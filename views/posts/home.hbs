@@ -25,13 +25,10 @@
   <br>
   <div class="hidden" id="giphy-container">
     <div class="searchBar">
-      <div>
-          <input class="search-input" name="searchInfo" id="searchQueryInput" type="text" name="searchQueryInput" placeholder="Search for GIFs"/>
-          <button class="btn-giphy" name="searchQuerySubmit">
-              <svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="#666666" d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
-              </svg>
-          </button>
-      </div>        
+      <div class="search-container">
+        <input class="search-input" name="searchInfo" id="searchQueryInput" type="text" name="searchQueryInput" placeholder="Search for GIFs"/>
+        <a class="btn-giphy" name="searchQuerySubmit"><img height="30px"  src="/images/Search_icon.png" alt="Search icon"></a>
+      </div>
       <img height="20px" class="close-gif-btn" src="/images/Close-icon.png" alt="Close icon">        
     </div>   
     <div id="giphy-list-container">         
@@ -54,20 +51,21 @@
             </div>
 
             <div class="post-actions">  
-                <div>
-                  {{#if post.alreadyLiked}}
-                    <a class="btn-like liked" data-id="{{post.id}}"><img class="img-liked" width="20px" src="/images/Like-icon.png" alt="Unlike icon"></a>
-                  {{else}}
-                    <a class="btn-like unliked emit-notification" data-id="{{post.id}}" data-receiver="{{post.creator.username}}"><img class="img-unliked" width="20px" src="/images/Unlike-icon.png" alt="Like icon"></a>
-                  {{/if}}
-                  <a href="/post/{{post.id}}/likes" class="likesCount-{{post.id}} likes-count">{{post.likesCount}}</a>
-                </div>             
-                
-                <div>
-                  <a href="/comments/{{post.id}}" class="btn-comment" data-id="{{post.id}}"><img width="20px" src="/images/Comment-icon.png" alt="Comment icon"></a>
-                  <ins id="commentsCount" class="comments-count">{{post.commentsCount}}</ins>
-                </div>
-                
+                <div class="like-comment-container">
+                  <div>
+                    {{#if post.alreadyLiked}}
+                      <a class="btn-like liked" data-id="{{post.id}}"><img class="img-liked" width="20px" src="/images/Like-icon.png" alt="Unlike icon"></a>
+                    {{else}}
+                      <a class="btn-like unliked emit-notification" data-id="{{post.id}}" data-receiver="{{post.creator.username}}"><img class="img-unliked" width="20px" src="/images/Unlike-icon.png" alt="Like icon"></a>
+                    {{/if}}
+                    <a href="/post/{{post.id}}/likes" class="likesCount-{{post.id}} likes-count">{{post.likesCount}}</a>
+                  </div>             
+                  
+                  <div>
+                    <a href="/comments/{{post.id}}" class="btn-comment" data-id="{{post.id}}"><img width="20px" src="/images/Comment-icon.png" alt="Comment icon"></a>
+                    <ins id="commentsCount" class="comments-count">{{post.commentsCount}}</ins>
+                  </div>
+                </div>              
                 {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}"><img width="20px" src="/images/Trash-icon.png" alt=""></a>{{/if}}
             </div>         
           </div>
