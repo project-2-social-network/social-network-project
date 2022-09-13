@@ -1,0 +1,13 @@
+{{#if currentUser}}
+    <div id="help-view" class="dinamic-view-container">
+        <h2>Help</h2>
+        <form action="/help" method="POST">
+            <div class="help-container">
+                {{#if emailMessage}} <p>{{emailMessage}}</p> {{/if}}
+                <textarea id="input-text-help" type="textarea" maxlength="1500" name="text" placeholder="Send us your questions" size="100px" cols="65" rows="13" required></textarea>
+                <input id="input-email-help" type="text" name="email" placeholder="user@example.org" required>         
+                <button id="btn-post-help" type="submit">SEND</button>
+            </div>
+        </form>
+    </div>
+{{/if}}
