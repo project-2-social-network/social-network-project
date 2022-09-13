@@ -1,12 +1,17 @@
-{{#if people}}
-    <div class="container d-flex justify-content-between">
-        {{#each people as |user|}}
-            <div class="container">
-                <a href="/profile/{{user.userWhoLikes.username}}">
-                    <img src="{{user.userWhoLikes.image}}" alt="{{user.userWhoLikes.username}}'s icon" width="30">
-                    <h3>{{user.userWhoLikes.username}}</h3>
-                </a>
-            </div>
+<div class="dinamic-view-container">
+    {{#if people}}
+    <h2>Post's likes</h2>
+    <div class="search-list-container">
+        {{#each people as |user|}}            
+            <a href="/profile/{{user.userWhoLikes.username}}">
+                <div class="seach-user-container">
+                    <img src="{{user.userWhoLikes.image}}" alt="{{user.userWhoLikes.username}}'s icon" class="image-cover-medium">
+                    <div>
+                        <p class="search-name">{{user.userWhoLikes.name}}</p>
+                        <p class="search-username">{{user.userWhoLikes.username}}</p>
+                    </div>
+                </div>
+            </a>        
         {{/each}}
     </div>
 {{else}}
