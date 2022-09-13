@@ -57,7 +57,7 @@ module.exports.doRegister = (req, res, next) => {
             userCreated.email,
             userCreated.activationToken
           );
-          res.redirect("/home");
+          res.render("auth/login", { registerMessage: 'Please check your email to finish registering.' });
         });
       }
     })
