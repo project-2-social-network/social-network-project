@@ -1,15 +1,19 @@
-<div id="list-users-messages-container">
-    <h1>INBOX:</h1>
+<div class="dinamic-view-container">
+    {{#if listWithoutDuplicates}}
+    <h2>Chats</h2>
     <div>
-        {{#if listWithoutDuplicates}}
         {{#each listWithoutDuplicates as |user|}}
-            <div>
-                <a href="/message/{{user.username}}">
-                    <img src="{{user.image}}" alt="{{user.username}}'s icon" width="50px">
-                    <h3>{{user.username}}</h3>
-                </a>       
-            </div> 
+            <a href="/message/{{user.username}}">
+                <div class="seach-user-container">
+                    <img src="{{user.image}}" class="image-cover-small">
+                    <div>
+                        <h3>{{user.username}}</h3>
+                    </div>
+                </div>
+            </a>
         {{/each}}
-        {{/if}}
     </div>
+    {{else}}
+        <h2>You have no chats &#128528</h2>
+    {{/if}}
 </div>
