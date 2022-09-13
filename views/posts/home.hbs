@@ -3,49 +3,73 @@
     <div class="form-container">    
       <div class="user-container">
           <img class="image-cover-medium" src="{{currentUser.image}}" alt="{{currentUser.username}}'s icon">
-          <h3>{{currentUser.username}}</h3>
       </div>  
       <form action="/home" method="POST" enctype="multipart/form-data">
           <input type="text" name="creator" value="{{currentUser.id}}" hidden>
-          <input id="input-text" onkeyup="hasContent()" type="textarea" cols="40" rows="5" maxlength="240" name="content" placeholder="What are you thinking?" size="100px">
-          <br>
-          <img src="" alt="gif selected" class="hidden" id="gif-selected" width="200px">
-        
-          <label for="input-media"><img class="img-input-media"src="/images/File-icon-hover.png"/></label>
-          <input id="input-media" onchange="hasMedia()" type="file" name="media">
-          <a id="btn-giphys" width="30px"><img src="/images/GIF-icon-hover.png" alt="GIF icon"></a>
-
-          <input id="gif-input" type="text" onchange="hasGif()" name="gif" class="hidden">
-          <button id="btn-post" type="submit" disabled>POST</button>
+          <textarea id="input-text" onkeyup="hasContent()" type="textarea" maxlength="240" name="content" placeholder="What are you thinking {{currentUser.username}}?" size="100px" cols="40" rows="2"></textarea>
+          <br>          
+            <img src="" alt="gif selected" class="hidden content-uploaded" id="gif-selected" width="200px">
+            <br>
+            <p class="hidden media-selected content-uploaded">File succesfully uploaded!</p>            
+          <div class="file-gif-post-container">
+              <div class="file-gif-post-btns">
+                <label for="input-media"><img class="img-input-media"src="/images/File-icon-hover.png"/></label>
+                <input id="input-media" onchange="hasMedia()" type="file" name="media">
+                <a id="btn-giphys" width="30px"><img src="/images/GIF-icon-hover.png" alt="GIF icon"></a>
+                <input id="gif-input" type="text" onchange="hasGif()" name="gif" class="hidden">
+              </div>              
+              <button id="btn-post" type="submit" disabled>POST</button>
+          </div>          
       </form>
-  </div>
+    </div>
   <br>
   <div class="hidden" id="giphy-container">
-      <input type="text" id="search-input">
-      <button id="btn-giphy">Search</button>
+    <div class="searchBar">
+      <div>
+          <input class="search-input" name="searchInfo" id="searchQueryInput" type="text" name="searchQueryInput" placeholder="Search for GIFs"/>
+          <button class="btn-giphy" name="searchQuerySubmit">
+              <svg style="width:24px;height:24px" viewBox="0 0 24 24"><path fill="#666666" d="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" />
+              </svg>
+          </button>
+      </div>        
+      <img height="20px" class="close-gif-btn" src="/images/Close-icon.png" alt="Close icon">        
+    </div>   
     <div id="giphy-list-container">         
     </div>  
   </div>
   <br>
-  <h3>POSTS:</h3>
-  <div class="post-container">
+  <div>
       {{#each listWithoutDuplicates as | post |}}
-          <div class="post" data-id="{{post.id}}">
-            <a href="/profile/{{post.creator.username}}">
-              <img class="image-cover-medium" src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40">        
-              <h5>{{post.creator.username}}</h5>
-            </a>
-            <p>{{post.content}}</p>
-            {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded" width="400px">{{/if}}
-            {{#if post.gif}}<img src="{{post.gif}}" alt="Gif uploaded" width="100px">{{/if}}
-            {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}
-            {{#if post.alreadyLiked}}
-              <a class="btn-like liked" data-id="{{post.id}}">Unlike</a>
-            {{else}}
-              <a class="btn-like unliked emit-notification" data-id="{{post.id}}" data-receiver="{{post.creator.username}}">Like</a>
-            {{/if}}  
-            <a href="/post/{{post.id}}/likes" class="likesCount-{{post.id}}">{{post.likesCount}}</a>
-            <a href="/comments/{{post.id}}" class="btn-comment" data-id="{{post.id}}">Comments: <ins id="commentsCount">{{post.commentsCount}}</ins></a>  
+          <div class="post-container post" data-id="{{post.id}}">
+            <div class="post-user-container">
+                <a class="user-img-post" href="/profile/{{post.creator.username}}">
+                    <img class="image-cover-medium" src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon" width="40">
+                </a>
+                <div class="post-content">
+                    <h5>{{post.creator.username}}</h5>
+                    <p>{{post.content}}</p>
+                    {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded" width="400px">{{/if}}
+                    {{#if post.gif}}<img src="{{post.gif}}" alt="Gif uploaded" width="100px">{{/if}}
+                </div>
+            </div>
+
+            <div class="post-actions">  
+                <div>
+                  {{#if post.alreadyLiked}}
+                    <a class="btn-like liked" data-id="{{post.id}}"><img class="img-liked" width="20px" src="/images/Like-icon.png" alt="Unlike icon"></a>
+                  {{else}}
+                    <a class="btn-like unliked emit-notification" data-id="{{post.id}}" data-receiver="{{post.creator.username}}"><img class="img-unliked" width="20px" src="/images/Unlike-icon.png" alt="Like icon"></a>
+                  {{/if}}
+                  <a href="/post/{{post.id}}/likes" class="likesCount-{{post.id}} likes-count">{{post.likesCount}}</a>
+                </div>             
+                
+                <div>
+                  <a href="/comments/{{post.id}}" class="btn-comment" data-id="{{post.id}}"><img width="20px" src="/images/Comment-icon.png" alt="Comment icon"></a>
+                  <ins id="commentsCount" class="comments-count">{{post.commentsCount}}</ins>
+                </div>
+                
+                {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}"><img width="20px" src="/images/Trash-icon.png" alt=""></a>{{/if}}
+            </div>         
           </div>
       {{/each}}
   </div>
@@ -76,20 +100,21 @@
       const dataPostID = node.dataset.id;
       const likesCount = document.querySelector(`.likesCount-${dataPostID}`);
       const receiverUsername = node.getAttribute('data-receiver');    
-
+      let heartImg = node.querySelector('img');
+    
       axios.put(`/like/${dataPostID}`)
       .then(responseFromApi => {
           console.log('Success!', responseFromApi);
           if(responseFromApi.status == 204) {
-              if (node.textContent === 'Like') {
-                node.textContent = 'Unlike';
+              if (node.classList.contains('unliked')) {
+                heartImg.src = '/images/Like-icon.png';
                 node.classList.remove('unliked');
                 node.classList.add('liked');
                 likesCount.textContent = Number(likesCount.textContent) + 1;
                 //NOTIFICATION
                 socket.emit('notification', receiverUsername);              
               } else {
-                node.textContent = 'Like';
+                heartImg.src = '/images/Unlike-icon.png';
                 node.classList.remove('liked');
                 node.classList.add('unliked');
                 likesCount.textContent = Number(likesCount.textContent) - 1;
@@ -116,10 +141,13 @@
   function hasMedia() {
     const btnPost = document.getElementById('btn-post');
     const inputMedia = document.getElementById('input-media');
+    const mediaSelected = document.querySelector('.media-selected');
 
      if (!inputMedia.value) {
-      btnPost.disabled = true; 
-    } else {
+      mediaSelected.classList.add('hidden');    
+      btnPost.disabled = true;      
+    } else {        
+      mediaSelected.classList.remove('hidden');
       btnPost.disabled = false; 
     }
   };
@@ -135,11 +163,21 @@
     }
   };
 
-  //AXIOS GIPHYS-LIST
+  
+  //GIPHYS
   const btnGiphys = document.getElementById('btn-giphys');
   const giphyContainer = document.getElementById('giphy-container');
   const giphyListContainer = document.getElementById('giphy-list-container');
   const gifInput = document.getElementById('gif-input');
+
+  //CLOSE GIF CONTAINER
+  const btnCloseGiphy = document.querySelector('.close-gif-btn');
+
+  btnCloseGiphy.addEventListener('click', () => {
+    giphyContainer.classList.add('hidden')    
+  })
+
+  //AXIOS GIPHYS-LIST
 
   btnGiphys.addEventListener('click', () => {
     if (giphyContainer.classList.contains('hidden')) {
@@ -184,9 +222,8 @@
   })
 
   //AXIOS SEARCH SPECIFIC GIPHY
-  const searchInput = document.getElementById('search-input');
-  const btnGiphy = document.getElementById('btn-giphy');
-
+  const searchInput = document.querySelector('.search-input');
+  const btnGiphy = document.querySelector('.btn-giphy');
 
   btnGiphy.addEventListener('click', () => {
     const gifSearch = searchInput.value
