@@ -1,16 +1,20 @@
-{{#if users}}
-<h1>Capybaras found:</h1>
-<div class="container d-flex justify-content-between">
-    {{#each users as |user|}}
-        <div class="container">
-            <img src="{{user.image}}" alt="{{user.username}}'s icon" width="200">
-            <h2>{{user.name}}</h2>
-            <h3>{{user.username}}</h3>
-            <a href="/profile/{{user.username}}">Profile</a>       
-        </div>     
-        <br>   
-    {{/each}}
+<div class="dinamic-view-container">
+    {{#if users}}
+        <h2>Capybaras found</h2>
+        <div class="search-list-container">
+            {{#each users as |user|}}
+                <a href="/profile/{{user.username}}">
+                    <div class="seach-user-container">
+                        <img src="{{user.image}}" class="image-cover-medium">
+                        <div>
+                            <p class="search-name">{{user.name}}</p>
+                            <p class="search-username">{{user.username}}</p>
+                        </div>             
+                    </div>
+                </a>
+            {{/each}}
+        </div>
+    {{else}}
+        <h2>No Capybaras found &#128528</h2>
+    {{/if}}
 </div>
-{{else}}
-<h1>No Capybaras found &#128528</h1>
-{{/if}}

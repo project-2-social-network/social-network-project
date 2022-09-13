@@ -16,7 +16,7 @@
             {{#each usersToFollow as |user|}}
                 <a href="/profile/{{user.username}}">
                     <div class="suggestion-container">
-                        <img src="{{user.image}}" alt="{{user.username}}'s icon" class="image-cover-small">
+                        <img src="{{user.image}}" class="image-cover-small">
                         <div>
                             <h4>{{user.name}}</h3>
                             <p>{{user.username}}</p>
@@ -32,7 +32,7 @@
                 {{#each news as |news|}}
                 <a href="{{news.url}}" target="blank">
                     <div class="child-news-container">
-                        <img src="{{news.urlToImage}}" alt="{{news.title}}" class="image-cover-small">
+                        <img src="{{news.urlToImage}}" class="image-cover-small">
                         <p>{{news.smallTitle}}</p>
                     </div>
                 </a>
