@@ -84,7 +84,6 @@ module.exports.notifications = (req, res, next) => {
   Notification.find({ receiver: currentUser.id })
   .populate('sender')
     .then((notifications) => {
-      console.log(notifications)
       notifications.reverse();
       notifications.forEach((not) => {
         if (not.type === "Like") {

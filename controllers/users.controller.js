@@ -154,6 +154,7 @@ module.exports.likesList = (req, res, next) => {
             }
           )
           .then((posts) => {
+            posts.reverse();
             res.render("users/likes-list", { posts, username });
           })
           .catch((err) => next(err));
