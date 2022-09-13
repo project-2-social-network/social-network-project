@@ -8,12 +8,25 @@ const postController = require("../controllers/posts.controller");
 const accountController = require("../controllers/account.controller");
 const userController = require("../controllers/users.controller");
 const socketController = require("../controllers/socket.controller");
+const miscController = require("../controllers/misc.controller");
 
 const fileUploader = require("./cloudinary.config");
 
 const SCOPES = ["profile", "email"];
 
 //ROUTES
+
+//MISC
+router.get(
+  "/help",
+  authMiddlewares.isAuthenticated,
+  miscController.help
+);
+router.post(
+  "/help",
+  authMiddlewares.isAuthenticated,
+  miscController.doHelp
+);
 
 //AUTH
 router.get(

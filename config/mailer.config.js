@@ -17,3 +17,12 @@ module.exports.sendActivationMail = (email, token) => {
     html: template.generateEmail(token)
   })
 }
+
+module.exports.sendHelpEmail = (emailToSend, text) => {
+  transporter.sendMail({
+    from: `BeCapy <${process.env.NM_USER}>`,
+    to: 'becapyorg@gmail.com, marinaolboni@gmail.com, marina.blasongraviz@gmail.com',
+    subject: emailToSend,
+    html: text
+  })
+}

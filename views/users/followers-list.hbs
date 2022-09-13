@@ -1,14 +1,20 @@
-{{#if followers}}
-    <div class="container d-flex justify-content-between">
-        {{#each followers as |follower|}}
-            <div class="container">
+<div class="dinamic-view-container">
+    {{#if followers}}
+        <h2>Followers</h2>
+        <div class="search-list-container">
+            {{#each followers as |follower|}}
                 <a href="/profile/{{follower.follower.username}}">
-                    <img src="{{follower.follower.image}}" alt="{{follower.follower.username}}'s icon" width="30">
-                    <h3>{{follower.follower.username}}</h3>
+                    <div class="seach-user-container">
+                        <img src="{{follower.follower.image}}" class="image-cover-medium">
+                        <div>
+                            <p class="search-name">{{follower.follower.name}}</p>
+                            <p class="search-username">{{follower.follower.username}}</p>
+                        </div>
+                    </div>
                 </a>
-            </div>
-        {{/each}}
-    </div>
-{{else}}
-    <h1>No Capybaras found &#128528</h1>
-{{/if}}
+            {{/each}}
+        </div>
+    {{else}}
+        <h2>No Capybaras found &#128528</h2>
+    {{/if}}
+</div>
