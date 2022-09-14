@@ -5,6 +5,7 @@
   </div>
   <div class="login-box-container">
     <div>
+      {{#if registerMessage}}<div class="register-feedback">{{registerMessage}}</div>{{/if}}
       <form action="/" method="POST">
         {{#if registerMessage}}<div class="register-feedback">{{registerMessage}}</div>{{/if}}
         <div class="input-group mb-2">
