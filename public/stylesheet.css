@@ -19,6 +19,7 @@
     padding: 4rem 2rem;
     width: 55vw;
     height: auto;
+    min-height: 95vh;
     border-radius: 50px;
     background: #ffffff;
     box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
@@ -542,16 +543,103 @@
     border-radius: 50px;
 }
 
+/* NOTIFICATIONS */
 
+.not-container {
+    display: flex;
+    align-items: center;
+}
 
+.not-container p {
+    margin-top: 1rem;
+}
 
+.not-container:hover {
+    border-radius: 5rem;
+    background-color: rgba(255, 192, 144, 0.35);
+}
 
+/* ABOUT US */
 
+#about-us-container {
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    background: #7FB77E;
+    padding: 3rem;
+    height: 100vh;
+    width: 100vw;
+    padding-top: 3rem;
+}
 
+#about-us-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    border-radius: 50px;
+    background: #7FB77E;
+    box-shadow:  20px 20px 60px #6c9c6b, -20px -20px 60px #92d291;
+    width: 55rem;
+}
 
+#about-us-text h2 {
+    margin-bottom: 3rem;
+    color: white;
+    font-weight: 700;
+}
 
+#about-us-text p {
+    font-size: 0.9rem;
+}
 
+#about-us-names {
+    margin-top: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
 
+#about-us-names a{
+    border-radius: 5px;
+    background: #7FB77E;
+    box-shadow:  8px 8px 20px #6c9c6b, -8px -8px 20px #92d291;
+    padding:1rem 2rem;
+    color: white;
+    font-size: 1.2rem;
+}
+
+#about-us-names a{
+    border-radius: 5px;
+    background: #7FB77E;
+    box-shadow:  8px 8px 20px #6c9c6b, -8px -8px 20px #92d291;
+    padding:1rem 2rem;
+    color: white;
+    font-size: 1.2rem;
+}
+
+#about-us-names a:hover {
+    border-radius: 5px;
+    background: #7FB77E;
+    box-shadow: inset 8px 8px 15px #6c9c6b, inset -8px -8px 15px #92d291;
+}
+
+.goback-img-container {
+    margin-top: 6rem;
+    display: flex;
+    flex-direction: column;
+    height: 25rem;
+}
+
+.goback-img-container a {
+    margin-top: 6rem;
+    color: white;
+    font-size: 1.5rem;
+}
 
 
 
@@ -862,9 +950,10 @@
     color: #B1D7B4;
 }
 
-#btn-post { 
+#btn-post, #btn-comment{ 
     font-weight: 600;
-    width: 5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     height: 2.2rem;
     color: #ffffff;
     border: none;
@@ -873,14 +962,22 @@
     cursor: pointer;
 }
 
-#btn-post:hover {
+#btn-post:hover, #btn-comment:hover {
     font-weight: 600;
-    width: 5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
     height: 2.2rem;
     color: #ffffff;
     border: none;
     border-radius: 50px;
     background: #7FB77E;
+}
+
+#trash-icon {
+    display: flex;
+    justify-content: flex-end;
+    width: 40.5rem;
+    padding-right: 1rem;
 }
 
 /* GIPHY */
@@ -1009,29 +1106,96 @@
 
 .settings-options-container > a {
     padding-top: 1rem;
-    width: 30rem;    
+    width: 25rem;    
 }
 
 .settings-options-container > a:hover {
     color: #F8A668;
 }
 
-#form-delete-account { 
-    display: flex;
-    flex-direction: column;
-    width: 40vw;
-    height: 100vh;
+.username-updated {
+    padding-top: 2.5rem;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #B1D7B4;
 }
 
-#form-delete-account > h2 {
-    margin-top: 2rem;
-    margin-bottom: 4rem;
+.form-btn-settings {
+    margin-left: 2rem;
 }
 
-#btn-delete-account {
-    background-color: #e6e6e6;
-    border: none;
+.input-username input, .input-image img {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.input-password input {
+    margin-left: 2rem;
+}
+
+.input-password button {
+    margin-right: 2rem;
+}
+
+#form-delete-account {
+    margin-left: 2rem;
+}
+
+/* MESSAGES */
+
+#h2-msg {
+    margin-left: 2rem;
+    margin-bottom: 0;
+    background-color: #ffffff;
+    width: 45rem;
+}
+
+#messages {
     margin-top: 4rem;
-    border: 2px solid #B1D7B4;
-    border-radius: 2rem;
+    margin-left: 2rem;
+    width: 45rem;
+}
+
+#msgForm {    
+    margin-left: 2rem;
+    position: fixed;
+    bottom: 7%;
+    display: flex;
+    flex-direction: row;
+}
+
+#text-input {
+    border: none;
+    background-color: #e6e6e6;
+    border-radius: 50px;
+    width: 30rem;
+    padding: 0.5rem;
+}
+
+.msg {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid #e6e6e6;
+    border-radius: 50px;
+    margin-bottom: 1rem;
+}
+
+.content-msg {
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;    
+}
+
+.btn-send-msg {
+    width: 6rem;
+    background-color: #F8A668;
+    border: none;
+    padding: 0.3rem;
+    text-align: center;
+    color: white;
+    border-radius: 50px;
+    margin-left: 1rem;
 }

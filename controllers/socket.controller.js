@@ -43,8 +43,14 @@ module.exports.messages = (req, res, next) => {
   User.findOne({username})
   .then((userFound)=> {
     return Message.find({$or: [{$and: [{sender: currentUser.id}, {receiver: userFound.id}]}, {$and: [{receiver: currentUser.id}, {sender: userFound.id}]}]})
+    .populate('sender')
+    .populate('receiver')
   })
   .then((msgs) => {
+    msgs.forEach((msg) => {
+      let indexOf = msg.createdAt.toString().indexOf('G');
+      msg.hour = msg.createdAt.toString().slice(4, indexOf);
+    })
     res.render('messages/messages', { username, msgs })
   })
   .catch((err) => next(err));
@@ -84,7 +90,6 @@ module.exports.notifications = (req, res, next) => {
   Notification.find({ receiver: currentUser.id })
   .populate('sender')
     .then((notifications) => {
-      console.log(notifications)
       notifications.reverse();
       notifications.forEach((not) => {
         if (not.type === "Like") {

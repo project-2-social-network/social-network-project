@@ -39,7 +39,7 @@ module.exports.home = (req, res, next) => {
             post.sameOwner = currentUser.id === postCreator ? true : false;
           }
         });
-        const listWithoutDuplicates = [...new Set(finalList)].reverse();
+        const listWithoutDuplicates = [...new Set(finalList)]
         listWithoutDuplicates.forEach((post) => {
           Like.findOne({
             $and: [{ like: post._id }, { userWhoLikes: currentUser.id }],
@@ -50,6 +50,9 @@ module.exports.home = (req, res, next) => {
             .catch((err) => next(err));
         });
         
+        listWithoutDuplicates.sort((a, b) => {
+          return b.createdAt - a.createdAt
+        })
         res.render("posts/home", { listWithoutDuplicates });
       });
     })
@@ -72,27 +75,25 @@ module.exports.explore = (req, res, next) => {
           })
           .catch((err) => next(err));      
       })
-    posts.reverse();
+    posts.sort((a, b) => {
+      return b.createdAt - a.createdAt
+    })
     res.render("posts/explore", { posts });
     })
     .catch((err) => next(err));
 };
 
 module.exports.doCreate = (req, res, next) => {
-  console.log("HOMEEEEEEs");
   const post = req.body;
-  console.log('******************************** req body', req.body)
   if (req.file) {
     post.media = req.file.path;
   }
 
   Post.create(post)
     .then((postCreated) => {
-      console.log('******************************** post created', postCreated)
       res.redirect('/home');
     })
     .catch((err) => {
-      console.log(err);
       if (err.message === "No Content provided") {
         res.redirect('/home');
         
@@ -166,7 +167,6 @@ module.exports.comments = (req, res, next) => {
             comment.sameOwner =
               comment.creator.id === currentUser.id ? true : false;
           });
-          comments.reverse();
           res.render("posts/comments", { post, comments });
         });
     })

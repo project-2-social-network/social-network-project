@@ -36,12 +36,12 @@ app.use((req, res, next) => {
   next();
 });
 
-const NewsAPI = require('newsapi');
-const newsapi = new NewsAPI(process.env.API_KEY_NEWS);
+/* const NewsAPI = require('newsapi');
+const newsapi = new NewsAPI(process.env.API_KEY_NEWS); */
 const User = require("./models/User.model");
 const Follow = require("./models/Follow.model");
 
-app.use((req, res, next) => {
+/* app.use((req, res, next) => {
   newsapi.v2.topHeadlines({
     language: 'en',
   })
@@ -56,7 +56,7 @@ app.use((req, res, next) => {
   .catch((err) => {
     next()
   })
-});
+}); */
 
 app.use((req, res, next) => { 
   User.find({status: true}, { id: 1, username: 1, name: 1, image: 1})
@@ -75,8 +75,11 @@ app.use((req, res, next) => {
               users.forEach((user, index) => {
                 if(user.id === res.locals.currentUser.id) {
                   users.splice(index, 1)
-                }
+                };
+                user.smallName = user.name.substring(0, 15) + '...';
+                user.smallUsername = user.username.substring(0, 20) + '...'
               })
+
               res.locals.usersToFollow = users;
               next()
             })
@@ -88,8 +91,8 @@ app.use((req, res, next) => {
 
 const onlineUsers = [];
 
-const addNewUser = (username, socketID) => {
-  !onlineUsers.some((user) => user.username === username) && onlineUsers.push({ socketID, username })
+const addNewUser = (username, socketID, image) => {
+  !onlineUsers.some((user) => user.username === username) && onlineUsers.push({ username, socketID, image })
 };
 
 const removeUser = (socketID) => {
@@ -101,8 +104,8 @@ const removeUser = (socketID) => {
 };
 
 io.on("connection", socket => {
-  socket.on('newUser', username => {
-    addNewUser(username, socket.id)
+  socket.on('newUser', username, image => {
+    addNewUser(username, socket.id, image);
   })
 
   socket.on('disconnect', () => {
@@ -110,16 +113,19 @@ io.on("connection", socket => {
   })
 
   socket.on('chatmessage', (msg, username) => {
-
     const userToMessage = onlineUsers.find(user => {
       return user.username === username
     });
-    
+
+    const userSending = onlineUsers.find((user) => {
+      return user.socketID === socket.id;
+    });
+   
     if (userToMessage) {
-      io.to(userToMessage.socketID).emit("message", msg);
+      io.to(userToMessage.socketID).emit("message", msg, userSending.image);
     }   
 
-    io.to(socket.id).emit("message", msg);
+    io.to(socket.id).emit("message", msg, userSending.image);
   })
 
   socket.on("notification", (username) => {

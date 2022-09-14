@@ -35,21 +35,27 @@
                 <a href="/followers/{{user.username}}"><ins id="followersCount">{{followersCount}}</ins> Followers</a>
             </div>
         </div>
-        <div class="profile-posts-container">
+        <div>
             {{#each posts as | post |}}
-                <div class="post" data-id="{{post.id}}">
-                    <img src="{{../user.image}}" alt="{{../user.username}}'s icon" width="50">            
-                    <h5>{{post.creator.username}}</h5>
-                    <p>{{post.content}}</p>
-                    {{#if post.media}}<img src="{{post.media}}"{{/if}}
-                    {{#if post.sameOwner}} <a class="remove" data-id="{{post.id}}">Delete</a>{{/if}}     
+                <div class="post-container post" data-id="{{post.id}}">
+                    <div class="post-user-container">
+                        <a class="user-img-post">
+                            <img class="image-cover-medium" src="{{post.creator.image}}">
+                        </a>
+                        <div class="post-content">
+                            <h5>{{post.creator.username}}</h5>
+                            <p>{{post.content}}</p>
+                            {{#if post.media}}<img src="{{post.media}}" width="100px">{{/if}}
+                            {{#if post.gif}}<img src="{{post.gif}}" width="100px">{{/if}}
+                        </div>
+                    </div>
                 </div>
             {{/each}}
         </div>
     </div>    
     {{else}}
     <div id="profile-container">
-        <h1>No Capybaras found &#128528</h1>
+        <h1>No capybara found &#128528</h1>
     </div>
 {{/if}}
 
