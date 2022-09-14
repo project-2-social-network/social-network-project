@@ -9,3 +9,7 @@ module.exports.doHelp = (req, res, next) => {
     mailer.sendHelpEmail(email, text);
     res.render('help', {emailMessage: `Email successfuly sent. We'll get in touch with you ASAP.`})
 };
+
+module.exports.aboutUs = (req, res, next) => {
+    res.render('about-us');
+};

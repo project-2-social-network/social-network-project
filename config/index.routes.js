@@ -27,6 +27,7 @@ router.post(
   authMiddlewares.isAuthenticated,
   miscController.doHelp
 );
+router.get("/about-us", miscController.aboutUs);
 
 //AUTH
 router.get(
@@ -159,7 +160,8 @@ router.get(
   authMiddlewares.isAuthenticated,
   userController.profile
 );
-router.post("/list", authMiddlewares.isAuthenticated, userController.search);
+router.get("/list", authMiddlewares.isAuthenticated, userController.search);
+router.post("/list", authMiddlewares.isAuthenticated, userController.doSearch);
 router.put(
   "/follow/:username",
   authMiddlewares.isAuthenticated,
