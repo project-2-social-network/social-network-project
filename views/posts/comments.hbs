@@ -41,7 +41,7 @@
     {{#each comments as | comment |}}
       <div class="post-container post comment" data-id="{{comment.id}}">
         <div class="post-user-container">
-          <a class="user-img-post" href="/profile/{{post.creator.username}}">
+          <a class="user-img-post" href="/profile/{{comment.creator.username}}">
               {{#if comment.creator}} 
                 <img class="image-cover-medium" src="{{comment.creator.image}}" alt="{{comment.creator.username}}'s icon">
               {{else}}

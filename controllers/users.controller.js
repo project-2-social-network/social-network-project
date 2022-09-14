@@ -58,6 +58,14 @@ module.exports.profile = (req, res, next) => {
 };
 
 module.exports.search = (req, res, next) => {
+    User.find({ status: true })
+    .then((users) => {
+        res.render('users/list', { users });
+    })
+    .catch((err) => next(err))
+};
+
+module.exports.doSearch = (req, res, next) => {
     const { searchInfo } = req.body;
     User.find({
       $and: [

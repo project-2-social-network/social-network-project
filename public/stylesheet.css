@@ -558,11 +558,87 @@
     background-color: rgba(255, 192, 144, 0.35);
 }
 
+/* ABOUT US */
 
+#about-us-container {
+    position: absolute;
+    left: 0;
+    z-index: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    background: #7FB77E;
+    padding: 3rem;
+    height: 100vh;
+    width: 100vw;
+    padding-top: 3rem;
+}
 
+#about-us-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+    border-radius: 50px;
+    background: #7FB77E;
+    box-shadow:  20px 20px 60px #6c9c6b, -20px -20px 60px #92d291;
+    width: 55rem;
+}
 
+#about-us-text h2 {
+    margin-bottom: 3rem;
+    color: white;
+    font-weight: 700;
+}
 
+#about-us-text p {
+    font-size: 0.9rem;
+}
 
+#about-us-names {
+    margin-top: 2rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+#about-us-names a{
+    border-radius: 5px;
+    background: #7FB77E;
+    box-shadow:  8px 8px 20px #6c9c6b, -8px -8px 20px #92d291;
+    padding:1rem 2rem;
+    color: white;
+    font-size: 1.2rem;
+}
+
+#about-us-names a{
+    border-radius: 5px;
+    background: #7FB77E;
+    box-shadow:  8px 8px 20px #6c9c6b, -8px -8px 20px #92d291;
+    padding:1rem 2rem;
+    color: white;
+    font-size: 1.2rem;
+}
+
+#about-us-names a:hover {
+    border-radius: 5px;
+    background: #7FB77E;
+    box-shadow: inset 8px 8px 15px #6c9c6b, inset -8px -8px 15px #92d291;
+}
+
+.goback-img-container {
+    margin-top: 6rem;
+    display: flex;
+    flex-direction: column;
+    height: 25rem;
+}
+
+.goback-img-container a {
+    margin-top: 6rem;
+    color: white;
+    font-size: 1.5rem;
+}
 
 
 
