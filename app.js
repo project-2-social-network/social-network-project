@@ -104,8 +104,9 @@ const removeUser = (socketID) => {
 };
 
 io.on("connection", socket => {
-  socket.on('newUser', username, image => {
-    addNewUser(username, socket.id, image);
+  console.log("entra en connected----------------");
+  socket.on('newUser', (sender) => {
+    addNewUser(sender.username, socket.id, sender.image);
   })
 
   socket.on('disconnect', () => {
@@ -120,6 +121,7 @@ io.on("connection", socket => {
     const userSending = onlineUsers.find((user) => {
       return user.socketID === socket.id;
     });
+    console.log('entra en chat message----------------',userSending)
    
     if (userToMessage) {
       io.to(userToMessage.socketID).emit("message", msg, userSending.image);

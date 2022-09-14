@@ -63,10 +63,11 @@
     let socket = io('https://becapy-production.up.railway.app');
     let senderUsername = '{{currentUser.username}}';
     let senderImg = '{{currentUser.image}}';
+    let sender = {username: senderUsername, image: senderImg };
 
     window.addEventListener('load', () => {
       window.socket = socket
-      socket.emit('newUser', senderUsername, senderImg)
+      socket.emit('newUser', sender)
     });
 
     //NOTIFICATION
