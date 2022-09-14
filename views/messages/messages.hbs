@@ -44,11 +44,13 @@
             }
         };
 
-        axios(options)
+        if(!textInput.length == 0) {
+            axios(options)
             .then(response => {
                 socket.emit('chatmessage', msgForm.msg.value, receiverUsername);
                 msgForm.msg.value = '';
             })
             .catch(error => console.log('Error!', error))
+        }        
     });
 </script>

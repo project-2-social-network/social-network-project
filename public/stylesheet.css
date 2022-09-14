@@ -1146,18 +1146,16 @@
 /* MESSAGES */
 
 #h2-msg {
-    position: fixed;
-    top: 11%;
     margin-left: 2rem;
-    padding-left: 0;
-    margin-bottom: 3rem;
+    margin-bottom: 0;
     background-color: #ffffff;
-    width: 20rem;
+    width: 45rem;
 }
 
 #messages {
     margin-top: 4rem;
     margin-left: 2rem;
+    width: 45rem;
 }
 
 #msgForm {    
