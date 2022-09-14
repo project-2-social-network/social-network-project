@@ -7,7 +7,7 @@
 
     <form action="/comments/{{post.id}}" method="POST" enctype="multipart/form-data">
         <input type="text" name="creator" value="{{currentUser.id}}" hidden>
-        <textarea id="input-text" onkeyup="hasContent()" type="textarea" maxlength="240" name="content" placeholder="Type your comment here {{currentUser.username}}?" size="100px" cols="40" rows="2"></textarea>
+        <textarea id="input-text" onkeyup="hasContent()" type="textarea" maxlength="240" name="content" placeholder="Type your comment here {{currentUser.username}}" size="100px" cols="40" rows="2"></textarea>
         <br>          
           <img src="" alt="gif selected" class="hidden content-uploaded" id="gif-selected" width="200px">
           <br>
@@ -56,8 +56,8 @@
                 <h5>User no longer exists.</h5>
               {{/if}}
               <p>{{comment.content}}</p>
-              {{#if comment.media}}<img src="{{comment.media}}" alt="Media uploaded" width="100px">{{/if}}
-              {{#if comment.gif}}<img src="{{comment.gif}}" alt="Gif uploaded" width="100px">{{/if}}
+              {{#if comment.media}}<img src="{{comment.media}}" alt="Media uploaded" width="200px">{{/if}}
+              {{#if comment.gif}}<img src="{{comment.gif}}" alt="Gif uploaded" width="200px">{{/if}}
               {{#if comment.sameOwner}} <a id="trash-icon" class="remove" data-id="{{comment.id}}"><img width="20px" src="/images/Trash-icon.png" alt="Trash icon"></a>{{/if}}
           </div>
         </div>   

@@ -8,9 +8,10 @@
         <a href="/change/image">
             <h3>Change your profile's image</h3>
             <p>Update your profile's image at any time.</p>
-        </a>      
+        </a>
+        {{#if imageMessage}} <p>{{imageMessage}}</p> {{/if}}      
     </div>
-    {{#if imageMessage}} <p>{{imageMessage}}</p> {{/if}}
+    
 
     <div class="settings-options-container">
         <div>
@@ -20,8 +21,9 @@
             <h3>Change your username</h3>
             <p>Choose the username you prefer.</p>
         </a>
+        {{#if usernameMessage}} <p class="username-updated">{{usernameMessage}}</p> {{/if}}
     </div>
-    {{#if usernameMessage}} <p>{{usernameMessage}}</p> {{/if}}
+    
     
     {{#unless currentUser.googleID}}
     <div class="settings-options-container">
@@ -32,8 +34,8 @@
             <h3>Change your password</h3>
             <p>Change your password at any time.</p>
         </a>
-    </div>
-    {{#if message}} <p>{{message}}</p> {{/if}}   
+        {{#if message}} <p>{{message}}</p> {{/if}}
+    </div>      
     {{/unless}}
 
     <div class="settings-options-container">

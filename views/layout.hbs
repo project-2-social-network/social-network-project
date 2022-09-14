@@ -33,33 +33,40 @@
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script>
 
-
+    //TOGGLE EYE PASSWORD
     function tooglePassword() {
-      const inputNode = document.getElementById("password-input");
-      const iconNode = document.getElementById("password-icon");
+      const inputNode = document.querySelectorAll("#password-input");
+      const iconNode = document.querySelector("#password-icon");
 
-      if (inputNode) {
-        if (inputNode.type === "password") {
-          inputNode.type = "text";
-          iconNode.classList.add("fa-eye");
-          iconNode.classList.remove("fa-eye-slash");
-        } else {
-          inputNode.type = "password";
-          iconNode.classList.remove("fa-eye");
-          iconNode.classList.add("fa-eye-slash");
+      for(let node of inputNode) {
+        if (node) {
+          if (node.type === "password") {
+            node.type = "text";
+            iconNode.classList.add("fa-eye");
+            iconNode.classList.remove("fa-eye-slash");
+          } else {
+            node.type = "password";
+            iconNode.classList.remove("fa-eye");
+            iconNode.classList.add("fa-eye-slash");
+          }
         }
-      }
+      }      
     }
 
-    document.querySelector('.password-toggle')?.addEventListener('click', tooglePassword);
+    const btnToogle = document.querySelectorAll('.password-toggle');
+
+    for(let node of btnToogle) {
+      node?.addEventListener('click', tooglePassword);
+    }
 
     //SOCKET
     let socket = io('https://becapy-production.up.railway.app');
     let senderUsername = '{{currentUser.username}}';
+    let senderImg = '{{currentUser.image}}';
 
     window.addEventListener('load', () => {
       window.socket = socket
-      socket.emit('newUser', senderUsername)
+      socket.emit('newUser', senderUsername, senderImg)
     });
 
     //NOTIFICATION
@@ -80,13 +87,22 @@
       }
     });
 
-    function appendMessages(message) {
-      const html = `<div><p>${message}</p><span>Just now</span></div>`
+    //MESSAGES
+    function appendMessages(msg, image) {
+      const html =
+      `<div class="msg">
+        <img class="image-cover-medium" src="${image}" alt="">
+          <div class="">
+            <p>${msg}</p>
+            <span>Just now</span>
+          </div>
+        </div>
+      `
       messages.innerHTML += html
     };
 
-    socket.on('message', (data) => {
-      appendMessages(data)
+    socket.on('message', (msg, image) => {
+      appendMessages(msg, image)
       socket.emit('notification', receiverUsername);
     }); 
   </script>

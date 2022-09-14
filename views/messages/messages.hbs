@@ -1,28 +1,26 @@
-<h1>Messages</h1>
-
-<div id="messages">
-    {{#if msgs}}
-    {{#each msgs as |msg|}}
-    <div class="msg">
-        <p>{{msg.msg}}</p>
-        <span>{{msg.createdAt}}</span>
+<div class="dinamic-view-container">
+    <h2 id="h2-msg">Messages</h2>
+    <div id="messages">
+        {{#if msgs}}
+            {{#each msgs as |msg|}}
+                <div class="msg">
+                    <img class="image-cover-medium" src="{{msg.sender.image}}" alt="{{msg.sender.username}}'s' icon">
+                    <div class="content-msg">
+                        <p>{{msg.msg}}</p>
+                        <span>{{msg.hour}}</span>
+                    </div>                    
+                </div>
+            {{/each}}
+        {{/if}}
     </div>
-    {{/each}}
-    {{/if}}
+    <form id="msgForm">
+        <div>
+            <input id="text-input" type="text" name="msg" placeholder="   Type something...">
+            <input id="input-username" type="text" value="{{username}}" class="hidden">
+        </div>        
+        <button id="btn-send" class="emit-notification btn-send-msg">Send</button>
+    </form>
 </div>
-
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-
-<form id="msgForm">
-    <input id="text-input" type="text" name="msg">
-    <input id="input-username" type="text" value="{{username}}" class="hidden">
-    <button id="btn-send" class="emit-notification">Send</button>
-</form>
 
 <script>
     const btnSendMsg = document.getElementById('btn-send');

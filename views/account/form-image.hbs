@@ -1,9 +1,11 @@
 <div class="dinamic-view-container">
     <h2>Change your profile's image</h2>
     <form action="/change/image/{{currentUser.username}}" method="POST" enctype="multipart/form-data">
-        <img class="image-cover-medium" src="{{currentUser.image}}" alt="{{currentUser.username}}'s icon">
-        <input type="file" name="image">
+        <div class="input-image">
+            <img class="image-cover-medium" src="{{currentUser.image}}" alt="{{currentUser.username}}'s icon">
+            <input type="file" name="image">            
+        </div>
         <br>
-        <button id="btn-post-help" type="submit">SEND</button>
+        <button class="form-btn-settings" id="btn-post-help" type="submit">CHANGE</button>
     </form>
 </div>
