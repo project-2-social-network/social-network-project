@@ -163,10 +163,10 @@ module.exports.comments = (req, res, next) => {
       Comment.find({ post: post.id })
         .populate("creator")
         .then((comments) => {
-          comments.forEach((comment) => {
+          /* comments.forEach((comment) => {
             comment.sameOwner =
               comment.creator.id === currentUser.id ? true : false;
-          });
+          }); */
           res.render("posts/comments", { post, comments });
         });
     })
