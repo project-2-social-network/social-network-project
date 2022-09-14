@@ -19,6 +19,7 @@
     padding: 4rem 2rem;
     width: 55vw;
     height: auto;
+    min-height: 95vh;
     border-radius: 50px;
     background: #ffffff;
     box-shadow: 20px 20px 60px #d9d9d9, -20px -20px 60px #ffffff;
@@ -1105,16 +1106,98 @@
 
 .settings-options-container > a {
     padding-top: 1rem;
-    width: 30rem;    
+    width: 25rem;    
 }
 
 .settings-options-container > a:hover {
     color: #F8A668;
 }
 
-
-#form-delete-account > h2 {
-    margin-top: 2rem;
-    margin-bottom: 4rem;
+.username-updated {
+    padding-top: 2.5rem;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    font-size: 0.9rem;
+    font-style: italic;
+    color: #B1D7B4;
 }
 
+.form-btn-settings {
+    margin-left: 2rem;
+}
+
+.input-username input, .input-image img {
+    margin-left: 2rem;
+    margin-right: 2rem;
+}
+
+.input-password input {
+    margin-left: 2rem;
+}
+
+.input-password button {
+    margin-right: 2rem;
+}
+
+#form-delete-account {
+    margin-left: 2rem;
+}
+
+/* MESSAGES */
+
+#h2-msg {
+    position: fixed;
+    top: 11%;
+    margin-left: 2rem;
+    padding-left: 0;
+    margin-bottom: 3rem;
+    background-color: #ffffff;
+    width: 20rem;
+}
+
+#messages {
+    margin-top: 4rem;
+    margin-left: 2rem;
+}
+
+#msgForm {    
+    margin-left: 2rem;
+    position: fixed;
+    bottom: 7%;
+    display: flex;
+    flex-direction: row;
+}
+
+#text-input {
+    border: none;
+    background-color: #e6e6e6;
+    border-radius: 50px;
+    width: 30rem;
+    padding: 0.5rem;
+}
+
+.msg {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid #e6e6e6;
+    border-radius: 50px;
+    margin-bottom: 1rem;
+}
+
+.content-msg {
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;    
+}
+
+.btn-send-msg {
+    width: 6rem;
+    background-color: #F8A668;
+    border: none;
+    padding: 0.3rem;
+    text-align: center;
+    color: white;
+    border-radius: 50px;
+    margin-left: 1rem;
+}

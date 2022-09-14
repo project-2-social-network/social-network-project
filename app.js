@@ -91,8 +91,8 @@ app.use((req, res, next) => {
 
 const onlineUsers = [];
 
-const addNewUser = (username, socketID) => {
-  !onlineUsers.some((user) => user.username === username) && onlineUsers.push({ socketID, username })
+const addNewUser = (username, socketID, image) => {
+  !onlineUsers.some((user) => user.username === username) && onlineUsers.push({ username, socketID, image })
 };
 
 const removeUser = (socketID) => {
@@ -104,8 +104,8 @@ const removeUser = (socketID) => {
 };
 
 io.on("connection", socket => {
-  socket.on('newUser', username => {
-    addNewUser(username, socket.id)
+  socket.on('newUser', username, image => {
+    addNewUser(username, socket.id, image);
   })
 
   socket.on('disconnect', () => {
@@ -113,16 +113,19 @@ io.on("connection", socket => {
   })
 
   socket.on('chatmessage', (msg, username) => {
-
     const userToMessage = onlineUsers.find(user => {
       return user.username === username
     });
-    
+
+    const userSending = onlineUsers.find((user) => {
+      return user.socketID === socket.id;
+    });
+   
     if (userToMessage) {
-      io.to(userToMessage.socketID).emit("message", msg);
+      io.to(userToMessage.socketID).emit("message", msg, userSending.image);
     }   
 
-    io.to(socket.id).emit("message", msg);
+    io.to(socket.id).emit("message", msg, userSending.image);
   })
 
   socket.on("notification", (username) => {
