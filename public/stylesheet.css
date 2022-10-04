@@ -30,6 +30,16 @@
     margin-bottom: 3rem;
 }
 
+@media (max-width:992px) {
+    .dinamic-view-container {
+        margin-top: 0;
+        padding: 2rem 1rem;
+        width: 100vw;
+        min-height: 100vh;
+        border-radius: 0;
+    }
+}
+
 /* ALL LINKS */
 :any-link {
     color: black;
@@ -114,6 +124,12 @@
     color: white;
     font-weight: 600;
     font-size: 1.3rem;
+}
+
+@media (max-width:992px) {
+    #nav-bar {
+        display: none;
+    }
 }
 
 /* RECOMMENDATIONS */
@@ -216,6 +232,12 @@
 
 .child-news-container p {
     font-size: 0.8rem;
+}
+
+@media (max-width:992px) {
+    #recommendations-section {
+        display: none;
+    }
 }
 
 /* USERNAME- IMG */
@@ -348,11 +370,11 @@
         width: 21rem;
     }
 
-    .input-group input {
+    .input-group .login-input {
         width: 19rem !important;
     }
 
-    .input-group>#password-input {
+    .input-group > #password-input {
         width: 10rem !important;
     }
 
@@ -361,7 +383,6 @@
         font-size: 1.1rem;
     }
 }
-
 
 /* REGISTER */
 
@@ -1217,6 +1238,13 @@
 
 #form-delete-account {
     margin-left: 2rem;
+}
+
+@media (max-width:992px) {
+
+    .input-password input {
+        width: 50px;
+    }
 }
 
 /* MESSAGES */
