@@ -40,20 +40,25 @@ module.exports.home = (req, res, next) => {
           }
         });
         const listWithoutDuplicates = [...new Set(finalList)]
-        listWithoutDuplicates.forEach((post) => {
-          Like.findOne({
+        const likesPromises = listWithoutDuplicates.map((post) => {
+          return Like.findOne({
             $and: [{ like: post._id }, { userWhoLikes: currentUser.id }],
           })
             .then((likeFound) => {
-              return (post.alreadyLiked = likeFound ? true : false);
+              post.alreadyLiked = likeFound ? true : false
             })
             .catch((err) => next(err));
         });
-        
-        listWithoutDuplicates.sort((a, b) => {
-          return b.createdAt - a.createdAt
+
+        Promise.all(likesPromises)
+        .then((results) => {
+          listWithoutDuplicates.sort((a, b) => {
+            return b.createdAt - a.createdAt
+          })
+          res.render("posts/home", { listWithoutDuplicates });
         })
-        res.render("posts/home", { listWithoutDuplicates });
+        .catch(next)
+        
       });
     })
     .catch((err) => next(err));
@@ -156,17 +161,16 @@ module.exports.doLike = (req, res, next) => {
 module.exports.comments = (req, res, next) => {
   const { id } = req.params;
   const currentUser = req.user;
-
   Post.findById(id)
     .populate("creator")
     .then((post) => {
       Comment.find({ post: post.id })
         .populate("creator")
         .then((comments) => {
-          /* comments.forEach((comment) => {
-            comment.sameOwner =
-              comment.creator.id === currentUser.id ? true : false;
-          }); */
+          comments.forEach((comment) => {
+           comment.sameOwner = comment.creator.id === currentUser.id;
+         }); 
+          console.log(comments)
           res.render("posts/comments", { post, comments });
         });
     })
