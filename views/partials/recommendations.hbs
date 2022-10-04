@@ -14,15 +14,17 @@
         <div id="follow-suggestion-container">
             <h3>Who to follow</h3>
             {{#each usersToFollow as |user|}}
-                <a href="/profile/{{user.username}}">
-                    <div class="suggestion-container">
-                        <img src="{{user.image}}" class="image-cover-small">
-                        <div>
-                            <h4>{{user.name}}</h3>
-                            <p>{{user.username}}</p>
-                        </div>            
-                    </div>
-                </a>         
+                <div class="news-suggestion-wraper">
+                    <a href="/profile/{{user.username}}">
+                        <div class="suggestion-container">
+                            <img src="{{user.image}}" class="image-cover-small">
+                            <div>
+                                <h4>{{user.name}}</h3>
+                                <p>{{user.username}}</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>                       
             {{/each}}
         </div>
     {{/if}}    
@@ -30,12 +32,14 @@
             <div id="news-container">
                 <h3>What's happening</h3>
                 {{#each news as |news|}}
-                <a href="{{news.url}}" target="blank">
-                    <div class="child-news-container">
-                        <img src="{{news.urlToImage}}" class="image-cover-small">
-                        <p>{{news.smallTitle}}</p>
-                    </div>
-                </a>
+                <div class="news-suggestion-wraper">
+                    <a href="{{news.url}}" target="blank">
+                        <div class="child-news-container">
+                            <img src="{{news.urlToImage}}" class="image-cover-small">
+                            <p>{{news.smallTitle}}</p>
+                        </div>
+                    </a>
+                </div>
                 {{/each}}
             </div>
         </div>
