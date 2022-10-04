@@ -39,6 +39,7 @@
     }
 
     .dinamic-view-container>h2 {
+        padding-left: 2rem;
         margin-bottom: 1rem;
     }
 }
@@ -61,8 +62,9 @@
 }
 
 /* NAV BAR */
+/* NAV BAR */
 #nav-bar {
-    width: 20rem;
+    width: 22vw;
     padding-right: 2rem;
     padding-top: 2rem;
     position: fixed;
@@ -80,7 +82,7 @@
 }
 
 .nav-bar-hover {
-    padding-left: 1rem;
+    padding-left: 0.5rem;
 }
 
 .nav-bar-hover:hover {
@@ -106,11 +108,11 @@
 }
 
 .nav-bar-text {
-    font-size: 1.3rem;
-    margin-left: 1rem;
+    font-size: 1.1rem;
+    margin-left: 0.8rem;
 }
 
-#logout-li {
+.logout-btn-desktop {
     display: flex;
     justify-content: center;
     margin-top: 1.4rem;
@@ -119,7 +121,7 @@
     box-shadow:  5px 5px 9px #c4c4c4, -5px -5px 9px #ffffff;
 }
 
-#logout-li:hover {
+.logout-btn-desktop:hover {
     background: #7FB77E;
 }
 
@@ -132,6 +134,85 @@
 @media (max-width:992px) {
     #nav-bar {
         display: none;
+    }
+}
+
+/* NAV-BAR-MOBILE */        
+
+#nav-bar-mobile {
+    display: none;
+}
+
+.side-nav {
+    height: 100vh;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #7FB77E;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.logout-btn-mobile {
+    margin: 2rem 2rem 0 0;
+    padding: 0.5rem 0;
+    background: #7FB77E;
+    box-shadow:  2px 2px 5px #6C9C6B, -2px -2px 5px #92D291;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.logout-btn-mobile:hover {
+    border-radius: 10px;
+    background: #7FB77E;
+    box-shadow: inset 20px 20px 60px #6C9C6B, inset -20px -20px 60px #92D291;
+}
+
+.logout-btn-mobile span {
+    margin-left: 0 !important;
+}
+
+.side-nav li {
+    list-style: none;
+    margin-bottom: 1rem;
+}
+
+.side-nav a {
+    color: white;
+    font-size: 1.4rem;
+    text-decoration: none;
+}
+
+.side-nav a:active {
+    color: rgb(208, 208, 208);
+}
+
+.side-nav span {
+    margin-left: 1.5rem;
+}
+
+.side-nav .close-btn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+@media (max-width:992px) {
+    #nav-bar-mobile {
+        display:block
+    }
+
+    .hamburguer-div {
+        position: fixed;
+        top: 2%;
+        left: 1.5%;
+        z-index: 1;
+        background-color: none;
     }
 }
 

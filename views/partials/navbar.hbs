@@ -47,12 +47,80 @@
           <img src="/images/help-icon.png" class="nav-bar-img"><span class="nav-bar-text">Help</span>
         </a>
       </li>
-      <li id="logout-li">
+      <li id="logout-li" class="logout-btn-desktop">
         <a class="nav-bar-link" href="/logout">
           <span class="logout-text">Log Out</span>
         </a>
       </li>
     </ul>
   </nav>
+
+
+  <nav id="nav-bar-mobile">
+    <div class="hamburguer-div">
+      <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+    </div>
+    
+    <div id="my-side-nav" class="side-nav">
+      <a href="javascript:void(0)" class="close-btn" onclick="closeNav()">&times;</a>
+      <ul>
+        <li>
+          <a href="/home">
+            <img src="/images/home-icon.png" class="nav-bar-img"><span>Home</span>
+          </a>
+        </li>
+        <li>
+          <a href="/explore">
+            <img src="/images/explore-icon.png" class="nav-bar-img"><span>Explore</span>
+          </a>
+        </li>
+        <li id="not-remove">
+          <a href="/notifications">
+            <img id="not-icon" src="/images/notification-icon.png" class="nav-bar-img"><span>Notifications</span>
+          </a>
+        </li>
+        <li>
+          <a href="/messages">
+            <img src="/images/message-icon.png" class="nav-bar-img"><span>Messages</span>
+          </a>
+        </li>
+        <li>
+          <a href="/profile/{{currentUser.username}}">
+            <img src="/images/profile-icon.png" class="nav-bar-img"><span>Profile</span>
+          </a>
+        </li>
+        <li>
+          <a href="/settings">
+            <img src="/images/setting-icon.png" class="nav-bar-img"><span>Settings</span>
+          </a>
+        </li>
+        <li>
+          <a href="/about-us">
+            <img src="/images/about-us-icon.png" class="nav-bar-img"><span>About Us</span>
+          </a>
+        </li>
+        <li>
+          <a href="/help">
+            <img src="/images/help-icon.png" class="nav-bar-img"><span>Help</span>
+          </a>
+        </li>
+        <li id="logout-li" class="logout-btn-mobile">
+          <a href="/logout">
+            <span>Log Out</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </nav>
 {{/if}}
 
+<script>
+  function openNav() {
+    document.getElementById("my-side-nav").style.width = "75vw";
+  }
+
+  function closeNav() {
+    document.getElementById("my-side-nav").style.width = "0";
+  }
+</script>
