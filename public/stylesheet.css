@@ -37,6 +37,10 @@
         min-height: 100vh;
         border-radius: 0;
     }
+
+    .dinamic-view-container>h2 {
+        margin-bottom: 1rem;
+    }
 }
 
 /* ALL LINKS */
