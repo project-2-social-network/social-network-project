@@ -261,10 +261,14 @@
     padding-top: 6rem;
 }
 
-.login-img-container {
-    display: flex;
-    flex-direction: column;
-    height: 25rem;
+ .login-img-container {
+     display: flex;
+     flex-direction: column;
+     height: 25rem;
+ }
+
+ .login-img-container-small {
+    display: none;
 }
 
 .login-box-container {
@@ -278,6 +282,7 @@
     height: 29rem;
     width: 32rem;
 }
+
 
 .login-btn-container {
     display: flex;
@@ -320,6 +325,44 @@
     margin-bottom: 1rem;
 }
 
+@media (max-width:992px) {
+
+    #login-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .login-img-container {
+        display: none;
+        margin-top: -2rem;
+    }
+
+    .login-img-container-small {
+        display: block;
+    }
+
+    .login-box-container {
+        padding: 1rem;
+        box-shadow: 10px 10px 30px #6c9c6b, -10px -10px 30px #92d291;
+        height: 25rem;
+        width: 21rem;
+    }
+
+    .input-group input {
+        width: 19rem !important;
+    }
+
+    .input-group>#password-input {
+        width: 10rem !important;
+    }
+
+    .login-btn-container button,
+    .login-btn-container a {
+        font-size: 1.1rem;
+    }
+}
+
+
 /* REGISTER */
 
 #register-container {
@@ -340,16 +383,20 @@
     height: 25rem;
 }
 
-.register-box-container {
-    display: flex;
-    align-items: center;
-    padding: 2rem;
-    border-radius: 50px;
-    background: #F8A668;
-    box-shadow:  31px 31px 61px #d38d58, -31px -31px 61px #ffbf78;
-    height: 35rem;
-    width: 32rem;
-}
+ .register-img-container-small {
+     display: none;
+ }
+
+ .register-box-container {
+     display: flex;
+     align-items: center;
+     padding: 2rem;
+     border-radius: 50px;
+     background: #F8A668;
+     box-shadow: 31px 31px 61px #d38d58, -31px -31px 61px #ffbf78;
+     height: 35rem;
+     width: 32rem;
+ }
 
 .register-btn-container {
     display: flex;
@@ -380,6 +427,35 @@
     border: none;
     font-size: 1.2rem;
     text-decoration: none;
+}
+
+@media (max-width:992px) {
+
+    #register-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .register-img-container {
+        display: none;
+        margin-top: -2rem;
+    }
+
+    .register-img-container-small {
+        display: block;
+    }
+
+    .register-box-container {
+        padding: 1rem;
+        box-shadow: 10px 10px 30px #d38d58, -10px -10px 30px #ffbf78;
+        height: 27rem;
+        width: 21rem;
+    }
+
+    .register-btn-container button,
+    .register-btn-container a {
+        font-size: 1.1rem;
+    }
 }
 
 /* PROFILE */

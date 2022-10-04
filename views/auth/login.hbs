@@ -3,7 +3,10 @@
     <img src="/images/capy.gif" alt="gif of a capybara" width="350px">
     <img src="/images/text-white.png" alt="becapy's logo" width="400px">
   </div>
-  <div class="login-box-container">
+  <div class="login-img-container-small">
+    <img src="/images/text-white.png" alt="becapy's logo" width="250px">
+  </div>
+  <div class="login-box-container">    
     <div>
       {{#if registerMessage}}<div class="register-feedback">{{registerMessage}}</div>{{/if}}
       <form action="/" method="POST">
@@ -25,7 +28,7 @@
             type="password"
             name="password"
             class="custom-form-control login-input form-control py-2 ps-4 {{#if errors}}is-invalid{{/if}}"
-            placeholder="Password"
+            placeholder="password"
             aria-label="User password"
           >
           <button class="btn btn-outline-secondary password-toggle c-dark" type="button">
@@ -44,7 +47,7 @@
               Login with Google
             </a>
           </div>
-          <a href="/register">Don't have an account? Register here</a>
+          <a href="/register">Don't have an account? <strong>Register here!</strong></a>
         </div>
       </form>
     </div>
