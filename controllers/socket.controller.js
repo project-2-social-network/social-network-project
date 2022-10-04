@@ -10,12 +10,12 @@ module.exports.selectUser = (req, res, next) => {
   .populate('receiver', {
     username: 1,
     image: 1,
-    _id: 0
+    id: 1
   })
   .populate('sender', {
     username: 1,
     image: 1,
-    _id: 0
+    id: 1
   })
   .then((messages) => {
     if(messages) {
@@ -25,13 +25,17 @@ module.exports.selectUser = (req, res, next) => {
       })
     };
 
-    let listWithoutDuplicates = usersArr.filter((value, index, self) =>
-      index === self.findIndex((t) => (
+    let listWithoutDuplicates = usersArr.filter((value, index, array) =>
+      index === array.findIndex((t) => (
         t.username === value.username
       ))
     )
+    
+    let listWithoutSelfUser = listWithoutDuplicates.filter((user) => 
+      user.id !== currentUser.id
+    )
 
-    res.render('messages/list-users-message', { listWithoutDuplicates })
+    res.render('messages/list-users-message', { listWithoutSelfUser })
   })
   .catch((err) => next(err));
 };

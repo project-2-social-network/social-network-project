@@ -1,8 +1,8 @@
 <div class="dinamic-view-container">
-    {{#if listWithoutDuplicates}}
+    {{#if listWithoutSelfUser}}
     <h2>Chats</h2>
     <div>
-        {{#each listWithoutDuplicates as |user|}}
+        {{#each listWithoutSelfUser as |user|}}
             <a href="/message/{{user.username}}">
                 <div class="seach-user-container">
                     <img src="{{user.image}}" class="image-cover-small">
