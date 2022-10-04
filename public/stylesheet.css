@@ -26,7 +26,6 @@
 }
 
 .dinamic-view-container > h2 {
-    padding-left: 2rem;
     margin-bottom: 3rem;
 }
 
@@ -270,6 +269,26 @@
     object-position: center right;
 }
 
+@media (max-width:992px) {
+    .image-cover-small {
+        width: 45px;
+        height: 45px;
+        margin: 20px;
+    }
+    
+    .image-cover-medium {
+        width: 60px;
+        height: 60px;
+        margin: 20px;
+    }
+
+    .image-cover-large {
+        width: 150px;
+        height: 150px;
+        margin: 15px;
+    }
+}
+
 /* LOGIN */
 
 #login-container {
@@ -304,7 +323,6 @@
     height: 29rem;
     width: 32rem;
 }
-
 
 .login-btn-container {
     display: flex;
@@ -522,6 +540,21 @@
 .profile-btn:hover {
     background-color:  #F8A668;
     color: white;
+}
+
+@media (max-width:992px) {
+    .profile-message-division {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+    }
+    
+    .profile-btn {            
+        padding: 4px 10px;
+        font-weight: 400;
+    }
 }
 
 #profile-username {
