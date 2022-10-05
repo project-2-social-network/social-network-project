@@ -2,7 +2,7 @@
     <h2>Home</h2>  
     <div class="form-container">    
       <div class="user-container">
-          <img class="image-cover-medium" src="{{currentUser.image}}" alt="{{currentUser.username}}'s icon">
+          <img class="image-cover-medium" src="{{currentUser.image}}" alt="icon">
       </div>  
       <form class="create-post-container" action="/home" method="POST" enctype="multipart/form-data">
           <input type="text" name="creator" value="{{currentUser.id}}" hidden>
@@ -40,7 +40,7 @@
           <div class="post-container post" data-id="{{post.id}}">
             <div class="post-user-container">
                 <a class="user-img-post" href="/profile/{{post.creator.username}}">
-                    <img class="image-cover-medium" src="{{post.creator.image}}" alt="{{post.creator.username}}'s icon">
+                    <img class="image-cover-medium" src="{{post.creator.image}}" alt="icon">
                 </a>
                 <div class="post-content">
                     <h5>{{post.creator.username}}</h5>

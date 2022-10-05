@@ -170,7 +170,6 @@ module.exports.comments = (req, res, next) => {
           comments.forEach((comment) => {
            comment.sameOwner = comment.creator.id === currentUser.id;
          }); 
-          console.log(comments)
           res.render("posts/comments", { post, comments });
         });
     })

@@ -60,15 +60,11 @@
         </button>
         {{#if errors.password}}<div class="invalid-feedback">{{ errors.password }}</div>{{/if}}
       </div>
-      <div class="register-btn-container">
-        <button type="submit">Register</button>
-      </div>
-      <div class="register-btn-container">
-        <a href="/login/google">
+        <button type="submit" class="register-btn-container">Register</button>
+        <a href="/login/google" class="register-btn-container">
           <i class="fa fa-google"></i>
           Register with Google
         </a>
-      </div>
       <a href="/">Already have an account? <strong>Login here!</strong></a>
     </form>
   </div>

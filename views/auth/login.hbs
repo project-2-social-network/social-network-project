@@ -8,7 +8,6 @@
   </div>
   <div class="login-box-container">    
     <div>
-      {{#if registerMessage}}<div class="register-feedback">{{registerMessage}}</div>{{/if}}
       <form action="/" method="POST">
         {{#if registerMessage}}<div class="register-feedback">{{registerMessage}}</div>{{/if}}
         <div class="input-group mb-2">
@@ -38,15 +37,11 @@
           {{#if errors}}<div class="invalid-feedback">{{errors}}</div>{{/if}}
         </div>
         <div>
-          <div class="login-btn-container">
-            <button type="submit">Login</button>
-          </div>
-          <div class="login-btn-container">
-            <a href="/login/google">
+            <button type="submit" class="login-btn-container">Login</button>
+            <a href="/login/google" class="login-btn-container">
               <i class="fa fa-google"></i>
               Login with Google
             </a>
-          </div>
           <a href="/register">Don't have an account? <strong>Register here!</strong></a>
         </div>
       </form>

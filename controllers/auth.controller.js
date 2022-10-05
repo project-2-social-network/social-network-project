@@ -13,7 +13,8 @@ const login = (req, res, next, provider) => {
     if (err) {
       next(err);
     } else if (!user) {
-      res.status(404).render("auth/login", { errors: validations.error });
+      console.log(validations)
+      res.status(404).render("auth/login", { errors: 'Credentials not valid.' });
     } else {
       req.login(user, (loginError) => {
         if (loginError) {

@@ -157,12 +157,13 @@
 }
 
 .logout-btn-mobile {
+    display: block;
     margin: 2rem 2rem 0 0;
-    padding: 0.5rem 0;
     background: #7FB77E;
     box-shadow:  2px 2px 5px #6C9C6B, -2px -2px 5px #92D291;
     border-radius: 5px;
     text-align: center;
+    padding: 10px 0 1px 0;
 }
 
 .logout-btn-mobile:hover {
@@ -405,34 +406,26 @@
 }
 
 .login-btn-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
+    text-align: center;
+    padding-top: 4px;
+    height: 2.5rem;
+    width: 100%;
     border-radius: 5px;
     background: #7FB77E;
     box-shadow:  2px 2px 5px #6c9c6b, -2px -2px 5px #92d291;
-    height: 2.5rem;
     margin-bottom: 1rem;
+    background-color: transparent;
+    border: none;
+    font-size: 1.2rem;
+    color: black;
+    text-decoration: none;
 }
 
 .login-btn-container:hover {
     border-radius: 10px;
     background: #7FB77E;
     box-shadow: inset 20px 20px 60px #6c9c6b, inset -20px -20px 60px #92d291;
-}
-
-.login-btn-container button {
-    background-color: transparent;
-    border: none;
-    font-size: 1.2rem;
-}
-
-.login-btn-container a {
-    color: black;
-    background-color: transparent;
-    border: none;
-    font-size: 1.2rem;
-    text-decoration: none;
 }
 
 .custom-form-control {
@@ -518,34 +511,26 @@
  }
 
 .register-btn-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
     background: #F8A668;
     box-shadow:  3px 3px 7px #d38d58, -3px -3px 7px #ffbf78;
+    display: block;
+    text-align: center;
+    padding-top: 4px;
     height: 2.5rem;
+    width: 100%;
+    border-radius: 5px;
     margin-bottom: 1rem;
+    background-color: transparent;
+    border: none;
+    font-size: 1.2rem;
+    color: black;
+    text-decoration: none;
 }
 
 .register-btn-container:hover {
     border-radius: 10px;
     background: #F8A668;
     box-shadow: inset 3px 3px 7px #d38d58, inset -3px -3px 7px #ffbf78;
-}
-
-.register-btn-container button {
-    background-color: transparent;
-    border: none;
-    font-size: 1.2rem;
-}
-
-.register-btn-container a {
-    color: black;
-    background-color: transparent;
-    border: none;
-    font-size: 1.2rem;
-    text-decoration: none;
 }
 
 @media (max-width:992px) {
@@ -567,7 +552,7 @@
     .register-box-container {
         padding: 1rem;
         box-shadow: 10px 10px 30px #d38d58, -10px -10px 30px #ffbf78;
-        height: 27rem;
+        height: 32rem;
         width: 21rem;
     }
 
