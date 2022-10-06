@@ -55,6 +55,7 @@ module.exports.messages = (req, res, next) => {
       let indexOf = msg.createdAt.toString().indexOf('G');
       msg.hour = msg.createdAt.toString().slice(4, indexOf);
     })
+    msgs.sort((a, b) => b.createdAt - a.createdAt)
     res.render('messages/messages', { username, msgs })
   })
   .catch((err) => next(err));

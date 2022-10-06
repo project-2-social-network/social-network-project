@@ -1,6 +1,6 @@
 <div class="dinamic-view-container">
     <h2 id="h2-msg">Messages</h2>
-    <div id="messages">
+    <div id="messages" class="control-scroll">
         {{#if msgs}}
             {{#each msgs as |msg|}}
                 <div class="msg">
@@ -13,13 +13,13 @@
             {{/each}}
         {{/if}}
     </div>
-    <form id="msgForm">
-        <div>
-            <input id="text-input" type="text" name="msg" placeholder="   Type something...">
-            <input id="input-username" type="text" value="{{username}}" class="hidden">
-        </div>        
-        <button id="btn-send" class="emit-notification btn-send-msg">Send</button>
-    </form>
+        <form id="msgForm">
+            <div class="div-form">
+                <input id="text-input" type="text" name="msg" placeholder="   Type something...">
+                <input id="input-username" type="text" value="{{username}}" class="hidden">
+            </div>        
+            <button id="btn-send" class="emit-notification btn-send-msg">Send</button>
+        </form>
 </div>
 
 <script>

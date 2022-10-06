@@ -1454,33 +1454,28 @@
 
 /* MESSAGES */
 
-#h2-msg {
-    margin-left: 2rem;
-    margin-bottom: 0;
-    background-color: #ffffff;
-    width: 45rem;
-}
-
 #messages {
-    margin-top: 4rem;
     margin-left: 2rem;
-    width: 45rem;
+    width: 90%;
+    height: 57vh;
+    display: flex;
+    flex-direction: column-reverse;
 }
 
-#msgForm {    
+#msgForm { 
     margin-left: 2rem;
     position: fixed;
-    bottom: 7%;
+    bottom: 10%;
     display: flex;
-    flex-direction: row;
+    width: 90%;
 }
 
 #text-input {
     border: none;
     background-color: #e6e6e6;
     border-radius: 50px;
-    width: 30rem;
     padding: 0.5rem;
+    width: 100%;
 }
 
 .msg {
@@ -1507,4 +1502,16 @@
     color: white;
     border-radius: 50px;
     margin-left: 1rem;
+}
+
+@media (max-width: 992px) {
+    #messages {
+        height: 72vh;
+    }
+}
+
+/* CONTROL SCROLL */
+.control-scroll  {
+    overflow-y: scroll;
+    overflow-x: hidden;
 }

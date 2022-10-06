@@ -91,16 +91,16 @@
 
     //MESSAGES
     function appendMessages(msg, image) {
-      const html =
-      `<div class="msg">
-        <img class="image-cover-medium" src="${image}" alt="">
+      const div = document.createElement('div')
+      div.classList.add('msg')
+      div.innerHTML = 
+      `<img class="image-cover-medium" src="${image}" alt="">
           <div class="">
             <p>${msg}</p>
             <span>Just now</span>
           </div>
-        </div>
-      `
-      messages.innerHTML += html
+        `
+      messages.insertBefore(div, messages.firstChild);
     };
 
     socket.on('message', (msg, image) => {
