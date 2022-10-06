@@ -19,10 +19,11 @@
 <body>
   <div class="layout-container">
     <div id="navbar-container">{{> navbar}}</div>
-    <div>{{{body}}}</div>
+    <div>{{{body}}}</div>      
     <div id="recommendations-section">{{> recommendations}}</div>
-
   </div>
+
+  <div>{{> shortNavbar}}</div>
 
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js"
     integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk"
@@ -75,7 +76,7 @@
     const bellIconRemove = document.getElementById('not-remove')
 
     function switchBellIcon() {
-      bellIcon.src = '/images/notification-icon-orange.png'
+      bellIcon.src = "/images/icons/bell-ring-dark.png"
     };
 
     socket.on('not', () => {
@@ -83,8 +84,8 @@
     });
 
     bellIconRemove?.addEventListener('click', () => {
-      if (bellIcon.src === '/images/notification-icon-orange.png') {
-        bellIcon.src = '/images/notification-icon.png'
+      if (bellIcon.src === "/images/icons/bell-ring-dark.png") {
+        bellIcon.src = "/images/icons/bell-dark.png"
       }
     });
 

@@ -62,7 +62,6 @@
 }
 
 /* NAV BAR */
-/* NAV BAR */
 #nav-bar {
     width: 22vw;
     padding-right: 2rem;
@@ -104,7 +103,7 @@
 }
 
 .nav-bar-img {
-    width: 1.8rem;
+    width: 2.2rem;
 }
 
 .nav-bar-text {
@@ -203,19 +202,42 @@
     margin-left: 50px;
 }
 
+/* SHORT NAVBAR MOBILE */
+
+#short-nav-bar-mobile {
+    display: none
+}
+
 @media (max-width:992px) {
     #nav-bar-mobile {
-        display:block
+        display: block;
     }
 
     .hamburguer-div {
         position: fixed;
         top: 2%;
         left: 1.5%;
-        z-index: 1;
+        z-index: 2;
         background-color: none;
     }
+
+    #short-nav-bar-mobile {
+        display: block;
+        position: fixed;
+        bottom: 0%;
+        z-index: 1;
+        background-color: white;
+        width: 100vw;
+        height: auto;
+    }
+
+    .short-nav-bar-mobile-list {
+        display: flex;
+        justify-content: space-between;
+        list-style: none;
+    }
 }
+
 
 /* RECOMMENDATIONS */
 
