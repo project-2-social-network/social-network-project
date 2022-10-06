@@ -35,8 +35,8 @@
     </div>  
   </div>
   <br>
-  <div>
-      {{#each listWithoutDuplicates as | post |}}
+  <div>{{#if listWithoutDuplicates}}
+        {{#each listWithoutDuplicates as | post |}}
           <div class="post-container post" data-id="{{post.id}}">
             <a href="/profile/{{post.creator.username}}">
               <div class="post-user-container">
@@ -75,7 +75,10 @@
                 </div>              
             </div>         
           </div>
-      {{/each}}
+        {{/each}}
+      {{else}}
+        <h5 style="text-align: center"><i>Start following people to see their posts here.</i></h5>
+      {{/if}}
   </div>
 </div>
 
