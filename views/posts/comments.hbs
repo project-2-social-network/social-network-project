@@ -39,29 +39,34 @@
   <br>
   <div>
     {{#each comments as | comment |}}
-      <div class="post-container post comment" data-id="{{comment.id}}">
-        <div class="post-user-container">
-          <a class="user-img-post" href="/profile/{{comment.creator.username}}">
-              {{#if comment.creator}} 
-                <img class="image-cover-medium" src="{{comment.creator.image}}" alt="{{comment.creator.username}}'s icon">
-              {{else}}
-                <img class="image-cover-medium" src="https://res.cloudinary.com/marinalboni/image/upload/v1663157440/capy-placeholder_pk2ixb.png">
-              {{/if}}
-          </a>
-          
-          <div class="post-content">
-              {{#if comment.creator}}
-                <h5>{{comment.creator.username}}</h5>
-              {{else}}
-                <h5>User no longer exists.</h5>
-              {{/if}}
-              <p>{{comment.content}}</p>
-              {{#if comment.media}}<img src="{{comment.media}}" alt="Media uploaded" width="200px">{{/if}}
-              {{#if comment.gif}}<img src="{{comment.gif}}" alt="Gif uploaded" width="200px">{{/if}}
-              {{#if comment.sameOwner}} <a id="trash-icon" class="remove" data-id="{{comment.id}}"><img width="20px" src="/images/Trash-icon.png" alt="Trash icon"></a>{{/if}}
-          </div>
-        </div>   
-      </div>            
+      <a href="/profile/{{comment.creator.username}}">
+        <div class="post-container post comment" data-id="{{comment.id}}">
+          <div class="post-user-container">
+            <span class="user-img-post" href="/profile/{{comment.creator.username}}">
+                {{#if comment.creator}} 
+                  <img class="image-cover-medium" src="{{comment.creator.image}}" alt="{{comment.creator.username}}'s icon">
+                {{else}}
+                  <img class="image-cover-medium" src="https://res.cloudinary.com/marinalboni/image/upload/v1663157440/capy-placeholder_pk2ixb.png">
+                {{/if}}
+            </span>
+            
+            <div class="post-content">
+                <div class="div-date">
+                  {{#if comment.creator}}
+                    <h5>{{comment.creator.username}}</h5>
+                  {{else}}
+                    <h5>User no longer exists.</h5>
+                  {{/if}}
+                  <span class="small-date">{{comment.hour}}</span>
+                </div>
+                <p>{{comment.content}}</p>
+                {{#if comment.media}}<img src="{{comment.media}}" alt="Media uploaded" width="200px">{{/if}}
+                {{#if comment.gif}}<img src="{{comment.gif}}" alt="Gif uploaded" width="200px">{{/if}}
+                {{#if comment.sameOwner}} <a id="trash-icon" class="remove" data-id="{{comment.id}}"><img width="20px" src="/images/Trash-icon.png" alt="Trash icon"></a>{{/if}}
+            </div>
+          </div>   
+        </div>
+      </a>          
     {{/each}}
   </div>
 </div>

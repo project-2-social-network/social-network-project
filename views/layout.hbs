@@ -74,9 +74,13 @@
     //NOTIFICATION
     const bellIcon = document.getElementById('not-icon');
     const bellIconRemove = document.getElementById('not-remove')
+    const bellIconMobile = document.getElementById('not-icon-short');
+    const bellIconRemoveMobile = document.getElementById('not-remove-short')
+    
 
     function switchBellIcon() {
       bellIcon.src = "/images/icons/bell-ring-dark.png"
+      bellIconMobile.src = "/images/icons/bell-ring-dark.png"
     };
 
     socket.on('not', () => {
@@ -86,6 +90,18 @@
     bellIconRemove?.addEventListener('click', () => {
       if (bellIcon.src === "/images/icons/bell-ring-dark.png") {
         bellIcon.src = "/images/icons/bell-dark.png"
+      }
+      if (bellIconMobile.src === "/images/icons/bell-ring-dark.png") {
+        bellIconMobile.src = "/images/icons/bell-dark.png"
+      }
+    });
+
+    bellIconRemoveMobile?.addEventListener('click', () => {
+      if (bellIcon.src === "/images/icons/bell-ring-dark.png") {
+        bellIcon.src = "/images/icons/bell-dark.png"
+      }
+      if (bellIconMobile.src === "/images/icons/bell-ring-dark.png") {
+        bellIconMobile.src = "/images/icons/bell-dark.png"
       }
     });
 

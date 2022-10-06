@@ -3,6 +3,7 @@ const Follow = require("../models/Follow.model");
 const Like = require("../models/Like.model");
 const Comment = require("../models/Comment.model");
 const Notification = require("../models/Notification.model");
+const moment = require('moment');
 
 //API
 const GIPHY = require("giphy-api")(process.env.GIPHY_KEY);
@@ -34,6 +35,7 @@ module.exports.home = (req, res, next) => {
           return [...acc, ...curr];
         }, []);
         finalList.forEach((post) => {
+          post.hour = moment(post.createdAt).format('DD/MM/YY - hh:mm')
           if (post.creator) {
             const postCreator = post.creator.id.valueOf();
             post.sameOwner = currentUser.id === postCreator ? true : false;
@@ -72,6 +74,7 @@ module.exports.explore = (req, res, next) => {
     .populate("creator")
     .then((posts) => {
       posts.forEach((post) => {
+        post.hour = moment(post.createdAt).format('DD/MM/YY - hh:mm')
         Like.findOne({
           $and: [{ like: post._id }, { userWhoLikes: currentUser.id }],
         })
@@ -169,6 +172,7 @@ module.exports.comments = (req, res, next) => {
         .then((comments) => {
           comments.forEach((comment) => {
            comment.sameOwner = comment.creator.id === currentUser.id;
+           comment.hour = moment(comment.createdAt).format('DD/MM/YY - hh:mm')
          }); 
           res.render("posts/comments", { post, comments });
         });

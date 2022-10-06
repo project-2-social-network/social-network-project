@@ -38,17 +38,22 @@
   <div>
       {{#each listWithoutDuplicates as | post |}}
           <div class="post-container post" data-id="{{post.id}}">
-            <div class="post-user-container">
-                <a class="user-img-post" href="/profile/{{post.creator.username}}">
+            <a href="/profile/{{post.creator.username}}">
+              <div class="post-user-container">
+                <span class="user-img-post">
                     <img class="image-cover-medium" src="{{post.creator.image}}" alt="icon">
-                </a>
+                </span>
                 <div class="post-content">
-                    <h5>{{post.creator.username}}</h5>
+                    <div class="div-date">
+                      <h5>{{post.creator.username}}</h5>
+                      <span class="small-date">{{post.hour}}</span>
+                    </div>
                     <p>{{post.content}}</p>
                     {{#if post.media}}<img src="{{post.media}}" alt="Media uploaded" width="200px">{{/if}}
                     {{#if post.gif}}<img src="{{post.gif}}" alt="Gif uploaded" width="200px">{{/if}}
                 </div>
-            </div>
+              </div>
+            </a>
 
             <div class="post-actions">  
                 <div class="like-comment-container">

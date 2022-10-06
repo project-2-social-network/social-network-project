@@ -44,6 +44,22 @@
     }
 }
 
+.div-date {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.div-date h5{
+    margin: 0;
+}
+
+.small-date {
+    font-size: 0.6rem;
+    color: #a0a0a0;
+}
+
 /* ALL LINKS */
 :any-link {
     color: black;
@@ -1453,6 +1469,10 @@
 }
 
 /* MESSAGES */
+
+#message-search {
+    margin-left: 2rem;
+}
 
 #messages {
     margin-left: 2rem;

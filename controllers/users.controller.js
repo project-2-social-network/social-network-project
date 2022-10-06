@@ -123,7 +123,7 @@ module.exports.followersList = (req, res, next) => {
         Follow.find({following: userID.id})
         .populate('follower')
         .then((followers) => {
-            res.render('users/followers-list', { followers })
+            res.render('users/followers-list', { username, followers })
         })
         .catch((err) => next(err))
     })
@@ -138,7 +138,7 @@ module.exports.followingList = (req, res, next) => {
         Follow.find({follower: userID.id})
         .populate('following')
         .then((following) => {
-            res.render('users/following-list', { following })
+            res.render('users/following-list', { username, following })
         })
         .catch((err) => next(err))
     })

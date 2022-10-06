@@ -1,6 +1,7 @@
 const Message = require("../models/Message.model");
 const Notification = require('../models/Notification.model');
 const User = require("../models/User.model");
+const moment = require('moment');
 
 module.exports.selectUser = (req, res, next) => {
   const currentUser = req.user;
@@ -52,8 +53,7 @@ module.exports.messages = (req, res, next) => {
   })
   .then((msgs) => {
     msgs.forEach((msg) => {
-      let indexOf = msg.createdAt.toString().indexOf('G');
-      msg.hour = msg.createdAt.toString().slice(4, indexOf);
+      msg.hour = moment(msg.createdAt).format('DD/MM/YY - hh:mm')
     })
     msgs.sort((a, b) => b.createdAt - a.createdAt)
     res.render('messages/messages', { username, msgs })
@@ -106,6 +106,7 @@ module.exports.notifications = (req, res, next) => {
         } else {
           not.newMessage = "messaged you.";
         }
+        not.hour = moment(not.createdAt).format('DD/MM/YY - hh:mm')
       })      
       res.render("notifications", { notifications });
     })

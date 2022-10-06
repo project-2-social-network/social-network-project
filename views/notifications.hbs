@@ -5,12 +5,15 @@
                 {{#each notifications as |not|}}
                     <div class="not-container">
                         <img class="image-cover-small" src="{{not.sender.image}}">
-                        <p>
-                            {{#if not.newLike}} {{not.sender.username}} {{not.newLike}} {{/if}}
-                            {{#if not.newFollow}} {{not.sender.username}} {{not.newFollow}} {{/if}}
-                            {{#if not.newComment}} {{not.sender.username}} {{not.newComment}} {{/if}}
-                            {{#if not.newMessage}}{{not.sender.username}} {{not.newMessage}} {{/if}}
-                        </p>
+                        <div>
+                            <p>
+                                {{#if not.newLike}} {{not.sender.username}} {{not.newLike}} {{/if}}
+                                {{#if not.newFollow}} {{not.sender.username}} {{not.newFollow}} {{/if}}
+                                {{#if not.newComment}} {{not.sender.username}} {{not.newComment}} {{/if}}
+                                {{#if not.newMessage}}{{not.sender.username}} {{not.newMessage}} {{/if}}
+                            </p>
+                            <small class="small-date">{{not.hour}}</small>
+                        </div>
                     </div>
                 {{/each}}
             </div>
